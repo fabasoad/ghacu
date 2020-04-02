@@ -8,7 +8,7 @@ namespace IO.GitHub.FabaSoad.GHWorkflow.Entities
     public string UsesFullName { get; set; }
     public Uses Uses
     {
-      get { return new Uses(this.UsesFullName); }
+      get { return UsesFullName == null ? null : new Uses(this.UsesFullName); }
     }
   }
 }

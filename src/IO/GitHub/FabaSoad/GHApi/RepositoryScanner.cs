@@ -1,19 +1,26 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Octokit;
 
 namespace IO.GitHub.FabaSoad.GHApi
 {
   public class RepositoryScanner
   {
-    private IDictionary<string, RepositoryInfo> _cache = new Dictionary<string, RepositoryInfo>();
-    public RepositoryInfo Scan(string name)
+    private const string APP_NAME = "ghacu";
+    private GitHubClient _client;
+    private IDictionary<string, Release> _cache = new Dictionary<string, Release>();
+    public RepositoryScanner()
     {
-      if (!_cache.ContainsKey(name))
+      _client = new GitHubClient(new ProductHeaderValue(APP_NAME));
+    }
+    public async Task<string> GetLatestRelease(IRepositoryAware repositoryAware)
+    {
+      if (!_cache.ContainsKey(repositoryAware.FullName))
       {
-        var result = new RepositoryInfo(name);
-        result.Tags = new List<string>();
-        _cache.Add(name, result);
+        var release = await _client.Repository.Release.GetLatest(repositoryAware.Owner, repositoryAware.Name);        
+        _cache.Add(repositoryAware.FullName, release);
       }
-      return _cache[name];
+      return _cache[repositoryAware.FullName].TagName;
     }
   }
 }

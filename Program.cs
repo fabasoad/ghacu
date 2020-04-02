@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using System;
+using CommandLine;
 
 using IO.GitHub.FabaSoad.CLI;
 

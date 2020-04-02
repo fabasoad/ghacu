@@ -1,13 +1,21 @@
 namespace IO.GitHub.FabaSoad.GHWorkflow.Entities
 {
-  public class Uses
+  public class Uses : IRepositoryAware
   {
     public Uses(string fullName) {
-      var splitted = fullName.Split('@');
-      Repository = splitted[0];
+      Type = fullName.StartsWith("docker://") ? UsesType.DOCKER : UsesType.GITHUB;
+      var splitted = Type switch
+      {
+        UsesType.DOCKER => fullName.Substring(9).Split(':'),
+        _ => fullName.Split('@')
+      };
+      FullName = splitted[0];
       Version = splitted[1];
     }
-    public string Repository { get; private set; }
+    public string FullName { get; private set; }
+    public string Owner { get => FullName.Split('/')[0]; }
+    public string Name { get => FullName.Split('/')[1]; }
     public string Version { get; private set; }
+    public UsesType Type { get; private set; }
   }
 }

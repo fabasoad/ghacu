@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-
+using System.Threading.Tasks;
 using IO.GitHub.FabaSoad.GHWorkflow;
 using IO.GitHub.FabaSoad.GHWorkflow.Analyze;
 
@@ -49,14 +49,18 @@ namespace IO.GitHub.FabaSoad.CLI
       var infos = parser.Parse(files);
       
       var analyzer = new WorkflowAnalyzer();
-      var results = analyzer.Analyze(infos);
+      var results = analyzer.Analyze(infos).GetAwaiter().GetResult();
       
       foreach (var r in results)
       {
         Console.WriteLine($"> {r.Name} ({r.File})");
-        foreach (var a in r.Actions)
+        var widthName = r.Actions.Where(a => !a.IsUpToDate).Select(a => a.Name.Length).Max();
+        var widthCurrentVersion = r.Actions.Where(a => !a.IsUpToDate).Select(a => a.CurrentVersion.Length).Max();
+        var widthLatestVersion = r.Actions.Where(a => !a.IsUpToDate).Select(a => a.LatestVersion.Length).Max();
+        foreach (var a in r.Actions.Where(a => !a.IsUpToDate))
         {
-          Console.WriteLine($"{a.Name}:\t{a.CurrentVersion}\t->\t{a.LatestVersion}");
+          var template = "{0,-" + widthName + "}  {1," + widthCurrentVersion + "}  {2}  {3," + widthLatestVersion + "}";
+          Console.WriteLine(string.Format(template, a.Name, a.CurrentVersion, Convert.ToChar(187), a.LatestVersion));
         }
         Console.WriteLine();
       }

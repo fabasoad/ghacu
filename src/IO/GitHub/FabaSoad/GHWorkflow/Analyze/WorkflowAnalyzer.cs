@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using IO.GitHub.FabaSoad.GHApi;
 
 namespace IO.GitHub.FabaSoad.GHWorkflow.Analyze
@@ -12,23 +13,24 @@ namespace IO.GitHub.FabaSoad.GHWorkflow.Analyze
       _scanner = new RepositoryScanner();
     }
     
-    public IEnumerable<WorkflowAnalyzerResult> Analyze(IEnumerable<WorkflowInfo> items)
+    public async Task<IEnumerable<WorkflowAnalyzerResult>> Analyze(IEnumerable<WorkflowInfo> items)
     {
+      List<WorkflowAnalyzerResult> result = new List<WorkflowAnalyzerResult>();
       foreach (var wfi in items)
       {
         var item = new WorkflowAnalyzerResult(wfi.File, wfi.Workflow.Name);
         List<WorkflowAnalyzerAction> actions = new List<WorkflowAnalyzerAction>();
-        foreach (var step in wfi.Workflow.Jobs.Values.SelectMany(j => j.Steps))
+        foreach (var step in wfi.Workflow.Jobs.Values.SelectMany(j => j.Steps.Where(s => s.Uses != null)))
         {
-          var info = _scanner.Scan(step.Uses.Repository);
-          var action = new WorkflowAnalyzerAction(step.Uses.Repository);
+          var action = new WorkflowAnalyzerAction(step.Uses.FullName);
           action.CurrentVersion = step.Uses.Version;
-          action.LatestVersion = info.Tags.LastOrDefault() ?? "unknown"; // TODO: get latest version
+          action.LatestVersion = await _scanner.GetLatestRelease(step.Uses);
           actions.Add(action);
         }
         item.Actions = actions;
-        yield return item;
+        result.Add(item);
       }
+      return result;
     }
   }
 }
