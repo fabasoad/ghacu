@@ -13,34 +13,41 @@ namespace IO.GitHub.FabaSoad.CLI
 
     public void Handle(Options o)
     {
+      string repository;
       if (string.IsNullOrWhiteSpace(o.Repository))
       {
-        Console.WriteLine("Please define path to the repository");
-      }
-      else if (!Directory.Exists(o.Repository))
-      {
-        Console.WriteLine($"Directory {o.Repository} does not exist.");
+        repository = Directory.GetCurrentDirectory();
       }
       else
       {
-        var ghPath = Path.Combine(o.Repository, GITHUB_FOLDER);
-        if (!Directory.Exists(ghPath))
+        if (!Directory.Exists(o.Repository))
         {
-          Console.WriteLine($"Directory {GITHUB_FOLDER} does not exist. Nothing to check.");
+          Console.WriteLine($"Directory {o.Repository} does not exist.");
           return;
         }
-        var wfPath = Path.Combine(ghPath, WORKFLOWS_FOLDER);
-        if (!Directory.Exists(wfPath))
+        else
         {
-          Console.WriteLine($"Directory {Path.Combine(GITHUB_FOLDER, WORKFLOWS_FOLDER)} does not exist. Nothing to check.");
-          return;
+          repository = o.Repository;
         }
-        var files = new[] { "*.yml", "*.yaml" }.SelectMany(p => Directory.EnumerateFiles(wfPath, p, SearchOption.AllDirectories));
-        var parser = new WorkflowParser();
-        foreach (var file in files)
-        {
-          Console.WriteLine(parser.Parse(file));
-        }
+      }
+      var ghPath = Path.Combine(repository, GITHUB_FOLDER);
+      if (!Directory.Exists(ghPath))
+      {
+        Console.WriteLine($"Directory {GITHUB_FOLDER} does not exist. Nothing to check.");
+        return;
+      }
+      var wfPath = Path.Combine(ghPath, WORKFLOWS_FOLDER);
+      if (!Directory.Exists(wfPath))
+      {
+        Console.WriteLine($"Directory {Path.Combine(GITHUB_FOLDER, WORKFLOWS_FOLDER)} does not exist. Nothing to check.");
+        return;
+      }
+      var files = new[] { "*.yml", "*.yaml" }.SelectMany(p => Directory.EnumerateFiles(wfPath, p, SearchOption.AllDirectories));
+      var parser = new WorkflowParser();
+      var infos = parser.Parse(files);
+      foreach (var info in infos)
+      {
+        Console.WriteLine(info);
       }
     }
   }

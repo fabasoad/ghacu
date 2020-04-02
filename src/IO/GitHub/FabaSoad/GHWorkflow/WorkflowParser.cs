@@ -2,6 +2,7 @@ using System.IO;
 using YamlDotNet.Serialization;
 using IO.GitHub.FabaSoad.GHWorkflow.Entities;
 using YamlDotNet.Serialization.NamingConventions;
+using System.Collections.Generic;
 
 namespace IO.GitHub.FabaSoad.GHWorkflow
 {
@@ -16,14 +17,17 @@ namespace IO.GitHub.FabaSoad.GHWorkflow
         .Build();
     }
 
-    public Workflow Parse(string path)
+    public IEnumerable<WorkflowInfo> Parse(IEnumerable<string> files)
     {
-      Workflow wf = null;
-      using (var reader = new StreamReader(path))
+      foreach (string file in files)
       {
-        wf = _deserializer.Deserialize<Workflow>(reader);
+        Workflow wf = null;
+        using (var reader = new StreamReader(file))
+        {
+          wf = _deserializer.Deserialize<Workflow>(reader);
+        }
+        yield return new WorkflowInfo(file, wf);
       }
-      return wf;
     }
   }
 }
