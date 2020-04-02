@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 
 using IO.GitHub.FabaSoad.GHWorkflow;
+using IO.GitHub.FabaSoad.GHWorkflow.Analyze;
 
 namespace IO.GitHub.FabaSoad.CLI
 {
@@ -43,11 +44,21 @@ namespace IO.GitHub.FabaSoad.CLI
         return;
       }
       var files = new[] { "*.yml", "*.yaml" }.SelectMany(p => Directory.EnumerateFiles(wfPath, p, SearchOption.AllDirectories));
+      
       var parser = new WorkflowParser();
       var infos = parser.Parse(files);
-      foreach (var info in infos)
+      
+      var analyzer = new WorkflowAnalyzer();
+      var results = analyzer.Analyze(infos);
+      
+      foreach (var r in results)
       {
-        Console.WriteLine(info);
+        Console.WriteLine($"> {r.Name} ({r.File})");
+        foreach (var a in r.Actions)
+        {
+          Console.WriteLine($"{a.Name}:\t{a.CurrentVersion}\t->\t{a.LatestVersion}");
+        }
+        Console.WriteLine();
       }
     }
   }
