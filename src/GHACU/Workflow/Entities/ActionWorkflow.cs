@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace IO.GitHub.FabaSoad.GHWorkflow.Entities
+namespace GHACU.Workflow.Entities
 {
-  public class Workflow
+  public sealed class ActionWorkflow
   {
     public string Name { get; set; }
     public Dictionary<string, Job> Jobs { get; set; }

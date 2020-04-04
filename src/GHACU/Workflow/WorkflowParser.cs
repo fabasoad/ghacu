@@ -1,12 +1,12 @@
 using System.IO;
 using YamlDotNet.Serialization;
-using IO.GitHub.FabaSoad.GHWorkflow.Entities;
 using YamlDotNet.Serialization.NamingConventions;
 using System.Collections.Generic;
+using GHACU.Workflow.Entities;
 
-namespace IO.GitHub.FabaSoad.GHWorkflow
+namespace GHACU.Workflow
 {
-  public class WorkflowParser
+  public sealed class WorkflowParser
   {
     private IDeserializer _deserializer;
     public WorkflowParser()
@@ -21,10 +21,10 @@ namespace IO.GitHub.FabaSoad.GHWorkflow
     {
       foreach (string file in files)
       {
-        Workflow wf = null;
+        ActionWorkflow wf = null;
         using (var reader = new StreamReader(file))
         {
-          wf = _deserializer.Deserialize<Workflow>(reader);
+          wf = _deserializer.Deserialize<ActionWorkflow>(reader);
         }
         yield return new WorkflowInfo(file, wf);
       }

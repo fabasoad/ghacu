@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using IO.GitHub.FabaSoad.GHApi;
+using GHACU.GitHub;
 
-namespace IO.GitHub.FabaSoad.GHWorkflow.Analyze
+namespace GHACU.Workflow.Analyze
 {
-  public class WorkflowAnalyzer
+  public sealed class WorkflowAnalyzer
   {
     private RepositoryScanner _scanner;
     public WorkflowAnalyzer()

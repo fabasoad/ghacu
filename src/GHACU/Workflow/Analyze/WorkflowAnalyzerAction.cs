@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace IO.GitHub.FabaSoad.GHWorkflow.Analyze
+namespace GHACU.Workflow.Analyze
 {
-  public class WorkflowAnalyzerAction
+  public sealed class WorkflowAnalyzerAction
   {
     public WorkflowAnalyzerAction(string name)
     {

@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GHACU.Workflow.Entities;
 using Octokit;
 
-namespace IO.GitHub.FabaSoad.GHApi
+namespace GHACU.GitHub
 {
-  public class RepositoryScanner
+  public sealed class RepositoryScanner
   {
     private const string APP_NAME = "ghacu";
     private GitHubClient _client;

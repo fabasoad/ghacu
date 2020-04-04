@@ -1,4 +1,4 @@
-namespace IO.GitHub.FabaSoad
+namespace GHACU.Workflow.Entities
 {
   public interface IRepositoryAware  
   {

@@ -1,6 +1,6 @@
-namespace IO.GitHub.FabaSoad.GHWorkflow.Entities
+namespace GHACU.Workflow.Entities
 {
-  public class Uses : IRepositoryAware
+  public sealed class Uses : IRepositoryAware
   {
     public Uses(string fullName) {
       Type = fullName.StartsWith("docker://") ? UsesType.DOCKER : UsesType.GITHUB;

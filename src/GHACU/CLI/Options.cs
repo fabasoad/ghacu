@@ -1,8 +1,8 @@
 using CommandLine;
 
-namespace IO.GitHub.FabaSoad.CLI
+namespace GHACU.CLI
 {
-  public class Options
+  public sealed class Options
   {
     [Option('r', "repository", Required = false, HelpText = "Path to the root of a project.")]
     public string Repository { get; set; }

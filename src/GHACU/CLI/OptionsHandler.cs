@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using IO.GitHub.FabaSoad.GHWorkflow;
-using IO.GitHub.FabaSoad.GHWorkflow.Analyze;
+using GHACU.Workflow;
+using GHACU.Workflow.Analyze;
 
-namespace IO.GitHub.FabaSoad.CLI
+namespace GHACU.CLI
 {
-  public class OptionsHandler
+  public sealed class OptionsHandler
   {
     private const String GITHUB_FOLDER = ".github";
     private const String WORKFLOWS_FOLDER = "workflows";

@@ -1,4 +1,4 @@
-namespace IO.GitHub.FabaSoad.GHWorkflow.Entities
+namespace GHACU.Workflow.Entities
 {
   public enum UsesType
   {

@@ -1,9 +1,8 @@
 ﻿using System;
 using CommandLine;
+using GHACU.CLI;
 
-using IO.GitHub.FabaSoad.CLI;
-
-namespace ghacu
+namespace GHACU
 {
   class Program
   {

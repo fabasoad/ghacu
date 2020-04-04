@@ -1,8 +1,8 @@
 using YamlDotNet.Serialization;
 
-namespace IO.GitHub.FabaSoad.GHWorkflow.Entities
+namespace GHACU.Workflow.Entities
 {
-  public class Step
+  public sealed class Step
   {
     [YamlMember(Alias = "uses", ApplyNamingConventions = false)]
     public string UsesFullName { get; set; }
