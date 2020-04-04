@@ -63,6 +63,17 @@ namespace GHACU.CLI
           Console.WriteLine(string.Format(template, a.Name, a.CurrentVersion, Convert.ToChar(187), a.LatestVersion));
         }
         Console.WriteLine();
+        if (o.Upgrade)
+        {
+          r.Upgrade();
+        }
+      }
+      if (!o.Upgrade)
+      {
+        Console.WriteLine(
+          results.SelectMany(r => r.Actions.Where(a => !a.IsUpToDate)).Count() == 0
+          ? "All GitHub Actions match the latest versions."
+          : "Run ghacu -u to upgrade actions.");
       }
     }
   }

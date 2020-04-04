@@ -22,7 +22,7 @@ namespace GHACU.Workflow.Analyze
         List<WorkflowAnalyzerAction> actions = new List<WorkflowAnalyzerAction>();
         foreach (var step in wfi.Workflow.Jobs.Values.SelectMany(j => j.Steps.Where(s => s.Uses != null)))
         {
-          var action = new WorkflowAnalyzerAction(step.Uses.FullName);
+          var action = new WorkflowAnalyzerAction(step.Uses.FullName, step.UsesFullName, step.Uses.Type);
           action.CurrentVersion = step.Uses.Version;
           action.LatestVersion = await _scanner.GetLatestRelease(step.Uses);
           actions.Add(action);
