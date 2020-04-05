@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package>
+  <metadata>
+    <id>GHACU</id>
+    <version>1.0.0</version>
+    <title>GitHub Actions Check Updates</title>
+    <authors>Yevhen Fabizhevskyi</authors>
+    <owners>Yevhen Fabizhevskyi</owners>
+    <language>en-US</language>
+    <license type="expression">MIT</license>
+    <licenseUrl>http://choosealicense.com/licenses/mit/</licenseUrl>
+    <repository type="git" url="https://github.com/fabasoad/ghacu.git" branch="master" commit="86a8a4a383aac4bbff11b9c211af0e8e4de1e760" />
+    <repositoryUrl>https://github.com/fabasoad/ghacu</repositoryUrl>
+    <iconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/master/logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>CLI tool to check whether all your actions are up-to-date or not.</description>
+    <releaseNotes>Release v1.0.0</releaseNotes>
+    <copyright>Copyright 2020 Yevhen Fabizhevskyi</copyright>
+    <tags>githubactions cli nuget</tags>
+    <dependencies>
+      <dependency id="CommandLineParser" version="2.7.82" />
+      <dependency id="Octokit" version="0.46.0" />
+      <dependency id="YamlDotNet" version="8.1.0" />
+    </dependencies>
+    <summary>First release of GHACU tool. You can either just to check the current state of your actions or update them as well.</summary>
+  </metadata>
+  <files>
+    <file src="README.md" />
+    <file src="src\GHACU\CLI\**" target="content\CLI" />
+    <file src="src\GHACU\GitHub\**" target="content\GitHub" />
+    <file src="src\GHACU\Workflow\**" target="content\Workflow" />
+    <file src="src\GHACU\Program.cs" target="content\Program.cs" />
+  </files>
+</package>
