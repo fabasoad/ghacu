@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<package>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>GHACU</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>GitHub Actions Check Updates</title>
     <authors>Yevhen Fabizhevskyi</authors>
     <owners>Yevhen Fabizhevskyi</owners>
     <language>en-US</language>
     <license type="expression">MIT</license>
-    <licenseUrl>http://choosealicense.com/licenses/mit/</licenseUrl>
     <repository type="git" url="https://github.com/fabasoad/ghacu.git" branch="master" commit="86a8a4a383aac4bbff11b9c211af0e8e4de1e760" />
-    <repositoryUrl>https://github.com/fabasoad/ghacu</repositoryUrl>
-    <iconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/master/logo.png</iconUrl>
+    <icon>images\logo.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>CLI tool to check whether all your actions are up-to-date or not.</description>
-    <releaseNotes>Release v1.0.0</releaseNotes>
+    <releaseNotes>Release v1.0.1</releaseNotes>
     <copyright>Copyright 2020 Yevhen Fabizhevskyi</copyright>
     <tags>githubactions cli nuget</tags>
     <dependencies>
@@ -26,9 +24,10 @@
   </metadata>
   <files>
     <file src="README.md" />
-    <file src="src\GHACU\CLI\**" target="content\CLI" />
-    <file src="src\GHACU\GitHub\**" target="content\GitHub" />
-    <file src="src\GHACU\Workflow\**" target="content\Workflow" />
-    <file src="src\GHACU\Program.cs" target="content\Program.cs" />
+    <file src="src\GHACU\CLI\**" target="content\GHACU\CLI" />
+    <file src="src\GHACU\GitHub\**" target="content\GHACU\GitHub" />
+    <file src="src\GHACU\Workflow\**" target="content\GHACU\Workflow" />
+    <file src="src\GHACU\Program.cs" target="content\GHACU\Program.cs" />
+    <file src="logo.png" target="images\" />
   </files>
 </package>
