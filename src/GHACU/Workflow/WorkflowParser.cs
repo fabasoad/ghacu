@@ -19,7 +19,7 @@ namespace GHACU.Workflow
 
     public IEnumerable<WorkflowInfo> Parse(IEnumerable<string> files)
     {
-      foreach (string file in files)
+      foreach (var file in files)
       {
         ActionWorkflow wf = null;
         using (var reader = new StreamReader(file))

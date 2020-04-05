@@ -1,7 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using GHACU.Workflow;
 using GHACU.Workflow.Analyze;
 
@@ -11,56 +11,44 @@ namespace GHACU.CLI
   {
     private const String GITHUB_FOLDER = ".github";
     private const String WORKFLOWS_FOLDER = "workflows";
+    private char ARROW_CHAR = Convert.ToChar(187);
 
     public void Handle(Options o)
     {
-      string repository;
-      if (string.IsNullOrWhiteSpace(o.Repository))
+      string wfPath;
+      try
       {
-        repository = Directory.GetCurrentDirectory();
+        wfPath = BuildWorkflowPath(o.Repository);
       }
-      else
+      catch (OptionValidationException e)
       {
-        if (!Directory.Exists(o.Repository))
-        {
-          Console.WriteLine($"Directory {o.Repository} does not exist.");
-          return;
-        }
-        else
-        {
-          repository = o.Repository;
-        }
-      }
-      var ghPath = Path.Combine(repository, GITHUB_FOLDER);
-      if (!Directory.Exists(ghPath))
-      {
-        Console.WriteLine($"Directory {GITHUB_FOLDER} does not exist. Nothing to check.");
-        return;
-      }
-      var wfPath = Path.Combine(ghPath, WORKFLOWS_FOLDER);
-      if (!Directory.Exists(wfPath))
-      {
-        Console.WriteLine($"Directory {Path.Combine(GITHUB_FOLDER, WORKFLOWS_FOLDER)} does not exist. Nothing to check.");
+        Console.WriteLine(e.Message);
         return;
       }
       var files = new[] { "*.yml", "*.yaml" }.SelectMany(p => Directory.EnumerateFiles(wfPath, p, SearchOption.AllDirectories));
       
       var parser = new WorkflowParser();
-      var infos = parser.Parse(files);
+      IEnumerable<WorkflowInfo> infos = parser.Parse(files);
       
       var analyzer = new WorkflowAnalyzer();
-      var results = analyzer.Analyze(infos).GetAwaiter().GetResult();
+      IEnumerable<WorkflowAnalyzerResult> results = analyzer.Analyze(infos).GetAwaiter().GetResult();
       
       foreach (var r in results)
       {
         Console.WriteLine($"> {r.Name} ({r.File})");
-        var widthName = r.Actions.Where(a => !a.IsUpToDate).Select(a => a.Name.Length).Max();
-        var widthCurrentVersion = r.Actions.Where(a => !a.IsUpToDate).Select(a => a.CurrentVersion.Length).Max();
-        var widthLatestVersion = r.Actions.Where(a => !a.IsUpToDate).Select(a => a.LatestVersion.Length).Max();
+        int maxWidthName = 0;
+        int maxWidthCurrentVersion = 0;
+        int maxWidthLatestVersion = 0;
         foreach (var a in r.Actions.Where(a => !a.IsUpToDate))
         {
-          var template = "{0,-" + widthName + "}  {1," + widthCurrentVersion + "}  {2}  {3," + widthLatestVersion + "}";
-          Console.WriteLine(string.Format(template, a.Name, a.CurrentVersion, Convert.ToChar(187), a.LatestVersion));
+          maxWidthName = Math.Max(maxWidthName, a.Name.Length);
+          maxWidthCurrentVersion = Math.Max(maxWidthCurrentVersion, a.CurrentVersion.Length);
+          maxWidthLatestVersion = Math.Max(maxWidthLatestVersion, a.LatestVersion.Length);
+        }
+        foreach (var a in r.Actions.Where(a => !a.IsUpToDate))
+        {
+          var template = "{0,-" + maxWidthName + "}  {1," + maxWidthCurrentVersion + "}  {2}  {3," + maxWidthLatestVersion + "}";
+          Console.WriteLine(string.Format(template, a.Name, a.CurrentVersion, ARROW_CHAR, a.LatestVersion));
         }
         Console.WriteLine();
         if (o.Upgrade)
@@ -75,6 +63,37 @@ namespace GHACU.CLI
           ? "All GitHub Actions match the latest versions."
           : "Run ghacu -u to upgrade actions.");
       }
+    }
+  
+    private string BuildWorkflowPath(string repository)
+    {
+      string rep;
+      if (string.IsNullOrWhiteSpace(repository))
+      {
+        rep = Directory.GetCurrentDirectory();
+      }
+      else
+      {
+        if (!Directory.Exists(repository))
+        {
+          throw new OptionValidationException($"Directory {repository} does not exist.");
+        }
+        else
+        {
+          rep = repository;
+        }
+      }
+      var ghPath = Path.Combine(rep, GITHUB_FOLDER);
+      if (!Directory.Exists(ghPath))
+      {
+        throw new OptionValidationException($"Directory {GITHUB_FOLDER} does not exist. Nothing to check.");
+      }
+      var wfPath = Path.Combine(ghPath, WORKFLOWS_FOLDER);
+      if (!Directory.Exists(wfPath))
+      {
+        throw new OptionValidationException($"Directory {Path.Combine(GITHUB_FOLDER, WORKFLOWS_FOLDER)} does not exist. Nothing to check.");
+      }
+      return wfPath;
     }
   }
 }

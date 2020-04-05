@@ -18,7 +18,7 @@ namespace GHACU.GitHub
     {
       if (!_cache.ContainsKey(repositoryAware.FullName))
       {
-        var release = await _client.Repository.Release.GetLatest(repositoryAware.Owner, repositoryAware.Name);        
+        Release release = await _client.Repository.Release.GetLatest(repositoryAware.Owner, repositoryAware.Name);        
         _cache.Add(repositoryAware.FullName, release);
       }
       return _cache[repositoryAware.FullName].TagName;

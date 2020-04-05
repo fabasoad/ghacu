@@ -6,16 +6,17 @@ namespace GHACU.Workflow.Analyze
   public sealed class WorkflowAnalyzerResult
   {
     private string _originalFilePath;
-    public WorkflowAnalyzerResult(string file, string name)
+    public WorkflowAnalyzerResult(string file, string name, IEnumerable<WorkflowAnalyzerAction> actions)
     {
       _originalFilePath = file;
       var index = file.IndexOf(".github");
       File = file.Substring(index);
       Name = name;
+      Actions = actions;
     }
     public string File { get; private set; }
     public string Name { get; private set; }
-    public IEnumerable<WorkflowAnalyzerAction> Actions { get; internal set; }
+    public IEnumerable<WorkflowAnalyzerAction> Actions { get; private set; }
     public void Upgrade()
     {
       var content = System.IO.File.ReadAllText(_originalFilePath);
