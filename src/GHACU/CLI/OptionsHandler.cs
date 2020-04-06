@@ -9,8 +9,8 @@ namespace GHACU.CLI
 {
   public sealed class OptionsHandler
   {
-    private const String GITHUB_FOLDER = ".github";
-    private const String WORKFLOWS_FOLDER = "workflows";
+    private const string GITHUB_FOLDER = ".github";
+    private const string WORKFLOWS_FOLDER = "workflows";
     private char ARROW_CHAR = Convert.ToChar(187);
 
     public void Handle(Options o)
