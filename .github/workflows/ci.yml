@@ -1,0 +1,26 @@
+---
+name: CI
+
+on: push
+
+jobs:
+  build:
+    name: Build
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]    
+      fail-fast: true
+    runs-on: ${{ matrix.os }}
+    steps:
+      - continue-on-error: false
+      - uses: actions/checkout@v2.1.0
+      - name: Install .NET Core
+        if: ${{ matrix.os != 'windows-latest' }}
+        uses: actions/setup-dotnet@v1.4.0
+        with:
+          dotnet-version: '3.1.201'
+      - name: Build
+        run: dotnet build src/GHACU
+      - name: Run GHACU
+        working-directory: ${{ github.workspace }}/src/GHACU/bin/Debug/netcoreapp3.1
+        run: ghacu.exe -r ${{ github.workspace }}
