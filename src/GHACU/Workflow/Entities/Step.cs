@@ -8,7 +8,7 @@ namespace GHACU.Workflow.Entities
     public string UsesFullName { get; set; }
     public Uses Uses
     {
-      get { return UsesFullName == null ? null : new Uses(this.UsesFullName); }
+      get { return (UsesFullName == null || "./".Equals(UsesFullName)) ? null : new Uses(this.UsesFullName); }
     }
   }
 }

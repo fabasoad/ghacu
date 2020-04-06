@@ -31,7 +31,7 @@ namespace GHACU.CLI
       IEnumerable<WorkflowInfo> infos = parser.Parse(files);
       
       var analyzer = new WorkflowAnalyzer();
-      IEnumerable<WorkflowAnalyzerResult> results = analyzer.Analyze(infos).GetAwaiter().GetResult();
+      IEnumerable<WorkflowAnalyzerResult> results = analyzer.Analyze(infos).GetAwaiter().GetResult().SkipUpToDate();
       
       foreach (var r in results)
       {
@@ -56,12 +56,13 @@ namespace GHACU.CLI
           r.Upgrade();
         }
       }
-      if (!o.Upgrade)
+      if (results.Count() == 0)
       {
-        Console.WriteLine(
-          results.SelectMany(r => r.Actions.Where(a => !a.IsUpToDate)).Count() == 0
-          ? "All GitHub Actions match the latest versions."
-          : "Run ghacu -u to upgrade actions.");
+        Console.WriteLine("All GitHub Actions match the latest versions.");
+      }
+      else if (!o.Upgrade)
+      {
+        Console.WriteLine("Run ghacu -u to upgrade actions.");
       }
     }
   

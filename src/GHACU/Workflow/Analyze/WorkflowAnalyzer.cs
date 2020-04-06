@@ -14,9 +14,9 @@ namespace GHACU.Workflow.Analyze
       _scanner = new RepositoryScanner();
     }
     
-    public async Task<IEnumerable<WorkflowAnalyzerResult>> Analyze(IEnumerable<WorkflowInfo> items)
+    public async Task<WorkflowAnalyzerResultList> Analyze(IEnumerable<WorkflowInfo> items)
     {
-      List<WorkflowAnalyzerResult> result = new List<WorkflowAnalyzerResult>();
+      WorkflowAnalyzerResultList result = new WorkflowAnalyzerResultList();
       foreach (var wfi in items)
       {
         var actions = new List<WorkflowAnalyzerAction>();

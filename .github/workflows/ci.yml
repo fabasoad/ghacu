@@ -27,4 +27,6 @@ jobs:
       - name: Run GHACU
         if: ${{ matrix.os != 'windows-latest' }}
         working-directory: ${{ github.workspace }}/src/GHACU/bin/Debug/netcoreapp3.1
-        run: ./ghacu -r ${{ github.workspace }}
+        run: |
+          ls -la
+          ./ghacu -r ${{ github.workspace }}
