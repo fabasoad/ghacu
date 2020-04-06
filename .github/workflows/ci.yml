@@ -22,4 +22,4 @@ jobs:
         run: dotnet build src/GHACU
       - name: Run GHACU
         working-directory: ${{ github.workspace }}/src/GHACU/bin/Debug/netcoreapp3.1
-        run: ghacu.exe -r ${{ github.workspace }}
+        run: ls -la # ghacu.exe -r ${{ github.workspace }}
