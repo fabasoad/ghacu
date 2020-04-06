@@ -12,9 +12,8 @@ jobs:
       fail-fast: true
     runs-on: ${{ matrix.os }}
     steps:
-      - continue-on-error: false
       - uses: actions/checkout@v2.1.0
-      - name: Install .NET Core
+      - name: Setup .NET Core SDK
         if: ${{ matrix.os != 'windows-latest' }}
         uses: actions/setup-dotnet@v1.4.0
         with:
