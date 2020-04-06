@@ -20,19 +20,18 @@ jobs:
           dotnet-version: '3.1.201'
       - name: Build
         run: dotnet build src/GHACU
-      - name: Run GHACU
+      - name: Run GHACU (${{ matrix.os }})
         if: ${{ matrix.os == 'windows-latest' }}
         working-directory: ${{ github.workspace }}/src/GHACU/bin/Debug/netcoreapp3.1
         run: ./ghacu.exe -r ${{ github.workspace }}
-      - name: Run GHACU
+      - name: Run GHACU (${{ matrix.os }})
         if: ${{ matrix.os == 'ubuntu-latest' }}
         working-directory: ${{ github.workspace }}/src/GHACU/bin/Debug/netcoreapp3.1
         run: ./ghacu -r ${{ github.workspace }}
-      - name: Run GHACU
+      - name: Run GHACU (${{ matrix.os }})
         if: ${{ matrix.os == 'macos-latest' }}
         working-directory: ${{ github.workspace }}/src/GHACU
         run: |
           dotnet publish -r osx.10.10-x64
           cd bin/Debug/netcoreapp3.1/osx.10.10-x64/publish/
-          ls -la
           ./ghacu -r ${{ github.workspace }}
