@@ -33,6 +33,6 @@ jobs:
         working-directory: ${{ github.workspace }}/src/GHACU
         run: |
           dotnet publish -r osx.10.10-x64
-          cd /osx.10.10-x64/publish/
+          cd bin/Debug/netcoreapp3.1/osx.10.10-x64/publish/
           ls -la
           ./ghacu -r ${{ github.workspace }}
