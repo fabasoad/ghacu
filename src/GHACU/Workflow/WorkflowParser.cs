@@ -1,8 +1,8 @@
+using System.Collections.Generic;
 using System.IO;
+using GHACU.Workflow.Entities;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using System.Collections.Generic;
-using GHACU.Workflow.Entities;
 
 namespace GHACU.Workflow
 {

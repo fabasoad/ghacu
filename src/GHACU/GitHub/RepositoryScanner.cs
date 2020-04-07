@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using GHACU.Cache;
 using GHACU.Workflow.Entities;
 using Octokit;
 
@@ -9,19 +9,13 @@ namespace GHACU.GitHub
   {
     private const string APP_NAME = "ghacu";
     private GitHubClient _client;
-    private IDictionary<string, Release> _cache = new Dictionary<string, Release>();
+    private VersionsCache _cache;
     public RepositoryScanner()
     {
       _client = new GitHubClient(new ProductHeaderValue(APP_NAME));
+      _cache = new VersionsCache(r => _client.Repository.Release.GetLatest(r.Owner, r.Name));
     }
-    public async Task<string> GetLatestRelease(IRepositoryAware repositoryAware)
-    {
-      if (!_cache.ContainsKey(repositoryAware.FullName))
-      {
-        Release release = await _client.Repository.Release.GetLatest(repositoryAware.Owner, repositoryAware.Name);        
-        _cache.Add(repositoryAware.FullName, release);
-      }
-      return _cache[repositoryAware.FullName].TagName;
-    }
+    public async Task<string> GetLatestVersion(IRepositoryAware repositoryAware) =>
+      await _cache.Get(repositoryAware);
   }
 }

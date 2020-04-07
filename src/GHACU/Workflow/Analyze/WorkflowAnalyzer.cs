@@ -24,7 +24,7 @@ namespace GHACU.Workflow.Analyze
         {
           var action = new WorkflowAnalyzerAction(step.Uses.FullName, step.UsesFullName, step.Uses.Type);
           action.CurrentVersion = step.Uses.Version;
-          action.LatestVersion = await _scanner.GetLatestRelease(step.Uses);
+          action.LatestVersion = await _scanner.GetLatestVersion(step.Uses);
           actions.Add(action);
         }
         result.Add(new WorkflowAnalyzerResult(wfi.File, wfi.Workflow.Name, actions));

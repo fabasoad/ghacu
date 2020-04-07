@@ -14,9 +14,13 @@ namespace GHACU.Workflow.Analyze
       Name = name;
       Actions = actions;
     }
+
     public string File { get; private set; }
+
     public string Name { get; private set; }
+
     public IEnumerable<WorkflowAnalyzerAction> Actions { get; private set; }
+
     public void Upgrade()
     {
       var content = System.IO.File.ReadAllText(_originalFilePath);

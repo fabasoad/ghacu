@@ -12,10 +12,15 @@ namespace GHACU.Workflow.Entities
       FullName = splitted[0];
       Version = splitted[1];
     }
+
     public string FullName { get; private set; }
+
     public string Owner { get => FullName.Split('/')[0]; }
+
     public string Name { get => FullName.Split('/')[1]; }
+
     public string Version { get; private set; }
+
     public UsesType Type { get; private set; }
   }
 }

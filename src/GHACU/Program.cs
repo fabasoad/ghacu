@@ -4,7 +4,7 @@ using GHACU.CLI;
 
 namespace GHACU
 {
-  class Program
+  public class Program
   {
     public static void Main(string[] args)
     {
