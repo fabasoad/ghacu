@@ -18,13 +18,13 @@ Copyright (C) 2020 ghacu
 ```
 ## Example
 ```bash
-PS C:\\Projects\\business-card> ghacu
-> CI (.github\\workflows\\ci.yml)
+PS C:\Projects\business-card> ghacu
+> CI (.github\workflows\ci.yml)
 actions/checkout                 v1  »  v2.1.0
 bahmutov/npm-install             v1  »  v1.4.0
 crazy-max/ghaction-github-pages  v1  »  v1.3.0
 
-> Milestone Closure (.github\\workflows\\release-notes.yml)
+> Milestone Closure (.github\workflows\release-notes.yml)
 actions/checkout                          master  »  v2.1.0
 decathlon/release-notes-generator-action   2.0.0  »  v2.0.1
 

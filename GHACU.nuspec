@@ -8,7 +8,7 @@
     <owners>Yevhen Fabizhevskyi</owners>
     <language>en-US</language>
     <license type="expression">MIT</license>
-    <repository type="git" url="https://github.com/fabasoad/ghacu.git" branch="master" commit="4412d4af02cf544ff029c3a2f6543c7981362625" />
+    <repository type="git" url="https://github.com/fabasoad/ghacu.git" branch="master" commit="279cd687d9466abb5a37811449eff52b6038edd3" />
     <icon>images\logo.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>CLI tool to check whether all your actions are up-to-date or not.</description>
