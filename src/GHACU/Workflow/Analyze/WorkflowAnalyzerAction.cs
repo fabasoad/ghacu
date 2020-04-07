@@ -14,7 +14,7 @@ namespace GHACU.Workflow.Analyze
     internal string OriginalName { get; private set; }
     public string CurrentVersion { get; set; }
     public string LatestVersion { get; set; }
-    public bool IsUpToDate { get => CurrentVersion.Equals(LatestVersion); }
+    public bool IsUpToDate { get => CurrentVersion.Equals(LatestVersion) || LatestVersion.Equals("N/A"); }
     internal UsesType Type { get; private set; }
   }
 }

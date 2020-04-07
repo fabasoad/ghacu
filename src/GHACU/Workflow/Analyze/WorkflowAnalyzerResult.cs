@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using GHACU.Workflow.Entities;
 
 namespace GHACU.Workflow.Analyze
@@ -23,14 +24,18 @@ namespace GHACU.Workflow.Analyze
 
     public void Upgrade()
     {
-      var content = System.IO.File.ReadAllText(_originalFilePath);
-      foreach (var a in Actions)
+      var actionsForUpdate = Actions.Where(a => !a.IsUpToDate);
+      if (actionsForUpdate.Count() > 0)
       {
-        var delimeter = a.Type == UsesType.DOCKER ? ":" : "@";
-        var prefix = a.Type == UsesType.DOCKER ? "docker://" : "";
-        content = content.Replace(a.OriginalName, $"{prefix}{a.Name}{delimeter}{a.LatestVersion}");
+        var content = System.IO.File.ReadAllText(_originalFilePath);
+        foreach (var a in actionsForUpdate)
+        {
+          var delimeter = a.Type == UsesType.DOCKER ? ":" : "@";
+          var prefix = a.Type == UsesType.DOCKER ? "docker://" : "";
+          content = content.Replace(a.OriginalName, $"{prefix}{a.Name}{delimeter}{a.LatestVersion}");
+        }
+        System.IO.File.WriteAllText(_originalFilePath, content);
       }
-      System.IO.File.WriteAllText(_originalFilePath, content);
     }
   }
 }
