@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\GHACU\GHACU.csproj" />
+    <ProjectReference Include="..\..\src\GHACU\ghacu.csproj" />
   </ItemGroup>
 
 </Project>
