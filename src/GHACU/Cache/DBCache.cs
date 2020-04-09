@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using GHACU.Workflow.Entities;
 using LiteDB;
@@ -28,7 +29,7 @@ namespace GHACU.Cache
     }
     private async Task<string> GetFromDb(IRepositoryAware repositoryAware)
     {
-      using (var db = new LiteDatabase(DB_NAME))
+      using (var db = new LiteDatabase(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DB_NAME)))
       {
         var actionName = repositoryAware.FullName;
         var actions = db.GetCollection<DBAction>(ACTIONS_COLLECTION);
