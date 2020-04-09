@@ -5,7 +5,7 @@ CLI tool that checks versions of GitHub Actions that used in a repository.
 ## Commands
 ```bash
 > ghacu --help
-ghacu 1.1.0
+ghacu 1.1.1
 Copyright (C) 2020 ghacu
 
   -r, --repository    Path to the root of a project.

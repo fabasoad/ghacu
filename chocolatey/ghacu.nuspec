@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>ghacu</id>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <title>GitHub Actions Check Updates</title>
     <authors>Yevhen Fabizhevskyi</authors>
     <owners>Yevhen Fabizhevskyi</owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>CLI tool to check whether all your actions are up-to-date or not.</description>
-    <releaseNotes>Release v1.1.0</releaseNotes>
+    <releaseNotes>Release v1.1.1</releaseNotes>
     <copyright>Copyright 2020 Yevhen Fabizhevskyi</copyright>
     <tags>githubactions cli choco</tags>
     <summary>First release of GHACU tool. You can either just to check the current state of your actions or update them as well.</summary>

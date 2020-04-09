@@ -2,8 +2,8 @@
 
 $packageName = 'ghacu' # arbitrary name for the package, used in messages
 $installerType = 'exe' #only one of these: exe, msi, msu
-$url = 'https://github.com/fabasoad/ghacu/releases/download/v1.1.0/ghacu-1.1.0-win-x86.exe' # download url
-$url64 = 'https://github.com/fabasoad/ghacu/releases/download/v1.1.0/ghacu-1.1.0-win-x64.exe' # 64bit URL here or remove - if installer decides, then use $url
+$url = 'https://github.com/fabasoad/ghacu/releases/download/v1.1.1/ghacu-1.1.1-win-x86.exe' # download url
+$url64 = 'https://github.com/fabasoad/ghacu/releases/download/v1.1.1/ghacu-1.1.1-win-x64.exe' # 64bit URL here or remove - if installer decides, then use $url
 $silentArgs = '/s' # "/s /S /q /Q /quiet /silent /SILENT /VERYSILENT" # try any of these to get the silent installer #msi is always /quiet
 $validExitCodes = @(0) #please insert other valid exit codes here, exit codes for ms http://msdn.microsoft.com/en-us/library/aa368542(VS.85).aspx
 
