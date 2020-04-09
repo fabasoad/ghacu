@@ -19,17 +19,20 @@ namespace GHACU.Cache
       _releaseRetriever = releaseRetriever;
       _localCache = new Dictionary<IRepositoryAware, string>();
     }
+
     internal async Task<string> Get(IRepositoryAware repositoryAware)
     {
       if (!_localCache.ContainsKey(repositoryAware))
       {
         _localCache.Add(repositoryAware, await GetFromDb(repositoryAware));
       }
+
       return _localCache[repositoryAware];
     }
+
     private async Task<string> GetFromDb(IRepositoryAware repositoryAware)
-    {
-      using (var db = new LiteDatabase(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DB_NAME)))
+    {      
+      using (var db = new LiteDatabase(GetDbFilePath()))
       {
         var actionName = repositoryAware.FullName;
         var actions = db.GetCollection<DBAction>(ACTIONS_COLLECTION);
@@ -48,8 +51,21 @@ namespace GHACU.Cache
           dbAction.Timestamp = DateTime.Now;
           actions.Update(actionName, dbAction);
         }
+
         return dbAction.Version;
       }
     }
+
+    private string GetDbFilePath()
+    {
+      var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+      var ghacuFolder = Path.Combine(appData, "ghacu");
+      if (!Directory.Exists(ghacuFolder))
+      {
+        Directory.CreateDirectory(ghacuFolder);
+      }
+      return Path.Combine(ghacuFolder, DB_NAME);
+    }
+
   }
 }
