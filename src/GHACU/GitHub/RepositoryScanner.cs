@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GHACU.Cache;
 using GHACU.Workflow.Entities;
@@ -20,15 +21,31 @@ namespace GHACU.GitHub
       await _cache.Get(repositoryAware);
     private async Task<string> PullLatestVersion(IRepositoryAware r)
     {
+      Exception lastException = null;
       try
       {
         return (await _client.Repository.Release.GetLatest(r.Owner, r.Name)).TagName;
       }
-      catch (RateLimitExceededException e)
+      catch (NotFoundException)
       {
-        Console.WriteLine(e.Message);
-        return "N/A";
+        try
+        {
+          return (await _client.Repository.GetAllTags(r.Owner, r.Name)).Last().Name;
+        }
+        catch (Exception e)
+        {
+          lastException = e;
+        }
       }
+      catch (Exception e)
+      {
+        lastException = e;
+      }
+      if (lastException != null)
+      {
+        Console.WriteLine(lastException.Message);
+      }
+      return "N/A";
     }
   }
 }

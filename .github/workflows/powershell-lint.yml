@@ -1,0 +1,20 @@
+---
+name: PowerShell Lint
+
+on:
+  push:
+    paths:
+      - '**.ps1'
+
+jobs:
+  lint:
+    name: Lint
+    timeout-minutes: 3
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: Setup Analyzer
+        run: choco install psscriptanalyzer
+      - name: Analyze
+        shell: pwsh
+        run: .\powershell-lint.ps1

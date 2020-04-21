@@ -30,9 +30,10 @@ We use GitHub issues to track public bugs. Report a bug by opening a new issue. 
 This repository has issue templates for bug report and feature request. Please use them to create an issue and fill all required fields.
 
 ## Use a Consistent Coding Style
-Please follow all the rules from [this](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions) great guide provided by Microsoft for coding style except of following coding styles:
-
-* 2 spaces for indentation rather than tabs
+Please follow all the rules from the following documents:
+- [C# coding style](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions) provided by Microsoft. Some remarks:
+  - 2 spaces for indentation rather than tabs.
+- [PowerShell coding style](https://docs.microsoft.com/en-us/powershell/scripting/community/contributing/powershell-style-guide?view=powershell-7) provided by Microsoft.
 
 ## License
 By contributing, you agree that your contributions will be licensed under its MIT License.

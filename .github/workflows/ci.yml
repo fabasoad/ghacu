@@ -12,11 +12,13 @@ on:
 jobs:
   unit:
     name: Unit Testing
+    timeout-minutes: 5
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2.1.0
       - run: dotnet test
   functional:
+    timeout-minutes: 10
     name: Functional Testing
     strategy:
       matrix:

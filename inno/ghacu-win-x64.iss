@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ghacu"
-#define MyAppVersion "1.1.1"
+#define MyAppVersion "1.1.2"
 #define MyAppPublisher "Yevhen Fabizhevskyi"
 #define MyAppURL "https://github.com/fabasoad/ghacu"
 #define MyAppExeName "ghacu.exe"
@@ -25,7 +25,7 @@ DisableProgramGroupPage=yes
 LicenseFile=C:\Users\Yevhen\Documents\Sources\personal\ghacu\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=ghacu-1.1.1-win-x64
+OutputBaseFilename=ghacu-1.1.2-win-x64
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
