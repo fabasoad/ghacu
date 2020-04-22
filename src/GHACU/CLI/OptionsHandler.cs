@@ -11,7 +11,7 @@ namespace GHACU.CLI
   {
     private const string GITHUB_FOLDER = ".github";
     private const string WORKFLOWS_FOLDER = "workflows";
-    private char ARROW_CHAR = Convert.ToChar(187);
+    private char _arrowChar = Convert.ToChar(187);
 
     public void Handle(Options o)
     {
@@ -25,14 +25,15 @@ namespace GHACU.CLI
         Console.WriteLine(e.Message);
         return;
       }
+
       var files = new[] { "*.yml", "*.yaml" }.SelectMany(p => Directory.EnumerateFiles(wfPath, p, SearchOption.AllDirectories));
-      
+
       var parser = new WorkflowParser();
       IEnumerable<WorkflowInfo> infos = parser.Parse(files);
-      
+
       var analyzer = new WorkflowAnalyzer();
       IEnumerable<WorkflowAnalyzerResult> results = analyzer.Analyze(infos).GetAwaiter().GetResult().SkipUpToDate();
-      
+
       foreach (var r in results)
       {
         Console.WriteLine($"> {r.Name} ({r.File})");
@@ -45,17 +46,20 @@ namespace GHACU.CLI
           maxWidthCurrentVersion = Math.Max(maxWidthCurrentVersion, a.CurrentVersion.Length);
           maxWidthLatestVersion = Math.Max(maxWidthLatestVersion, a.LatestVersion.Length);
         }
+
         foreach (var a in r.Actions.Where(a => !a.IsUpToDate))
         {
           var template = "{0,-" + maxWidthName + "}  {1," + maxWidthCurrentVersion + "}  {2}  {3," + maxWidthLatestVersion + "}";
-          Console.WriteLine(string.Format(template, a.Name, a.CurrentVersion, ARROW_CHAR, a.LatestVersion));
+          Console.WriteLine(string.Format(template, a.Name, a.CurrentVersion, _arrowChar, a.LatestVersion));
         }
+
         Console.WriteLine();
         if (o.Upgrade)
         {
           r.Upgrade();
         }
       }
+
       if (results.Count() == 0)
       {
         Console.WriteLine("All GitHub Actions match the latest versions.");
@@ -65,7 +69,7 @@ namespace GHACU.CLI
         Console.WriteLine("Run ghacu -u to upgrade actions.");
       }
     }
-  
+
     private string BuildWorkflowPath(string repository)
     {
       string rep;
@@ -84,16 +88,19 @@ namespace GHACU.CLI
           rep = repository;
         }
       }
-      var ghPath = Path.Combine(rep, GITHUB_FOLDER);
+
+      string ghPath = Path.Combine(rep, GITHUB_FOLDER);
       if (!Directory.Exists(ghPath))
       {
         throw new OptionValidationException($"Directory {GITHUB_FOLDER} does not exist. Nothing to check.");
       }
-      var wfPath = Path.Combine(ghPath, WORKFLOWS_FOLDER);
+
+      string wfPath = Path.Combine(ghPath, WORKFLOWS_FOLDER);
       if (!Directory.Exists(wfPath))
       {
         throw new OptionValidationException($"Directory {Path.Combine(GITHUB_FOLDER, WORKFLOWS_FOLDER)} does not exist. Nothing to check.");
       }
+
       return wfPath;
     }
   }

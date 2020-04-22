@@ -26,6 +26,7 @@ namespace GHACU.Workflow
         {
           wf = _deserializer.Deserialize<ActionWorkflow>(reader);
         }
+
         yield return new WorkflowInfo(file, wf);
       }
     }

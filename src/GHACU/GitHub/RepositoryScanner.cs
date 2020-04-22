@@ -17,6 +17,7 @@ namespace GHACU.GitHub
       _client = new GitHubClient(new ProductHeaderValue(APP_NAME));
       _cache = new VersionsCache(PullLatestVersion);
     }
+
     public async Task<string> GetLatestVersion(IRepositoryAware repositoryAware) =>
       await _cache.Get(repositoryAware);
     private async Task<string> PullLatestVersion(IRepositoryAware r)
@@ -41,10 +42,12 @@ namespace GHACU.GitHub
       {
         lastException = e;
       }
+
       if (lastException != null)
       {
         Console.WriteLine(lastException.Message);
       }
+
       return "N/A";
     }
   }

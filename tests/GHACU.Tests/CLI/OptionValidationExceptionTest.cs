@@ -1,5 +1,4 @@
 using GHACU.CLI;
-using System;
 using Xunit;
 
 namespace GHACU.Tests.CLI

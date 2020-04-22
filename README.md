@@ -5,7 +5,7 @@ CLI tool that checks versions of GitHub Actions that used in a repository.
 ## Commands
 ```bash
 > ghacu --help
-ghacu 1.1.2
+ghacu 1.1.3
 Copyright (C) 2020 ghacu
 
   -r, --repository    Path to the root of a project.
@@ -37,6 +37,6 @@ Run ghacu -u to upgrade actions.
 ```
 ### How to create MSI
 1. Download and install [Inno Setup](https://jrsoftware.org/isinfo.php).
-2. Open `inno\ghacu-win-{x64|x86}.iss` file.
+2. Open `inno\ghacu-win-{x64|x86}.iss` file with _Inno Setup_.
 3. Increase version.
-4. Run build.
+4. Run _Build_ -> _Compile_.

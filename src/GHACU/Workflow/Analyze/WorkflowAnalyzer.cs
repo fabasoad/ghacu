@@ -13,7 +13,7 @@ namespace GHACU.Workflow.Analyze
     {
       _scanner = new RepositoryScanner();
     }
-    
+
     public async Task<WorkflowAnalyzerResultList> Analyze(IEnumerable<WorkflowInfo> items)
     {
       WorkflowAnalyzerResultList result = new WorkflowAnalyzerResultList();
@@ -27,8 +27,10 @@ namespace GHACU.Workflow.Analyze
           action.LatestVersion = await _scanner.GetLatestVersion(step.Uses);
           actions.Add(action);
         }
+
         result.Add(new WorkflowAnalyzerResult(wfi.File, wfi.Workflow.Name, actions));
       }
+
       return result;
     }
   }

@@ -1,6 +1,6 @@
 namespace GHACU.Workflow.Entities
 {
-  public interface IRepositoryAware  
+  public interface IRepositoryAware
   {
       string FullName { get; }
       string Name { get; }

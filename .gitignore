@@ -1,6 +1,7 @@
 .vscode
 bin
-chocolatey*
+chocolatey/tools
+chocolateytemplates
 inno/Output
 obj
 *.nupkg

@@ -11,7 +11,7 @@ namespace GHACU.Cache
   {
     private const string DB_NAME = "e6DF9AfAmX1Sy7zHCX07VPHS";
     private const string ACTIONS_COLLECTION = "actions";
-    private TimeSpan STORAGE_TIME = TimeSpan.FromMinutes(1);
+    private TimeSpan _storageTime = TimeSpan.FromMinutes(1);
     private Func<IRepositoryAware, Task<string>> _releaseRetriever;
     private IDictionary<IRepositoryAware, string> _localCache;
     internal DBCache(Func<IRepositoryAware, Task<string>> releaseRetriever)
@@ -31,7 +31,7 @@ namespace GHACU.Cache
     }
 
     private async Task<string> GetFromDb(IRepositoryAware repositoryAware)
-    {      
+    {
       using (var db = new LiteDatabase(GetDbFilePath()))
       {
         var actionName = repositoryAware.FullName;
@@ -45,7 +45,7 @@ namespace GHACU.Cache
           dbAction.Timestamp = DateTime.Now;
           actions.Insert(actionName, dbAction);
         }
-        else if (DateTime.Now.Subtract(dbAction.Timestamp) > STORAGE_TIME)
+        else if (DateTime.Now.Subtract(dbAction.Timestamp) > _storageTime)
         {
           dbAction.Version = await _releaseRetriever(repositoryAware);
           dbAction.Timestamp = DateTime.Now;
@@ -64,8 +64,8 @@ namespace GHACU.Cache
       {
         Directory.CreateDirectory(ghacuFolder);
       }
+
       return Path.Combine(ghacuFolder, DB_NAME);
     }
-
   }
 }

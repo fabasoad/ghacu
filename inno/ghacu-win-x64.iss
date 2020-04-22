@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ghacu"
-#define MyAppVersion "1.1.2"
+#define MyAppVersion "1.1.3"
 #define MyAppPublisher "Yevhen Fabizhevskyi"
 #define MyAppURL "https://github.com/fabasoad/ghacu"
 #define MyAppExeName "ghacu.exe"
@@ -10,7 +10,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{942D853C-15CD-4B9A-8D76-A592F624BA5F}
+AppId={{0C0B9291-59B3-4574-9957-ADEAD76E38D8}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -25,7 +25,7 @@ DisableProgramGroupPage=yes
 LicenseFile=C:\Users\Yevhen\Documents\Sources\personal\ghacu\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=ghacu-1.1.2-win-x64
+OutputBaseFilename=ghacu-1.1.3-win-x64
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

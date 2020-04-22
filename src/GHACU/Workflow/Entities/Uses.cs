@@ -2,7 +2,8 @@ namespace GHACU.Workflow.Entities
 {
   public sealed class Uses : IRepositoryAware
   {
-    public Uses(string fullName) {
+    public Uses(string fullName)
+    {
       Type = fullName.StartsWith("docker://") ? UsesType.DOCKER : UsesType.GITHUB;
       var splitted = Type switch
       {

@@ -31,9 +31,10 @@ namespace GHACU.Workflow.Analyze
         foreach (var a in actionsForUpdate)
         {
           var delimeter = a.Type == UsesType.DOCKER ? ":" : "@";
-          var prefix = a.Type == UsesType.DOCKER ? "docker://" : "";
+          var prefix = a.Type == UsesType.DOCKER ? "docker://" : string.Empty;
           content = content.Replace(a.OriginalName, $"{prefix}{a.Name}{delimeter}{a.LatestVersion}");
         }
+
         System.IO.File.WriteAllText(_originalFilePath, content);
       }
     }
