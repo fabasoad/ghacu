@@ -1,0 +1,73 @@
+---
+name: CI (master)
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  unit:
+    name: Unit Testing
+    timeout-minutes: 5
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: Unit tests
+        run: dotnet test
+      # https://github.com/OpenCover/opencover/issues/940
+      - name: Install opencover.portable
+        if: github.workspace == 'Skip'
+        run: choco install opencover.portable
+      - name: Run tests with coverage
+        if: github.workspace == 'Skip'
+        run: OpenCover.Console.exe -register:user -target:dotnet.exe -targetargs:test -output:"${{ github.workspace }}\coverage.xml" -oldstyle -filter:"+[ghacu*]* -[ghacu.Tests*]*"
+        shell: pwsh
+      - name: Upload report to CodeCov
+        if: github.workspace == 'Skip' && github.event_name == 'push'
+        uses: codecov/codecov-action@v1.0.6
+        with:
+          file: ${{ github.workspace }}\coverage.xml
+          flags: unittests
+          fail_ci_if_error: true
+  functional:
+    timeout-minutes: 10
+    name: Functional Testing
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]    
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: Setup .NET Core SDK
+        if: ${{ matrix.os != 'windows-latest' }}
+        uses: actions/setup-dotnet@v1.4.0
+        with:
+          dotnet-version: '3.1.201'
+      - name: Build
+        run: ./build.ps1 -os ${{ matrix.os }}
+        shell: pwsh
+      - name: Extract version
+        id: version
+        run: |
+          $Version = $([xml](Get-Content ghacu.nuspec)).package.metadata.version
+          Write-Output "::set-output name=value::$Version"
+        shell: pwsh
+      - name: Run GHACU (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-win-x64
+        run: ./ghacu.exe -r "${{ github.workspace }}"
+      - name: Run GHACU (Linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-linux-x64
+        run: ./ghacu -r "${{ github.workspace }}"
+        shell: pwsh
+      - name: Run GHACU (MacOS)
+        if: ${{ matrix.os == 'macos-latest' }}
+        working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-osx-x64
+        run: ./ghacu -r "${{ github.workspace }}"
+        shell: pwsh

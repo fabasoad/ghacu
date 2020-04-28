@@ -1,5 +1,6 @@
 .vscode
 bin
+coverage.xml
 chocolatey/tools
 chocolateytemplates
 inno/Output

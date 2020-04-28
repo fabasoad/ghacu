@@ -1,11 +1,51 @@
-$runtimes = @(
-  @("linux-x64", ""),
-  @("osx-x64", ""),
-  @("win-x64", ".exe"),
-  @("win-x86", ".exe")
-)
-$xml = [xml](Get-Content chocolatey\ghacu.nuspec)
+param([string] $os = "")
+
+function Build-Output {
+  param (
+    [string] $argVersion,
+    [string] $argOS
+  )
+  $('ghacu-' + $argVersion + '-' + $argOS)
+}
+
+function Build-Package {
+  param (
+    [string] $argVersion,
+    [string] $argOS
+  )
+  $Output = Build-Output $argVersion $argOS
+  dotnet build -c Release -r $argOS -p:Version=$argVersion -o bin\$Output -f netcoreapp3.1
+}
+
+function Compress-Package {
+  param (
+    [string] $argVersion,
+    [string] $argOS
+  )
+  Set-Location bin\
+  $Output = Build-Output $argVersion $argOS
+  tar -czf $($Output + '.tgz') $Output
+  Set-Location ..
+}
+
+$xml = [xml](Get-Content ghacu.nuspec)
 $version = $xml.package.metadata.version
-For ($i = 0; $i -lt $runtimes.Length; $i++) {
-  & dotnet build -c Release -r $($runtimes[$i][0]) -p:Version=$version -o bin\$($runtimes[$i][0])
+
+switch($os) {
+  {($_ -eq "macos-latest") -Or ($_ -eq "")} {
+    Build-Package $version "osx-x64"
+    Compress-Package $version "osx-x64"
+  }
+  {($_ -eq "ubuntu-latest") -Or ($_ -eq "")} {
+    Build-Package $version "linux-x64"
+    Compress-Package $version "linux-x64"
+  }
+  {($_ -eq "windows-latest") -Or ($_ -eq "")} {
+    Build-Package $version "win-x64"
+    Compress-Package $version "win-x64"
+  }
+  {($_ -eq "")} {
+    Build-Package $version "win-x86"
+    Compress-Package $version "win-x86"
+  }
 }
