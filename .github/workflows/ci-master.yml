@@ -16,21 +16,17 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2.1.0
-      - name: Unit tests
+      - name: Run tests
         run: dotnet test
-      # https://github.com/OpenCover/opencover/issues/940
       - name: Install opencover.portable
-        if: github.workspace == 'Skip'
         run: choco install opencover.portable
-      - name: Run tests with coverage
-        if: github.workspace == 'Skip'
-        run: OpenCover.Console.exe -register:user -target:dotnet.exe -targetargs:test -output:"${{ github.workspace }}\coverage.xml" -oldstyle -filter:"+[ghacu*]* -[ghacu.Tests*]*"
+      - name: Collect coverage
+        run: OpenCover.Console.exe -register:administrator -target:dotnet.exe -targetargs:test -output:"${{ github.workspace }}\coverage.xml" -oldstyle -filter:"+[ghacu*]* -[ghacu.Tests*]*"
         shell: pwsh
       - name: Upload report to CodeCov
-        if: github.workspace == 'Skip' && github.event_name == 'push'
-        uses: codecov/codecov-action@v1.0.6
+        if: github.event_name == 'push'
+        uses: codecov/codecov-action@v1.0.7
         with:
-          file: ${{ github.workspace }}\coverage.xml
           flags: unittests
           fail_ci_if_error: true
   functional:
