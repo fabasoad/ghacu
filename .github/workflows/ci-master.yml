@@ -60,10 +60,14 @@ jobs:
       - name: Run GHACU (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-linux-x64
-        run: ./ghacu -r "${{ github.workspace }}"
+        run: |
+          chmod +x ./ghacu
+          ./ghacu -r "${{ github.workspace }}"
         shell: pwsh
       - name: Run GHACU (MacOS)
         if: ${{ matrix.os == 'macos-latest' }}
         working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-osx-x64
-        run: ./ghacu -r "${{ github.workspace }}"
+        run: |
+          chmod +x ./ghacu
+          ./ghacu -r "${{ github.workspace }}"
         shell: pwsh
