@@ -36,7 +36,7 @@ namespace GHACU.Workflow.Analyze
 
           content = Regex.Replace(
             content,
-            $"(.*)({a.OriginalName}[ \t\n]*)(\n.*)",
+            $"(.*)({a.OriginalName}[ \t]*)(\n.*)",
             $"$1{prefix}{a.Name}{delimeter}{a.LatestVersion}$3");
         }
 
