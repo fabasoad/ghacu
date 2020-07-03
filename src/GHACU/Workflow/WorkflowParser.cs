@@ -21,7 +21,7 @@ namespace GHACU.Workflow
     {
       foreach (var file in files)
       {
-        ActionWorkflow wf = null;
+        ActionWorkflow wf;
         using (var reader = new StreamReader(file))
         {
           wf = _deserializer.Deserialize<ActionWorkflow>(reader);

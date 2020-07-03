@@ -15,9 +15,9 @@ namespace GHACU.Workflow.Analyze
       Type = type;
     }
 
-    public string Name { get; private set; }
+    public string Name { get; }
 
-    internal string OriginalName { get; private set; }
+    internal string OriginalName { get; }
 
     public string CurrentVersion { get; set; }
 
@@ -45,7 +45,7 @@ namespace GHACU.Workflow.Analyze
       }
     }
 
-    internal UsesType Type { get; private set; }
+    internal UsesType Type { get; }
 
     private SemVersion ToSemVersion(string version) =>
       SemVersion.Parse(version.StartsWith('v') ? version.Substring(1) : version);

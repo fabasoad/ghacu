@@ -7,29 +7,29 @@ CLI tool that checks versions of GitHub Actions that used in a repository.
 ### Windows
 1. Install using:
     1. Installer:
-    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v1.1.3/ghacu-1.1.3-win-x86.exe
-    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v1.1.3/ghacu-1.1.3-win-x64.exe
+    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-win-x86.exe
+    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-win-x64.exe
     2. Compressed package:
-    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v1.1.3/ghacu-1.1.3-win-x86.tgz
-    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v1.1.3/ghacu-1.1.3-win-x64.tgz
+    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-win-x86.tgz
+    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-win-x64.tgz
 2. [Add application path](https://stackoverflow.com/questions/44272416/how-to-add-a-folder-to-path-environment-variable-in-windows-10-with-screensho) to _PATH_ environment variable.
 ### Linux
 ```bash
-cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v1.1.3/ghacu-1.1.3-linux-x64.tgz
-tar -xvf ghacu-1.1.3-linux-x64.tgz
-PATH=$PATH:~/ghacu-1.1.3-linux-x64
+cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-linux-x64.tgz
+tar -xvf ghacu-1.1.4-linux-x64.tgz
+PATH=$PATH:~/ghacu-1.1.4-linux-x64
 ```
 ### MacOS
 ```bash
-cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v1.1.3/ghacu-1.1.3-osx-x64.tgz
-tar -xvf ghacu-1.1.3-osx-x64.tgz
-PATH=$PATH:~/ghacu-1.1.3-osx-x64
+cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-osx-x64.tgz
+tar -xvf ghacu-1.1.4-osx-x64.tgz
+PATH=$PATH:~/ghacu-1.1.4-osx-x64
 ```
-> Examples above use version `1.1.3` but you can use any version from the [releases](https://github.com/fabasoad/ghacu/releases) page. Latest version is preferable.
+> Examples above use version `1.1.4` but you can use any version from the [releases](https://github.com/fabasoad/ghacu/releases) page. Latest version is preferable.
 ## Commands
 ```bash
 > ghacu --help
-ghacu 1.1.3
+ghacu 1.1.4
 Copyright (C) 2020 ghacu
 
   -r, --repository    Path to the root of a project.
@@ -56,10 +56,25 @@ Run ghacu -u to upgrade actions.
 ```
 ## Dev section
 ### How to build an application
+#### MacOS
+```bash
+brew cask install pwsh
+pwsh ./build.ps1
+```
+#### Windows
 ```bash
 .\build.ps1
 ```
 ### How to create MSI
+#### MacOS
+1. Open `inno/ghacu-win-{x64|x86}.iss` file in IDE.
+2. Increase version.
+3. Run the following command:
+```bash
+docker run --rm -i -v "$PWD:/work" amake/innosetup inno/ghacu-win-{x64|x86}.iss
+```
+> Please take a look at [this](https://gist.github.com/amake/3e7194e5e61d0e1850bba144797fd797) page for more details.
+#### Windows
 1. Download and install [Inno Setup](https://jrsoftware.org/isinfo.php).
 2. Open `inno\ghacu-win-{x64|x86}.iss` file with _Inno Setup_.
 3. Increase version.
