@@ -22,7 +22,7 @@ DefaultDirName=C:\Program Files\{#MyAppName}
 DisableDirPage=yes
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=C:\Users\Yevhen\Documents\Sources\personal\ghacu\LICENSE
+LicenseFile=..\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputBaseFilename=ghacu-1.1.3-win-x64
@@ -34,8 +34,8 @@ WizardStyle=modern
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "C:\Users\Yevhen\Documents\Sources\personal\ghacu\bin\win-x64\ghacu.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yevhen\Documents\Sources\personal\ghacu\bin\win-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\ghacu-1.1.3-win-x64\ghacu.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\ghacu-1.1.3-win-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

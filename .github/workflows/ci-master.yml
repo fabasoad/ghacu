@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 5
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2.1.0
+      - uses: actions/checkout@v2.3.1
       - name: Run tests
         run: dotnet test
       - name: Install opencover.portable
@@ -25,7 +25,7 @@ jobs:
         shell: pwsh
       - name: Upload report to CodeCov
         if: github.event_name == 'push'
-        uses: codecov/codecov-action@v1.0.7
+        uses: codecov/codecov-action@v1.0.10
         with:
           flags: unittests
           fail_ci_if_error: true
@@ -38,10 +38,10 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2.1.0
+      - uses: actions/checkout@v2.3.1
       - name: Setup .NET Core SDK
         if: ${{ matrix.os != 'windows-latest' }}
-        uses: actions/setup-dotnet@v1.4.0
+        uses: actions/setup-dotnet@v1.5.0
         with:
           dotnet-version: '3.1.201'
       - name: Build

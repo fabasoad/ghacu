@@ -56,10 +56,25 @@ Run ghacu -u to upgrade actions.
 ```
 ## Dev section
 ### How to build an application
+#### MacOS
+```bash
+brew cask install pwsh
+pwsh ./build.ps1
+```
+#### Windows
 ```bash
 .\build.ps1
 ```
 ### How to create MSI
+#### MacOS
+1. Open `inno/ghacu-win-{x64|x86}.iss` file in IDE.
+2. Increase version.
+3. Run the following command:
+```bash
+docker run --rm -i -v "$PWD:/work" amake/innosetup inno/ghacu-win-{x64|x86}.iss
+```
+> Please take a look at [this](https://gist.github.com/amake/3e7194e5e61d0e1850bba144797fd797) page for more details.
+#### Windows
 1. Download and install [Inno Setup](https://jrsoftware.org/isinfo.php).
 2. Open `inno\ghacu-win-{x64|x86}.iss` file with _Inno Setup_.
 3. Increase version.
