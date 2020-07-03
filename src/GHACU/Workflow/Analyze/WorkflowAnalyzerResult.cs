@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using GHACU.Workflow.Entities;
 
 namespace GHACU.Workflow.Analyze
@@ -32,7 +33,7 @@ namespace GHACU.Workflow.Analyze
         {
           var delimeter = a.Type == UsesType.DOCKER ? ":" : "@";
           var prefix = a.Type == UsesType.DOCKER ? "docker://" : string.Empty;
-          content = content.Replace(a.OriginalName, $"{prefix}{a.Name}{delimeter}{a.LatestVersion}");
+          content = Regex.Replace(content, $"{a.OriginalName}\\s*$", $"{prefix}{a.Name}{delimeter}{a.LatestVersion}");
         }
 
         System.IO.File.WriteAllText(_originalFilePath, content);

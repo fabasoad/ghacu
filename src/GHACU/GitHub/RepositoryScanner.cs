@@ -22,7 +22,7 @@ namespace GHACU.GitHub
       await _cache.Get(repositoryAware);
     private async Task<string> PullLatestVersion(IRepositoryAware r)
     {
-      Exception lastException = null;
+      Exception lastException;
       try
       {
         return (await _client.Repository.Release.GetLatest(r.Owner, r.Name)).TagName;

@@ -6,9 +6,6 @@ namespace GHACU.Workflow.Entities
   {
     [YamlMember(Alias = "uses", ApplyNamingConventions = false)]
     public string UsesFullName { get; set; }
-    public Uses Uses
-    {
-      get { return (UsesFullName == null || "./".Equals(UsesFullName)) ? null : new Uses(this.UsesFullName); }
-    }
+    public Uses Uses => (UsesFullName == null || "./".Equals(UsesFullName)) ? null : new Uses(this.UsesFullName);
   }
 }
