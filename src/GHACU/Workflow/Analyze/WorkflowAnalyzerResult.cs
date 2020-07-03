@@ -33,7 +33,11 @@ namespace GHACU.Workflow.Analyze
         {
           var delimeter = a.Type == UsesType.DOCKER ? ":" : "@";
           var prefix = a.Type == UsesType.DOCKER ? "docker://" : string.Empty;
-          content = Regex.Replace(content, $"{a.OriginalName}\\s*$", $"{prefix}{a.Name}{delimeter}{a.LatestVersion}");
+
+          content = Regex.Replace(
+            content,
+            $"(.*)({a.OriginalName}[ \t\n]*)(\n.*)",
+            $"$1{prefix}{a.Name}{delimeter}{a.LatestVersion}$3");
         }
 
         System.IO.File.WriteAllText(_originalFilePath, content);
