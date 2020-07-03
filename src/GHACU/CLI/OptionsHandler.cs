@@ -50,7 +50,7 @@ namespace GHACU.CLI
         foreach (var a in r.Actions.Where(a => !a.IsUpToDate))
         {
           var template = "{0,-" + maxWidthName + "}  {1," + maxWidthCurrentVersion + "}  {2}  {3," + maxWidthLatestVersion + "}";
-          Console.WriteLine(string.Format(template, a.Name, a.CurrentVersion, _arrowChar, a.LatestVersion));
+          Console.WriteLine(template, a.Name, a.CurrentVersion, _arrowChar, a.LatestVersion);
         }
 
         Console.WriteLine();
@@ -60,7 +60,7 @@ namespace GHACU.CLI
         }
       }
 
-      if (results.Count() == 0)
+      if (!results.Any())
       {
         Console.WriteLine("All GitHub Actions match the latest versions.");
       }
