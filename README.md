@@ -38,6 +38,8 @@ Copyright (C) 2020 ghacu
 
   -t, --token         GitHub token to work with actions repositories.
 
+  -l, --log           Turn on detailed logging.
+
   --help              Display this help screen.
 
   --version           Display version information.

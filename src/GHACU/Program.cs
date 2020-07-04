@@ -10,7 +10,7 @@ namespace GHACU
       var optionsHandler = new OptionsHandler();
       Parser.Default
         .ParseArguments<Options>(args)
-        .WithParsed<Options>(optionsHandler.Handle);
+        .WithParsed(optionsHandler.Handle);
     }
   }
 }

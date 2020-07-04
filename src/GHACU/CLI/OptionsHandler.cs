@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GHACU.PubSub;
 using GHACU.Workflow;
 using GHACU.Workflow.Analyze;
 
@@ -15,6 +16,7 @@ namespace GHACU.CLI
 
     public void Handle(Options o)
     {
+      Initializer.InitializeSubscribers(o.Logging);
       string wfPath;
       try
       {
@@ -26,13 +28,12 @@ namespace GHACU.CLI
         return;
       }
 
-      var files = new[] { "*.yml", "*.yaml" }.SelectMany(p => Directory.EnumerateFiles(wfPath, p, SearchOption.AllDirectories));
-
       var parser = new WorkflowParser();
-      IEnumerable<WorkflowInfo> infos = parser.Parse(files);
+      IEnumerable<WorkflowInfo> infos = parser.Parse(new[] { "*.yml", "*.yaml" }
+        .SelectMany(p => Directory.EnumerateFiles(wfPath, p, SearchOption.AllDirectories)));
 
       var analyzer = new WorkflowAnalyzer(o.GitHubToken);
-      IEnumerable<WorkflowAnalyzerResult> results = analyzer.Analyze(infos).GetAwaiter().GetResult().SkipUpToDate();
+      IEnumerable<WorkflowAnalyzerResult> results = analyzer.GetOutdated(infos);
 
       foreach (var r in results)
       {
@@ -40,16 +41,17 @@ namespace GHACU.CLI
         int maxWidthName = 0;
         int maxWidthCurrentVersion = 0;
         int maxWidthLatestVersion = 0;
-        foreach (var a in r.Actions.Where(a => !a.IsUpToDate))
+        foreach (var a in r.Actions)
         {
           maxWidthName = Math.Max(maxWidthName, a.Name.Length);
           maxWidthCurrentVersion = Math.Max(maxWidthCurrentVersion, a.CurrentVersion.Length);
           maxWidthLatestVersion = Math.Max(maxWidthLatestVersion, a.LatestVersion.Length);
         }
 
-        foreach (var a in r.Actions.Where(a => !a.IsUpToDate))
+        foreach (var a in r.Actions)
         {
-          var template = "{0,-" + maxWidthName + "}  {1," + maxWidthCurrentVersion + "}  {2}  {3," + maxWidthLatestVersion + "}";
+          var template = "{0,-" + maxWidthName + "}  {1," + maxWidthCurrentVersion + "}  {2}  {3," +
+                         maxWidthLatestVersion + "}";
           Console.WriteLine(template, a.Name, a.CurrentVersion, _arrowChar, a.LatestVersion);
         }
 
@@ -98,7 +100,8 @@ namespace GHACU.CLI
       string wfPath = Path.Combine(ghPath, WORKFLOWS_FOLDER);
       if (!Directory.Exists(wfPath))
       {
-        throw new OptionValidationException($"Directory {Path.Combine(GITHUB_FOLDER, WORKFLOWS_FOLDER)} does not exist. Nothing to check.");
+        throw new OptionValidationException(
+          $"Directory {Path.Combine(GITHUB_FOLDER, WORKFLOWS_FOLDER)} does not exist. Nothing to check.");
       }
 
       return wfPath;
