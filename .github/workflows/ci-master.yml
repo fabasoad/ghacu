@@ -12,7 +12,7 @@ on:
 jobs:
   unit:
     name: Unit Testing
-    timeout-minutes: 5
+    timeout-minutes: 10
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2.3.1
@@ -43,7 +43,7 @@ jobs:
         if: ${{ matrix.os != 'windows-latest' }}
         uses: actions/setup-dotnet@v1.5.0
         with:
-          dotnet-version: '3.1.201'
+          dotnet-version: 3.1.300
       - name: Build
         run: ./build.ps1 -os ${{ matrix.os }}
         shell: pwsh
@@ -51,23 +51,24 @@ jobs:
         id: version
         run: |
           $Version = $([xml](Get-Content ghacu.nuspec)).package.metadata.version
+          Write-Output "Current version is $Version"
           Write-Output "::set-output name=value::$Version"
         shell: pwsh
       - name: Run GHACU (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-win-x64
-        run: ./ghacu.exe -r "${{ github.workspace }}"
+        run: ./ghacu.exe --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }}
       - name: Run GHACU (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-linux-x64
         run: |
           chmod +x ./ghacu
-          ./ghacu -r "${{ github.workspace }}"
+          ./ghacu --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh
       - name: Run GHACU (MacOS)
         if: ${{ matrix.os == 'macos-latest' }}
         working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-osx-x64
         run: |
           chmod +x ./ghacu
-          ./ghacu -r "${{ github.workspace }}"
+          ./ghacu --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh

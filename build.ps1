@@ -14,7 +14,7 @@ function Build-Package {
     [string] $argOS
   )
   $Output = Build-Output $argVersion $argOS
-  dotnet build -c Release -r $argOS -p:Version=$argVersion -o bin\$Output -f netcoreapp3.1
+  dotnet build -c Release -r $argOS -p:Version=$argVersion -o bin/$Output -f netcoreapp3.1
 }
 
 function Compress-Package {
@@ -22,7 +22,7 @@ function Compress-Package {
     [string] $argVersion,
     [string] $argOS
   )
-  Set-Location bin\
+  Set-Location bin/
   $Output = Build-Output $argVersion $argOS
   tar -czf $($Output + '.tgz') $Output
   Set-Location ..
@@ -44,7 +44,7 @@ switch($os) {
     Build-Package $version "win-x64"
     Compress-Package $version "win-x64"
   }
-  {($_ -eq "")} {
+  {($_ -eq "win-x86") -Or ($_ -eq "")} {
     Build-Package $version "win-x86"
     Compress-Package $version "win-x86"
   }
