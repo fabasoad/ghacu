@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>ghacu</id>
-    <version>1.1.5-beta1</version>
+    <version>1.1.5</version>
     <packageSourceUrl>https://github.com/fabasoad/ghacu</packageSourceUrl>
     <owners>Yevhen Fabizhevskyi</owners>
     <title>GHACU</title>
