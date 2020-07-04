@@ -1,5 +1,6 @@
 using CommandLine;
 using GHACU.CLI;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace GHACU.Tests.CLI
@@ -31,17 +32,66 @@ namespace GHACU.Tests.CLI
     }
 
     [Fact]
+    public void LogLevel_ConfiguredCorrectly()
+    {
+      var attrs = typeof(Options).GetProperty("LogLevel").GetCustomAttributes(typeof(OptionAttribute), false);
+      Assert.Single(attrs);
+      var option = attrs[0] as OptionAttribute;
+      Assert.Equal("l", option.ShortName);
+      Assert.Equal("log-level", option.LongName);
+      Assert.False(option.Required);
+      Assert.Equal("Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.", option.HelpText);
+      Assert.Equal(LogLevel.Error, option.Default);
+    }
+
+    [Fact]
+    public void NoCache_ConfiguredCorrectly()
+    {
+      var attrs = typeof(Options).GetProperty("NoCache").GetCustomAttributes(typeof(OptionAttribute), false);
+      Assert.Single(attrs);
+      var option = attrs[0] as OptionAttribute;
+      Assert.Equal("n", option.ShortName);
+      Assert.Equal("no-cache", option.LongName);
+      Assert.False(option.Required);
+      Assert.Equal("Turn it on if you do not want to use caching.", option.HelpText);
+    }
+
+    [Fact]
+    public void GitHubToken_ConfiguredCorrectly()
+    {
+      var attrs = typeof(Options).GetProperty("GitHubToken").GetCustomAttributes(typeof(OptionAttribute), false);
+      Assert.Single(attrs);
+      var option = attrs[0] as OptionAttribute;
+      Assert.Equal("t", option.ShortName);
+      Assert.Equal("token", option.LongName);
+      Assert.False(option.Required);
+      Assert.Equal("GitHub token to work with actions repositories.", option.HelpText);
+    }
+
+    [Fact]
     public void Properties_GetSetWorkedCorrectly()
     {
       var options = new Options();
 
-      var expectedRepository = "SomeRepo";
+      const string expectedRepository = "SomeRepo";
       options.Repository = expectedRepository;
       Assert.Equal(expectedRepository, options.Repository);
 
-      var expectedUpgrade = false;
+      const bool expectedUpgrade = false;
       options.Upgrade = expectedUpgrade;
       Assert.Equal(expectedUpgrade, options.Upgrade);
+
+      const LogLevel expectedLogLevel = LogLevel.None;
+      options.LogLevel = expectedLogLevel;
+      Assert.Equal(expectedLogLevel, options.LogLevel);
+
+      const bool expectedNoCache = true;
+      options.NoCache = expectedNoCache;
+      Assert.Equal(expectedNoCache, options.NoCache);
+
+      const string expectedGitHubToken = "SomeToken";
+      options.GitHubToken = expectedGitHubToken;
+      Assert.Equal(expectedGitHubToken, options.GitHubToken);
     }
   }
 }
