@@ -38,7 +38,7 @@ Copyright (C) 2020 ghacu
 
   -t, --token         GitHub token to work with actions repositories.
 
-  -l, --log           Turn on detailed logging.
+  -l, --logLevel      (Default: Error) Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.
 
   --help              Display this help screen.
 

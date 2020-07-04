@@ -1,5 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Build (MacOS)" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="build.ps1" scriptParameters="-os macos-latest" workingDirectory="$PROJECT_DIR$">
-    <method v="2" />
-  </configuration>
-</component>

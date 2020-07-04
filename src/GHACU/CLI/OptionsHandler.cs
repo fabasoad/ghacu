@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using GHACU.PubSub;
 using GHACU.Workflow;
 using GHACU.Workflow.Analyze;
+using Microsoft.Extensions.Logging;
 
 namespace GHACU.CLI
 {
@@ -12,11 +12,16 @@ namespace GHACU.CLI
   {
     private const string GITHUB_FOLDER = ".github";
     private const string WORKFLOWS_FOLDER = "workflows";
-    private char _arrowChar = Convert.ToChar(187);
+    private readonly char _arrowChar = Convert.ToChar(187);
+    private readonly ILogger<OptionsHandler> _logger;
+
+    public OptionsHandler()
+    {
+      _logger = Program.LoggerFactory.CreateLogger<OptionsHandler>();
+    }
 
     public void Handle(Options o)
     {
-      Initializer.InitializeSubscribers(o.Logging);
       string wfPath;
       try
       {
@@ -24,7 +29,7 @@ namespace GHACU.CLI
       }
       catch (OptionValidationException e)
       {
-        Console.WriteLine(e.Message);
+        _logger.LogError(e, e.Message);
         return;
       }
 

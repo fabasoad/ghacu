@@ -2,10 +2,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using GHACU.Cache;
-using GHACU.PubSub;
 using GHACU.Workflow.Entities;
+using Microsoft.Extensions.Logging;
 using Octokit;
-using PubSub;
 
 namespace GHACU.GitHub
 {
@@ -15,13 +14,13 @@ namespace GHACU.GitHub
         private const string APP_NAME = "ghacu";
         private readonly GitHubClient _client;
         private readonly VersionsCache _cache;
-        private readonly Hub _hub;
+        private readonly ILogger<RepositoryScanner> _logger;
 
         public RepositoryScanner(string gitHubToken)
         {
-            _hub = Hub.Default;
             _client = CreateGitHubClient(gitHubToken);
             _cache = new VersionsCache(PullLatestVersion);
+            _logger = Program.LoggerFactory.CreateLogger<RepositoryScanner>();
         }
 
         private GitHubClient CreateGitHubClient(string gitHubToken)
@@ -45,24 +44,14 @@ namespace GHACU.GitHub
             string tagName = null;
             try
             {
-                _hub.Publish(new PubSubMessage
-                {
-                    Action = PubSubAction.STARTED,
-                    Topic = PubSubTopic.GITHUB,
-                    Message = $"Getting latest release for {r.FullName}..."
-                });
+                _logger.LogInformation($"Getting latest release for {r.FullName} from GitHub...");
                 tagName = (await _client.Repository.Release.GetLatest(r.Owner, r.Name)).TagName;
             }
             catch (NotFoundException)
             {
                 try
                 {
-                    _hub.Publish(new PubSubMessage
-                    {
-                        Action = PubSubAction.STARTED,
-                        Topic = PubSubTopic.GITHUB,
-                        Message = $"{r.FullName} release is not found. Getting latest tag..."
-                    });
+                    _logger.LogInformation($"{r.FullName} release is not found. Getting latest tag from GitHub...");
                     tagName = (await _client.Repository.GetAllTags(r.Owner, r.Name)).Last().Name;
                 }
                 catch (Exception e)
@@ -77,16 +66,11 @@ namespace GHACU.GitHub
 
             if (lastException == null)
             {
-                _hub.Publish(new PubSubMessage
-                {
-                    Action = PubSubAction.SUCCEED,
-                    Topic = PubSubTopic.GITHUB,
-                    Message = $"{r.FullName} latest release is {tagName}"
-                });
+                _logger.LogInformation($"{r.FullName} latest release is {tagName}");
             }
             else
             {
-                Console.WriteLine(lastException.Message);
+                _logger.LogError(lastException, lastException.Message);
             }
 
             return "N/A";

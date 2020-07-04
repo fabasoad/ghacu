@@ -14,12 +14,12 @@ namespace GHACU.Workflow.Analyze
     }
 
     public IEnumerable<WorkflowAnalyzerResult> GetOutdated(IEnumerable<WorkflowInfo> items) => items
-      // .AsParallel()
+      .AsParallel()
       .Select(wfi => new
       {
         Key = wfi,
         Value = wfi.Workflow.Jobs.Values
-          // .AsParallel()
+          .AsParallel()
           .SelectMany(j => j.Steps.Where(s => s.Uses != null))
           .Select(async step => new WorkflowAnalyzerAction(step.Uses.FullName, step.UsesFullName, step.Uses.Type)
           {
