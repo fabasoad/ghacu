@@ -9,9 +9,9 @@ namespace GHACU.Workflow.Analyze
   public sealed class WorkflowAnalyzer
   {
     private RepositoryScanner _scanner;
-    public WorkflowAnalyzer()
+    public WorkflowAnalyzer(string gitHubToken)
     {
-      _scanner = new RepositoryScanner();
+      _scanner = new RepositoryScanner(gitHubToken);
     }
 
     public async Task<WorkflowAnalyzerResultList> Analyze(IEnumerable<WorkflowInfo> items)

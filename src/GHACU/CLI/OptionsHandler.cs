@@ -31,7 +31,7 @@ namespace GHACU.CLI
       var parser = new WorkflowParser();
       IEnumerable<WorkflowInfo> infos = parser.Parse(files);
 
-      var analyzer = new WorkflowAnalyzer();
+      var analyzer = new WorkflowAnalyzer(o.GitHubToken);
       IEnumerable<WorkflowAnalyzerResult> results = analyzer.Analyze(infos).GetAwaiter().GetResult().SkipUpToDate();
 
       foreach (var r in results)

@@ -7,39 +7,54 @@ CLI tool that checks versions of GitHub Actions that used in a repository.
 ### Windows
 1. Install using:
     1. Installer:
-    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-win-x86.exe
-    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-win-x64.exe
+    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v1.1.5-beta1/ghacu-1.1.5-beta1-win-x86.exe
+    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v1.1.5-beta1/ghacu-1.1.5-beta1-win-x64.exe
     2. Compressed package:
-    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-win-x86.tgz
-    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-win-x64.tgz
+    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v1.1.5-beta1/ghacu-1.1.5-beta1-win-x86.tgz
+    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v1.1.5-beta1/ghacu-1.1.5-beta1-win-x64.tgz
 2. [Add application path](https://stackoverflow.com/questions/44272416/how-to-add-a-folder-to-path-environment-variable-in-windows-10-with-screensho) to _PATH_ environment variable.
 ### Linux
 ```bash
-cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-linux-x64.tgz
-tar -xvf ghacu-1.1.4-linux-x64.tgz
-PATH=$PATH:~/ghacu-1.1.4-linux-x64
+cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v1.1.5-beta1/ghacu-1.1.5-beta1-linux-x64.tgz
+tar -xvf ghacu-1.1.5-beta1-linux-x64.tgz
+PATH=$PATH:~/ghacu-1.1.5-beta1-linux-x64
 ```
 ### MacOS
 ```bash
-cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v1.1.4/ghacu-1.1.4-osx-x64.tgz
-tar -xvf ghacu-1.1.4-osx-x64.tgz
-PATH=$PATH:~/ghacu-1.1.4-osx-x64
+cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v1.1.5-beta1/ghacu-1.1.5-beta1-osx-x64.tgz
+tar -xvf ghacu-1.1.5-beta1-osx-x64.tgz
+PATH=$PATH:~/ghacu-1.1.5-beta1-osx-x64
 ```
-> Examples above use version `1.1.4` but you can use any version from the [releases](https://github.com/fabasoad/ghacu/releases) page. Latest version is preferable.
+> Examples above use version `1.1.5-beta1` but you can use any version from the [releases](https://github.com/fabasoad/ghacu/releases) page. Latest version is preferable.
 ## Commands
 ```bash
 > ghacu --help
-ghacu 1.1.4
+ghacu 1.1.5-beta1
 Copyright (C) 2020 ghacu
 
   -r, --repository    Path to the root of a project.
 
   -u, --upgrade       Upgrade versions to the latest one.
 
+  -t, --token         GitHub token to work with actions repositories.
+
   --help              Display this help screen.
 
   --version           Display version information.
 ```
+All commands are optional and can be run by purpose.
+### GitHub Token
+There are 2 ways to pass GitHub token to _ghacu_:
+1. Using `-t`, `--token` parameter:
+```bash
+ghacu --token abc123 --repository "C:\Projects\business-card"
+```
+2. Defining `GHACU_GITHUB_TOKEN` environment variable:
+```bash
+export GHACU_GITHUB_TOKEN=abc123
+ghacu --repository "C:\Projects\business-card"
+```
+> Program argument way takes precedence over the environment variable way. So the program looks at program argument first, if it's not present it looks at GHACU_GITHUB_TOKEN environment variable and if it's not present as well then ghacu will work as unauthenticated user.
 ## Example
 ```bash
 PS C:\Projects\business-card> ghacu
@@ -79,3 +94,6 @@ docker run --rm -i -v "$PWD:/work" amake/innosetup inno/ghacu-win-{x64|x86}.iss
 2. Open `inno\ghacu-win-{x64|x86}.iss` file with _Inno Setup_.
 3. Increase version.
 4. Run _Build_ -> _Compile_.
+## Troubleshooting
+### API rate limit exceeded for...
+If you see such message it means that you [exceeded limit](https://developer.github.com/v3/#rate-limiting) of requests as unauthenticated user. For authenticated users rate limit is much bigger, so to solve this problem you need to pass GitHub token to _ghacu_. More information [here](#github-token).
