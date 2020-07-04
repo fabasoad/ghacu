@@ -32,13 +32,15 @@ PATH=$PATH:~/ghacu-1.1.5-osx-x64
 ghacu 1.1.5
 Copyright (C) 2020 ghacu
 
-  -r, --repository    Path to the root of a project.
+  -l, --log-level     (Default: Error) Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.
 
-  -u, --upgrade       Upgrade versions to the latest one.
+  -n, --no-cache      Turn it on if you do not want to use caching.
+
+  -r, --repository    Path to the root of a project.
 
   -t, --token         GitHub token to work with actions repositories.
 
-  -l, --logLevel      (Default: Error) Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.
+  -u, --upgrade       Upgrade versions to the latest one.
 
   --help              Display this help screen.
 

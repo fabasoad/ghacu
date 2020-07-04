@@ -10,6 +10,8 @@ namespace GHACU
   {
     public static ILoggerFactory LoggerFactory { get; private set; }
 
+    public static bool UseCache { get; private set; }
+
     public static void Main(string[] args)
     {
       Parser.Default
@@ -24,6 +26,7 @@ namespace GHACU
                 options.Format = ConsoleLoggerFormat.Default;
               })
               .SetMinimumLevel(o.LogLevel));
+          UseCache = !o.NoCache;
           new OptionsHandler().Handle(o);
         });
     }

@@ -57,18 +57,18 @@ jobs:
       - name: Run GHACU (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-win-x64
-        run: ./ghacu.exe -r "${{ github.workspace }}"
+        run: ./ghacu.exe --no-cache --repository "${{ github.workspace }}"
       - name: Run GHACU (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-linux-x64
         run: |
           chmod +x ./ghacu
-          ./ghacu -r "${{ github.workspace }}"
+          ./ghacu --no-cache --repository "${{ github.workspace }}"
         shell: pwsh
       - name: Run GHACU (MacOS)
         if: ${{ matrix.os == 'macos-latest' }}
         working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-osx-x64
         run: |
           chmod +x ./ghacu
-          ./ghacu -r "${{ github.workspace }}"
+          ./ghacu --no-cache --repository "${{ github.workspace }}"
         shell: pwsh

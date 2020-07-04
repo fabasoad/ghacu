@@ -6,12 +6,18 @@ namespace GHACU.Cache
 {
   public sealed class VersionsCache
   {
-    private DBCache _dbCache;
+    private readonly DBCache _dbCache;
+    private readonly Func<IRepositoryAware, Task<string>> _releaseRetriever;
     public VersionsCache(Func<IRepositoryAware, Task<string>> releaseRetriever)
     {
-      _dbCache = new DBCache(releaseRetriever);
+      _releaseRetriever = releaseRetriever;
+      if (Program.UseCache)
+      {
+        _dbCache = new DBCache(releaseRetriever);
+      }
     }
 
-    public Task<string> Get(IRepositoryAware repositoryAware) => _dbCache.Get(repositoryAware);
+    public Task<string> Get(IRepositoryAware repositoryAware) =>
+      _dbCache == null ? _releaseRetriever(repositoryAware) : _dbCache.Get(repositoryAware);
   }
 }
