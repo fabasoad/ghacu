@@ -29,7 +29,7 @@ namespace GHACU.Cache
 
     internal async Task<string> Get(IRepositoryAware repositoryAware)
     {
-      var key = buildCacheKey(repositoryAware);
+      var key = repositoryAware.FullName;
       if (_localCache.ContainsKey(key))
       {
         _logger.LogInformation($"{repositoryAware.FullName} latest release is retrieved from cache");
@@ -52,8 +52,6 @@ namespace GHACU.Cache
 
       return await _localCache[key];
     }
-
-    private string buildCacheKey(IRepositoryAware repositoryAware) => repositoryAware.FullName;
 
     private async Task<string> GetFromDb(IRepositoryAware repositoryAware)
     {
