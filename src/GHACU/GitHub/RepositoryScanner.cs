@@ -35,8 +35,7 @@ namespace GHACU.GitHub
             return gitHubClient;
         }
 
-        public async Task<string> GetLatestVersion(IRepositoryAware repositoryAware) =>
-            await _cache.Get(repositoryAware);
+        public Task<string> GetLatestVersion(IRepositoryAware repositoryAware) => _cache.Get(repositoryAware);
 
         private async Task<string> PullLatestVersion(IRepositoryAware r)
         {

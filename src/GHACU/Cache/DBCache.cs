@@ -57,7 +57,7 @@ namespace GHACU.Cache
     {
       using var db = new LiteDatabase(GetDbFilePath());
       var actionName = repositoryAware.FullName;
-      var actions = db.GetCollection<DBAction>(ACTIONS_COLLECTION);
+      ILiteCollection<DBAction> actions = db.GetCollection<DBAction>(ACTIONS_COLLECTION);
       DBAction dbAction = actions.FindById(actionName);
       if (dbAction == null)
       {
@@ -83,7 +83,7 @@ namespace GHACU.Cache
       return dbAction.Version;
     }
 
-    private string GetDbFilePath()
+    private static string GetDbFilePath()
     {
       var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
       var ghacuFolder = Path.Combine(appData, "ghacu");

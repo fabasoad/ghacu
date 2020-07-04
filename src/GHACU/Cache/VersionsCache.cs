@@ -12,7 +12,6 @@ namespace GHACU.Cache
       _dbCache = new DBCache(releaseRetriever);
     }
 
-    public async Task<string> Get(IRepositoryAware repositoryAware) =>
-      await _dbCache.Get(repositoryAware);
+    public Task<string> Get(IRepositoryAware repositoryAware) => _dbCache.Get(repositoryAware);
   }
 }
