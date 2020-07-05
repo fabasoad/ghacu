@@ -2,8 +2,8 @@ using System.Collections.Generic;
 
 namespace GHACU.Workflow.Entities
 {
-  public sealed class Job
+  public interface IJob
   {
-    public IEnumerable<Step> Steps { get; set; }
+    IEnumerable<IStep> Steps { get; }
   }
 }

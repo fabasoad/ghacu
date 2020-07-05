@@ -1,15 +1,16 @@
-﻿using CommandLine;
+﻿using System;
+using CommandLine;
 using GHACU.CLI;
+using GHACU.Workflow;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
-using MicrosoftLoggerFactory = Microsoft.Extensions.Logging.LoggerFactory;
+using StructureMap;
 
 namespace GHACU
 {
   public class Program
   {
-    public static ILoggerFactory LoggerFactory { get; private set; }
-
     public static bool UseCache { get; private set; }
 
     public static void Main(string[] args)
@@ -18,16 +19,28 @@ namespace GHACU
         .ParseArguments<Options>(args)
         .WithParsed(o =>
         {
-          LoggerFactory = MicrosoftLoggerFactory
-            .Create(b => b
+          IServiceCollection services = new ServiceCollection()
+            .AddLogging(b => b
               .AddConsole(options =>
               {
                 options.DisableColors = true;
                 options.Format = ConsoleLoggerFormat.Default;
               })
               .SetMinimumLevel(o.LogLevel));
+
+          var container = new Container();
+          container.Configure(config =>
+          {
+            config.Scan(_ =>
+            {
+              _.AssemblyContainingType<Program>();
+              _.AssemblyContainingType<WorkflowService>();
+              _.WithDefaultConventions();
+            });
+            config.Populate(services);
+          });
           UseCache = !o.NoCache;
-          new OptionsHandler().Handle(o);
+          container.GetInstance<IServiceProvider>().GetService<ICliService>().Run(o);
         });
     }
   }

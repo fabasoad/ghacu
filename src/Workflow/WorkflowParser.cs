@@ -6,9 +6,10 @@ using YamlDotNet.Serialization.NamingConventions;
 
 namespace GHACU.Workflow
 {
-  public sealed class WorkflowParser
+  public sealed class WorkflowParser : IWorkflowParser
   {
     private IDeserializer _deserializer;
+
     public WorkflowParser()
     {
       _deserializer = new DeserializerBuilder()
@@ -17,9 +18,9 @@ namespace GHACU.Workflow
         .Build();
     }
 
-    public IEnumerable<WorkflowInfo> Parse(IEnumerable<string> files)
+    public IEnumerable<IWorkflowInfo> Parse(IEnumerable<string> files)
     {
-      foreach (var file in files)
+      foreach (string file in files)
       {
         ActionWorkflow wf;
         using (var reader = new StreamReader(file))
