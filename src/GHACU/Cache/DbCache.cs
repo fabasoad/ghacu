@@ -15,15 +15,16 @@ namespace GHACU.Cache
     private readonly ILogger<DbCache> _logger;
     private ILatestVersionProvider _provider;
 
-    public DbCache(ILoggerFactory loggerFactory)
+    public DbCache(ILoggerFactory loggerFactory, Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory)
     {
       _logger = loggerFactory.CreateLogger<DbCache>();
+      _provider = latestVersionProviderFactory(LatestVersionProviderType.GITHUB);
     }
 
     public async Task<string> GetLatestVersion(string owner, string repository)
     {
       using var db = new LiteDatabase(GetDbFilePath());
-      var actionName = $"{owner}/{repository}";
+      string actionName = $"{owner}/{repository}";
       ILiteCollection<ActionDto> actions = db.GetCollection<ActionDto>(ACTIONS_COLLECTION);
       ActionDto actionDto = actions.FindById(actionName);
       if (actionDto == null)

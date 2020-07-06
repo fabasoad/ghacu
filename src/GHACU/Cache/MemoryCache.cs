@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
@@ -12,12 +13,15 @@ namespace GHACU.Cache
     private readonly IDictionary<string, Task<string>> _localCache;
     private readonly ILogger<MemoryCache> _logger;
     private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
-    private ILatestVersionProvider _provider;
+    private readonly ILatestVersionProvider _provider;
 
-    public MemoryCache(ILoggerFactory loggerFactory)
+    public MemoryCache(
+      ILoggerFactory loggerFactory,
+      Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory)
     {
       _localCache = new ConcurrentDictionary<string, Task<string>>();
       _logger = loggerFactory.CreateLogger<MemoryCache>();
+      _provider = latestVersionProviderFactory(LatestVersionProviderType.DB_CACHE);
     }
 
     public async Task<string> GetLatestVersion(string owner, string repository)

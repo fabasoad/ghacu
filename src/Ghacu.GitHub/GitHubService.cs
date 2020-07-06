@@ -16,7 +16,7 @@ namespace Ghacu.GitHub
     public GitHubService(ILoggerFactory loggerFactory, Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory)
     {
       _logger = loggerFactory.CreateLogger<GitHubService>();
-      _latestVersionProvider = latestVersionProviderFactory(LatestVersionProviderType.GITHUB);
+      _latestVersionProvider = latestVersionProviderFactory(LatestVersionProviderType.MEMORY_CACHE);
     }
 
     public IDictionary<WorkflowInfo, IEnumerable<Step>> GetOutdated(IEnumerable<WorkflowInfo> items)
