@@ -1,6 +1,6 @@
 using Ghacu.Api;
 
-namespace GHACU
+namespace Ghacu.Runner
 {
   public class GlobalConfig : IGlobalConfig
   {

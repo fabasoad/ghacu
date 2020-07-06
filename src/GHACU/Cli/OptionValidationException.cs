@@ -1,8 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("GHACU.Tests")]
-namespace GHACU.CLI
+[assembly: InternalsVisibleTo("Ghacu.Runner.Tests")]
+namespace Ghacu.Runner.Cli
 {
   internal class OptionValidationException : Exception
   {

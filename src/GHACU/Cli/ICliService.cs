@@ -1,4 +1,4 @@
-namespace GHACU.CLI
+namespace Ghacu.Runner.Cli
 {
   public interface ICliService
   {

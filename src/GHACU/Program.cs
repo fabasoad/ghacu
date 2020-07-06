@@ -1,16 +1,16 @@
 ﻿using System;
 using Ghacu.Api;
 using CommandLine;
-using GHACU.Cache;
-using GHACU.CLI;
 using Ghacu.GitHub;
+using Ghacu.Runner.Cache;
+using Ghacu.Runner.Cli;
 using Ghacu.Workflow;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using StructureMap;
 
-namespace GHACU
+namespace Ghacu.Runner
 {
   public class Program
   {

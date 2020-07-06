@@ -1,10 +1,10 @@
 using System;
-using GHACU.Cache;
+using Ghacu.Runner.Cache;
 using Xunit;
 
 namespace ghacu.Tests.Cache
 {
-  public class DBActionTest
+  public class ActionDtoTest
   {
     [Fact]
     public void Properties_GetSetWorkedCorrectly()

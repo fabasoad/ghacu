@@ -1,9 +1,9 @@
 using CommandLine;
-using GHACU.CLI;
+using Ghacu.Runner.Cli;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace GHACU.Tests.CLI
+namespace Ghacu.Runner.Tests.Cli
 {
   public class OptionsTest
   {

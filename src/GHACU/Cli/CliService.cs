@@ -5,7 +5,7 @@ using Ghacu.GitHub;
 using Ghacu.Api.Entities;
 using Ghacu.Workflow;
 
-namespace GHACU.CLI
+namespace Ghacu.Runner.Cli
 {
   /// <summary>
   /// Class to work with <see cref="Options"/> class and run 

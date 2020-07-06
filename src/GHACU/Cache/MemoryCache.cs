@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Ghacu.Api;
 using Microsoft.Extensions.Logging;
 
-namespace GHACU.Cache
+namespace Ghacu.Runner.Cache
 {
   public class MemoryCache : ILatestVersionProvider
   {

@@ -1,7 +1,7 @@
 using CommandLine;
 using Microsoft.Extensions.Logging;
 
-namespace GHACU.CLI
+namespace Ghacu.Runner.Cli
 {
   public sealed class Options
   {
