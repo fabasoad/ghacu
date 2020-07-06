@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GitHub\GitHub.csproj" />
-    <ProjectReference Include="..\Workflow\Workflow.csproj" />
+    <ProjectReference Include="..\Ghacu.GitHub\Ghacu.GitHub.csproj" />
+    <ProjectReference Include="..\Ghacu.Workflow\Ghacu.Workflow.csproj" />
   </ItemGroup>
 
 </Project>

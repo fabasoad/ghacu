@@ -65,7 +65,7 @@ namespace GHACU.Tests.CLI
       Assert.Equal("t", option.ShortName);
       Assert.Equal("token", option.LongName);
       Assert.False(option.Required);
-      Assert.Equal("GitHub token to work with actions repositories.", option.HelpText);
+      Assert.Equal("Ghacu.GitHub token to work with actions repositories.", option.HelpText);
     }
 
     [Fact]

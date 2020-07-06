@@ -12,7 +12,7 @@ namespace ghacu.Tests.Cache
       var name = "SomeName";
       var version = "SomeVersion";
       var timestamp = DateTime.Now;
-      var dbAction = new DBAction
+      var dbAction = new ActionDto
       {
         Name = name, Timestamp = timestamp, Version = version
       };

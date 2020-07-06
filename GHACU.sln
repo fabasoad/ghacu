@@ -11,11 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8EB11A8B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ghacu.Tests", "tests\ghacu.Tests\ghacu.Tests.csproj", "{E7D5BE1F-AA92-4829-8CFC-BDEDE8117E10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workflow", "src\Workflow\Workflow.csproj", "{D94031C5-1A6F-488F-9849-B1A69AE8A9FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghacu.Workflow", "src\Ghacu.Workflow\Ghacu.Workflow.csproj", "{D94031C5-1A6F-488F-9849-B1A69AE8A9FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHub", "src\GitHub\GitHub.csproj", "{501E6BF6-D905-4A54-83F7-95B5288901C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghacu.GitHub", "src\Ghacu.GitHub\Ghacu.GitHub.csproj", "{501E6BF6-D905-4A54-83F7-95B5288901C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "src\Api\Api.csproj", "{B1AB0603-8029-4C9A-8E98-31F18367B94B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghacu.Api", "src\Ghacu.Api\Ghacu.Api.csproj", "{B1AB0603-8029-4C9A-8E98-31F18367B94B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

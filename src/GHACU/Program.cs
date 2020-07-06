@@ -1,7 +1,10 @@
 ﻿using System;
+using Ghacu.Api;
 using CommandLine;
+using GHACU.Cache;
 using GHACU.CLI;
-using GHACU.Workflow;
+using Ghacu.GitHub;
+using Ghacu.Workflow;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
@@ -11,8 +14,6 @@ namespace GHACU
 {
   public class Program
   {
-    public static bool UseCache { get; private set; }
-
     public static void Main(string[] args)
     {
       Parser.Default
@@ -20,6 +21,17 @@ namespace GHACU
         .WithParsed(o =>
         {
           IServiceCollection services = new ServiceCollection()
+            .AddSingleton<IGlobalConfig, GlobalConfig>(_ => new GlobalConfig(o.GitHubToken, !o.NoCache))
+            .AddTransient<GitHubClient>()
+            .AddTransient<DbCache>()
+            .AddTransient<MemoryCache>()
+            .AddTransient<Func<LatestVersionProviderType, ILatestVersionProvider>>(serviceProvider => type =>
+              type switch
+              {
+                LatestVersionProviderType.DB_CACHE => serviceProvider.GetService<DbCache>(),
+                LatestVersionProviderType.MEMORY_CACHE => serviceProvider.GetService<MemoryCache>(),
+                _ => serviceProvider.GetService<GitHubClient>()
+              })
             .AddLogging(b => b
               .AddConsole(options =>
               {
@@ -35,12 +47,13 @@ namespace GHACU
             {
               _.AssemblyContainingType<Program>();
               _.AssemblyContainingType<WorkflowService>();
+              _.AssemblyContainingType<ILatestVersionProvider>();
+              _.AssemblyContainingType<IGitHubService>();
               _.WithDefaultConventions();
             });
             config.Populate(services);
           });
-          UseCache = !o.NoCache;
-          container.GetInstance<IServiceProvider>().GetService<ICliService>().Run(o);
+          container.GetInstance<IServiceProvider>().GetService<ICliService>().Run(o.Repository, o.Upgrade);
         });
     }
   }

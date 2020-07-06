@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Api.Entities;
-using GHACU.GitHub;
-using GHACU.Workflow;
-using GHACU.Workflow.Entities;
+using Ghacu.GitHub;
+using Ghacu.Api.Entities;
+using Ghacu.Workflow;
 
 namespace GHACU.CLI
 {
@@ -26,34 +25,36 @@ namespace GHACU.CLI
     /// <summary>
     /// Run GHACU logic based on CLI arguments that were provided by user.
     /// </summary>
-    /// <param name="o">Parsed arguments provided by user. An instance of <see cref="Options"/> class.</param>
-    public void Run(Options o)
+    /// <param name="repository"></param>
+    /// <param name="shouldUpgrade"></param>
+    public void Run(string repository, bool shouldUpgrade)
     {
-      IEnumerable<IWorkflowInfo> infos = _workflowService.GetWorkflows(o.Repository);
-      IDictionary<(string, IWorkflowFile), IEnumerable<IStep>> outdated = _gitHubService.GetOutdated(o.GitHubToken, infos);
-      foreach (((string name, IWorkflowFile file), IEnumerable<IStep> steps) in outdated)
+      IEnumerable<WorkflowInfo> infos = _workflowService.GetWorkflows(repository);
+      IDictionary<WorkflowInfo, IEnumerable<Step>> outdated = _gitHubService.GetOutdated(infos);
+      foreach ((WorkflowInfo wfi, IEnumerable<Step> steps) in outdated)
       {
-        Console.WriteLine($"> {name} ({file.Name})");
+        Console.WriteLine($"> {wfi.Workflow.Name} ({wfi.File.Name})");
         var maxWidthName = 0;
         var maxWidthCurrentVersion = 0;
         var maxWidthLatestVersion = 0;
-        foreach (IStep step in steps)
+        foreach (Step step in steps)
         {
           maxWidthName = Math.Max(maxWidthName, step.Uses.ActionName.Length);
-          maxWidthCurrentVersion = Math.Max(maxWidthCurrentVersion, step.Uses.CurrentVersion.ToString().Length);
-          maxWidthLatestVersion = Math.Max(maxWidthLatestVersion, step.Uses.LatestVersion.ToString().Length);
+          maxWidthCurrentVersion = Math.Max(maxWidthCurrentVersion, step.Uses.CurrentVersion.Value.Length);
+          maxWidthLatestVersion = Math.Max(maxWidthLatestVersion, step.Uses.GetLatestVersion().Value.Length);
         }
 
-        foreach (IStep step in steps)
+        foreach (Step step in steps)
         {
           string template = "{0,-" + maxWidthName + "}  {1," + maxWidthCurrentVersion + "}  {2}  {3," +
                             maxWidthLatestVersion + "}";
-          Console.WriteLine(template, step.Uses.ActionName, step.Uses.CurrentVersion, _arrowChar,
-            step.Uses.LatestVersion);
-          if (o.Upgrade)
-          {
-            step.Upgrade(file.FilePath);
-          }
+          Console.WriteLine(template, step.Uses.ActionName, step.Uses.CurrentVersion.Value, _arrowChar,
+            step.Uses.GetLatestVersion().Value);
+        }
+
+        if (shouldUpgrade)
+        {
+          wfi.Upgrade();
         }
 
         Console.WriteLine();
@@ -63,7 +64,7 @@ namespace GHACU.CLI
       {
         Console.WriteLine("All GitHub Actions match the latest versions.");
       }
-      else if (!o.Upgrade)
+      else if (!shouldUpgrade)
       {
         Console.WriteLine("Run ghacu -u to upgrade actions.");
       }
