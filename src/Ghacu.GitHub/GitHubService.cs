@@ -22,12 +22,12 @@ namespace Ghacu.GitHub
     public IDictionary<WorkflowInfo, IEnumerable<Step>> GetOutdated(IEnumerable<WorkflowInfo> items)
     {
       return items
-        // .AsParallel()
+        .AsParallel()
         .ToDictionary(
           wfi => wfi,
           wfi => wfi.Workflow.Jobs
             .SelectMany(job => job.Value.Steps)
-            // .AsParallel()
+            .AsParallel()
             .Where(step => !step.IsInternal)
             .Select(async step =>
             {
@@ -50,7 +50,7 @@ namespace Ghacu.GitHub
             .Select(t => t.Result)
             .Where(step => !step.IsUpToDate))
         .Where(p => p.Value.Any())
-        .ToDictionary(p => p.Key, p => p.Value);
+        .ToDictionary(p => p.Key, p => p.Value.AsEnumerable());
     }
   }
 }
