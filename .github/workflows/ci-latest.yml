@@ -26,10 +26,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Setup .NET Core SDK
-        if: ${{ matrix.os != 'windows-latest' }}
         uses: actions/setup-dotnet@v1.5.0
         with:
-          dotnet-version: 5.0.0-preview.6
+          dotnet-version: 5.0.100-preview.6.20318.15
       - name: Install application (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |

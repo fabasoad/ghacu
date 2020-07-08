@@ -18,6 +18,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2.3.1
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v1.5.0
+        with:
+          dotnet-version: 5.0.100-preview.6.20318.15
       - name: Run tests
         run: dotnet test
       - name: Install opencover.portable
@@ -42,10 +46,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2.3.1
       - name: Setup .NET Core SDK
-        if: ${{ matrix.os != 'windows-latest' }}
         uses: actions/setup-dotnet@v1.5.0
         with:
-          dotnet-version: 5.0.0-preview.6
+          dotnet-version: 5.0.100-preview.6.20318.15
       - name: Build
         run: ./build.ps1 -os ${{ matrix.os }}
         shell: pwsh
