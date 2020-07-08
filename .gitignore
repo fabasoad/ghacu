@@ -6,6 +6,7 @@ coverage.xml
 cov-int
 chocolatey/tools
 chocolateytemplates
+GHACU.sln.DotSettings.user
 inno/Output
 obj
 *.nupkg
