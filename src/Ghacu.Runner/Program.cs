@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using Ghacu.Api;
 using CommandLine;
+using Ghacu.Api;
 using Ghacu.GitHub;
 using Ghacu.Runner.Cache;
 using Ghacu.Runner.Cli;
@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging.Console;
 using StructureMap;
 
 [assembly: InternalsVisibleTo("Ghacu.Runner.Tests")]
+
 namespace Ghacu.Runner
 {
   public class Program
@@ -31,8 +32,8 @@ namespace Ghacu.Runner
             .AddTransient<Func<LatestVersionProviderType, ILatestVersionProvider>>(serviceProvider => type =>
               type switch
               {
-                LatestVersionProviderType.DB_CACHE => serviceProvider.GetService<DbCache>(),
-                LatestVersionProviderType.MEMORY_CACHE => serviceProvider.GetService<MemoryCache>(),
+                LatestVersionProviderType.DbCache => serviceProvider.GetService<DbCache>(),
+                LatestVersionProviderType.MemoryCache => serviceProvider.GetService<MemoryCache>(),
                 _ => serviceProvider.GetService<GitHubClient>()
               })
             .AddTransient<Func<string, ILiteDatabase>>(_ => filePath => new LiteDatabase(filePath))

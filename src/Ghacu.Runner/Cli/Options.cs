@@ -5,7 +5,9 @@ namespace Ghacu.Runner.Cli
 {
   public sealed class Options
   {
-    [Option('l', "log-level", Required = false, HelpText = "Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.", Default = LogLevel.Error)]
+    [Option('l', "log-level", Required = false,
+      HelpText = "Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.",
+      Default = LogLevel.Error)]
     public LogLevel LogLevel { get; set; }
 
     [Option('n', "no-cache", Required = false, HelpText = "Turn it on if you do not want to use caching.")]

@@ -1,15 +1,15 @@
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Ghacu.Api;
+using Ghacu.Runner.Cache;
+using LiteDB;
+using Microsoft.Extensions.Logging;
+using Telerik.JustMock;
+using Xunit;
+
 namespace Ghacu.Runner.Tests.Cache
 {
-  using System;
-  using System.IO;
-  using System.Threading.Tasks;
-  using Ghacu.Api;
-  using Ghacu.Runner.Cache;
-  using LiteDB;
-  using Microsoft.Extensions.Logging;
-  using Telerik.JustMock;
-  using Xunit;
-
   public class DbCacheTest
   {
     [Fact]
@@ -26,7 +26,7 @@ namespace Ghacu.Runner.Tests.Cache
 
       ILatestVersionProvider LatestVersionProviderFactory(LatestVersionProviderType type)
       {
-        Assert.Equal(LatestVersionProviderType.GITHUB, type);
+        Assert.Equal(LatestVersionProviderType.GitHub, type);
         return latestVersionProviderMock;
       }
 
@@ -67,7 +67,7 @@ namespace Ghacu.Runner.Tests.Cache
 
       ILatestVersionProvider LatestVersionProviderFactory(LatestVersionProviderType type)
       {
-        Assert.Equal(LatestVersionProviderType.GITHUB, type);
+        Assert.Equal(LatestVersionProviderType.GitHub, type);
         return latestVersionProviderMock;
       }
 

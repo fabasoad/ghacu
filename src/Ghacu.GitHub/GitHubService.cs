@@ -11,14 +11,15 @@ namespace Ghacu.GitHub
 {
   public class GitHubService : IGitHubService
   {
-    private readonly ILatestVersionProvider _provider;
     private readonly ILogger<GitHubService> _logger;
+    private readonly ILatestVersionProvider _provider;
     private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
-    public GitHubService(ILoggerFactory loggerFactory, Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory)
+    public GitHubService(ILoggerFactory loggerFactory,
+      Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory)
     {
       _logger = loggerFactory.CreateLogger<GitHubService>();
-      _provider = latestVersionProviderFactory(LatestVersionProviderType.MEMORY_CACHE);
+      _provider = latestVersionProviderFactory(LatestVersionProviderType.MemoryCache);
     }
 
     public IDictionary<WorkflowInfo, IEnumerable<Step>> GetOutdated(IEnumerable<WorkflowInfo> items)

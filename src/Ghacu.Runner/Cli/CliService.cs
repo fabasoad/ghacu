@@ -10,13 +10,13 @@ using Ghacu.Workflow.Exceptions;
 namespace Ghacu.Runner.Cli
 {
   /// <summary>
-  /// Class to work with <see cref="Options"/> class and run 
+  ///   Class to work with <see cref="Options" /> class and run.
   /// </summary>
   public sealed class CliService : ICliService
   {
     private readonly char _arrowChar = Convert.ToChar(187);
-    private readonly IWorkflowService _workflowService;
     private readonly IGitHubService _gitHubService;
+    private readonly IWorkflowService _workflowService;
 
     public CliService(IWorkflowService workflowService, IGitHubService gitHubService)
     {
@@ -25,10 +25,10 @@ namespace Ghacu.Runner.Cli
     }
 
     /// <summary>
-    /// Run GHACU logic based on CLI arguments that were provided by user.
+    ///   Run GHACU logic on repository provided by user.
     /// </summary>
-    /// <param name="repository"></param>
-    /// <param name="shouldUpgrade"></param>
+    /// <param name="repository">Path to repository.</param>
+    /// <param name="shouldUpgrade">If true, actions will be updated, otherwise - just checking will be performed.</param>
     public void Run(string repository, bool shouldUpgrade)
     {
       IEnumerable<WorkflowInfo> infos;

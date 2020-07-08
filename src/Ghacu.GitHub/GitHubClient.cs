@@ -13,26 +13,14 @@ namespace Ghacu.GitHub
   {
     private const string ENV_GITHUB_TOKEN = "GHACU_GITHUB_TOKEN";
     private const string APP_NAME = "ghacu";
-    private OctokitClient _client;
-    private readonly ILogger<GitHubClient> _logger;
     private readonly IGlobalConfig _globalConfig;
+    private readonly ILogger<GitHubClient> _logger;
+    private OctokitClient _client;
 
     public GitHubClient(ILoggerFactory loggerFactory, IGlobalConfig globalConfig)
     {
       _logger = loggerFactory.CreateLogger<GitHubClient>();
       _globalConfig = globalConfig;
-    }
-
-    private OctokitClient CreateGitHubClient()
-    {
-      var gitHubClient = new OctokitClient(new ProductHeaderValue(APP_NAME));
-      string gitHubToken = _globalConfig.GitHubToken ?? Environment.GetEnvironmentVariable(ENV_GITHUB_TOKEN);
-      if (gitHubToken != null)
-      {
-        gitHubClient.Credentials = new Credentials(gitHubToken);
-      }
-
-      return gitHubClient;
     }
 
     public async Task<string> GetLatestVersionAsync(string owner, string repository)
@@ -63,6 +51,18 @@ namespace Ghacu.GitHub
 
       _logger.LogInformation($"{owner}/{repository} latest release is {tagName}");
       return tagName;
+    }
+
+    private OctokitClient CreateGitHubClient()
+    {
+      var gitHubClient = new OctokitClient(new ProductHeaderValue(APP_NAME));
+      string gitHubToken = _globalConfig.GitHubToken ?? Environment.GetEnvironmentVariable(ENV_GITHUB_TOKEN);
+      if (gitHubToken != null)
+      {
+        gitHubClient.Credentials = new Credentials(gitHubToken);
+      }
+
+      return gitHubClient;
     }
   }
 }

@@ -9,15 +9,21 @@ namespace Ghacu.Api.Entities
     {
       Value = value;
     }
-    public string Value { get; }
 
-    private static SemVersion ToSemVersion(string version) =>
-      SemVersion.Parse(version.StartsWith('v') ? version.Substring(1) : version);
+    public string Value { get; }
 
     public int CompareTo(Version other)
     {
-      if (ReferenceEquals(this, other)) return 0;
-      if (ReferenceEquals(null, other)) return 1;
+      if (ReferenceEquals(this, other))
+      {
+        return 0;
+      }
+
+      if (ReferenceEquals(null, other))
+      {
+        return 1;
+      }
+
       try
       {
         return ToSemVersion(Value).CompareByPrecedence(ToSemVersion(other.Value));
@@ -26,6 +32,11 @@ namespace Ghacu.Api.Entities
       {
         return string.Compare(Value, other.Value, StringComparison.Ordinal);
       }
+    }
+
+    private static SemVersion ToSemVersion(string version)
+    {
+      return SemVersion.Parse(version.StartsWith('v') ? version.Substring(1) : version);
     }
   }
 }

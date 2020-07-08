@@ -4,6 +4,8 @@ namespace Ghacu.Runner.Cli
 {
   internal class OptionValidationException : Exception
   {
-    internal OptionValidationException(string message) : base(message) { }
+    internal OptionValidationException(string message) : base(message)
+    {
+    }
   }
 }

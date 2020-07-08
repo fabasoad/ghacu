@@ -1,8 +1,8 @@
+using Ghacu.Runner.Cli;
+using Xunit;
+
 namespace Ghacu.Runner.Tests.Cli
 {
-  using Ghacu.Runner.Cli;
-  using Xunit;
-
   public class OptionValidationExceptionTest
   {
     [Fact]

@@ -9,14 +9,15 @@ using Microsoft.Extensions.Logging;
 
 [assembly: InternalsVisibleTo("Telerik.JustMock")]
 [assembly: InternalsVisibleTo("Ghacu.Cache.Tests")]
+
 namespace Ghacu.Runner.Cache
 {
   public class MemoryCache : ILatestVersionProvider
   {
     private readonly IDictionary<string, Task<string>> _localCache;
     private readonly ILogger<MemoryCache> _logger;
-    private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
     private readonly ILatestVersionProvider _provider;
+    private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
     public MemoryCache(
       ILoggerFactory loggerFactory,
@@ -24,12 +25,12 @@ namespace Ghacu.Runner.Cache
     {
       _localCache = new ConcurrentDictionary<string, Task<string>>();
       _logger = loggerFactory.CreateLogger<MemoryCache>();
-      _provider = latestVersionProviderFactory(LatestVersionProviderType.DB_CACHE);
+      _provider = latestVersionProviderFactory(LatestVersionProviderType.DbCache);
     }
 
     public async Task<string> GetLatestVersionAsync(string owner, string repository)
     {
-      var key = $"{owner}/{repository}";
+      string key = $"{owner}/{repository}";
       if (_localCache.ContainsKey(key))
       {
         _logger.LogInformation($"{owner}/{repository} latest release is retrieved from cache");
