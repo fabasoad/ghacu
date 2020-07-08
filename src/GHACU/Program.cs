@@ -44,7 +44,7 @@ namespace Ghacu.Runner
               })
               .SetMinimumLevel(o.LogLevel));
 
-          var container = new Container();
+          using var container = new Container();
           container.Configure(config =>
           {
             config.Scan(_ =>

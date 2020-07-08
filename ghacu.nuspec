@@ -8,9 +8,9 @@
     <title>GHACU</title>
     <authors>Yevhen Fabizhevskyi</authors>
     <projectUrl>https://github.com/fabasoad/ghacu</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/master/logo.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/logo.png</iconUrl>
     <copyright>2020 GHACU Yevhen Fabizhevskyi</copyright>
-    <licenseUrl>https://raw.githubusercontent.com/fabasoad/ghacu/master/LICENSE</licenseUrl>
+    <licenseUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/LICENSE</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <projectSourceUrl>https://github.com/fabasoad/ghacu</projectSourceUrl>
     <mailingListUrl>mailto://fabasoad@gmail.com</mailingListUrl>
