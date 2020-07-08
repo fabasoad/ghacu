@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7A1C5349-F10F-472C-BDBC-170424B99D19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghacu.Runner", "src\GHACU\Ghacu.Runner.csproj", "{63898F64-2E0B-4F86-BEF6-59386D7E2D96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghacu.Runner", "src\Ghacu.Runner\Ghacu.Runner.csproj", "{63898F64-2E0B-4F86-BEF6-59386D7E2D96}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8EB11A8B-0EB3-43D6-B2B8-1C5CE2596C6C}"
 EndProject

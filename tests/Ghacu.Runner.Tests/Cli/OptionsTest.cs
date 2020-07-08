@@ -1,16 +1,17 @@
-using CommandLine;
-using Ghacu.Runner.Cli;
-using Microsoft.Extensions.Logging;
-using Xunit;
-
 namespace Ghacu.Runner.Tests.Cli
 {
+  using CommandLine;
+  using Ghacu.Runner.Cli;
+  using Microsoft.Extensions.Logging;
+  using Xunit;
+
   public class OptionsTest
   {
     [Fact]
     public void Repository_ConfiguredCorrectly()
     {
-      var attrs = typeof(Options).GetProperty("Repository").GetCustomAttributes(typeof(OptionAttribute), false);
+      object[] attrs = typeof(Options)
+        .GetProperty("Repository")?.GetCustomAttributes(typeof(OptionAttribute), false);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.Equal("r", option.ShortName);
@@ -40,7 +41,9 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.Equal("l", option.ShortName);
       Assert.Equal("log-level", option.LongName);
       Assert.False(option.Required);
-      Assert.Equal("Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.", option.HelpText);
+      Assert.Equal(
+        "Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.",
+        option.HelpText);
       Assert.Equal(LogLevel.Error, option.Default);
     }
 

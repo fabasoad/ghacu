@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\GHACU\Ghacu.Runner.csproj" />
+      <ProjectReference Include="..\..\src\Ghacu.Runner\Ghacu.Runner.csproj" />
     </ItemGroup>
 
 </Project>
