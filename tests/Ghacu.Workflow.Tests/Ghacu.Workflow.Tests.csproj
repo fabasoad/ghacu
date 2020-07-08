@@ -24,4 +24,8 @@
     <ProjectReference Include="..\..\src\Ghacu.Workflow\Ghacu.Workflow.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="coverage" />
+  </ItemGroup>
+
 </Project>

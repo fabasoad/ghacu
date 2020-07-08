@@ -2,7 +2,7 @@
 .DS_Store
 .vscode
 bin
-coverage.xml
+coverage/
 cov-int
 chocolatey/tools
 chocolateytemplates
