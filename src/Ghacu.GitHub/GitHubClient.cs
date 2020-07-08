@@ -35,7 +35,7 @@ namespace Ghacu.GitHub
       return gitHubClient;
     }
 
-    public async Task<string> GetLatestVersion(string owner, string repository)
+    public async Task<string> GetLatestVersionAsync(string owner, string repository)
     {
       _client ??= CreateGitHubClient();
       string tagName;

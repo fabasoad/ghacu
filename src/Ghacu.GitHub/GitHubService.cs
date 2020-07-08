@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Ghacu.Api;
 using Ghacu.Api.Entities;
 using Ghacu.GitHub.Exceptions;
@@ -10,13 +11,14 @@ namespace Ghacu.GitHub
 {
   public class GitHubService : IGitHubService
   {
-    private readonly ILatestVersionProvider _latestVersionProvider;
+    private readonly ILatestVersionProvider _provider;
     private readonly ILogger<GitHubService> _logger;
+    private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
     public GitHubService(ILoggerFactory loggerFactory, Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory)
     {
       _logger = loggerFactory.CreateLogger<GitHubService>();
-      _latestVersionProvider = latestVersionProviderFactory(LatestVersionProviderType.MEMORY_CACHE);
+      _provider = latestVersionProviderFactory(LatestVersionProviderType.MEMORY_CACHE);
     }
 
     public IDictionary<WorkflowInfo, IEnumerable<Step>> GetOutdated(IEnumerable<WorkflowInfo> items)
@@ -33,15 +35,20 @@ namespace Ghacu.GitHub
             {
               if (step.Uses.GetLatestVersion() == null)
               {
+                await _semaphore.WaitAsync();
                 try
                 {
-                  string latestVersion = await _latestVersionProvider
-                    .GetLatestVersion(step.Uses.Owner, step.Uses.ActionName);
+                  string latestVersion = await _provider
+                    .GetLatestVersionAsync(step.Uses.Owner, step.Uses.ActionName);
                   step.Uses.SetLatestVersion(latestVersion);
                 }
                 catch (GitHubVersionNotFoundException e)
                 {
                   _logger.LogError(e, e.Message);
+                }
+                finally
+                {
+                  _semaphore.Release();
                 }
               }
 

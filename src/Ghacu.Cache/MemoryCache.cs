@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Ghacu.Api;
 using Microsoft.Extensions.Logging;
 
+[assembly: InternalsVisibleTo("Telerik.JustMock")]
+[assembly: InternalsVisibleTo("Ghacu.Cache.Tests")]
 namespace Ghacu.Runner.Cache
 {
   public class MemoryCache : ILatestVersionProvider
@@ -24,7 +27,7 @@ namespace Ghacu.Runner.Cache
       _provider = latestVersionProviderFactory(LatestVersionProviderType.DB_CACHE);
     }
 
-    public async Task<string> GetLatestVersion(string owner, string repository)
+    public async Task<string> GetLatestVersionAsync(string owner, string repository)
     {
       var key = $"{owner}/{repository}";
       if (_localCache.ContainsKey(key))
@@ -38,7 +41,7 @@ namespace Ghacu.Runner.Cache
         {
           if (!_localCache.ContainsKey(key))
           {
-            _localCache.Add(key, _provider.GetLatestVersion(owner, repository));
+            _localCache.Add(key, _provider.GetLatestVersionAsync(owner, repository));
           }
         }
         finally

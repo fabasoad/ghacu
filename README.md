@@ -7,29 +7,29 @@ CLI tool that checks versions of GitHub Actions that used in a repository.
 ### Windows
 1. Install using:
     1. Installer:
-    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v1.1.5/ghacu-1.1.5-win-x86.exe
-    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v1.1.5/ghacu-1.1.5-win-x64.exe
+    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v2.0.0/ghacu-2.0.0-win-x86.exe
+    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v2.0.0/ghacu-2.0.0-win-x64.exe
     2. Compressed package:
-    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v1.1.5/ghacu-1.1.5-win-x86.tgz
-    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v1.1.5/ghacu-1.1.5-win-x64.tgz
+    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v2.0.0/ghacu-2.0.0-win-x86.tgz
+    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v2.0.0/ghacu-2.0.0-win-x64.tgz
 2. [Add application path](https://stackoverflow.com/questions/44272416/how-to-add-a-folder-to-path-environment-variable-in-windows-10-with-screensho) to _PATH_ environment variable.
 ### Linux
 ```bash
-cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v1.1.5/ghacu-1.1.5-linux-x64.tgz
-tar -xvf ghacu-1.1.5-linux-x64.tgz
-PATH=$PATH:~/ghacu-1.1.5-linux-x64
+cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v2.0.0/ghacu-2.0.0-linux-x64.tgz
+tar -xvf ghacu-2.0.0-linux-x64.tgz
+PATH=$PATH:~/ghacu-2.0.0-linux-x64
 ```
 ### MacOS
 ```bash
-cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v1.1.5/ghacu-1.1.5-osx-x64.tgz
-tar -xvf ghacu-1.1.5-osx-x64.tgz
-PATH=$PATH:~/ghacu-1.1.5-osx-x64
+cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v2.0.0/ghacu-2.0.0-osx-x64.tgz
+tar -xvf ghacu-2.0.0-osx-x64.tgz
+PATH=$PATH:~/ghacu-2.0.0-osx-x64
 ```
-> Examples above use version `1.1.5` but you can use any version from the [releases](https://github.com/fabasoad/ghacu/releases) page. Latest version is preferable.
+> Examples above use version `2.0.0` but you can use any version from the [releases](https://github.com/fabasoad/ghacu/releases) page. Latest version is preferable.
 ## Commands
 ```bash
 > ghacu --help
-ghacu 1.1.5
+ghacu 2.0.0
 Copyright (C) 2020 ghacu
 
   -l, --log-level     (Default: Error) Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.
