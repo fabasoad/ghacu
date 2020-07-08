@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ghacu.GitHub;
 using Ghacu.Api.Entities;
+using Ghacu.GitHub;
+using Ghacu.GitHub.Exceptions;
 using Ghacu.Workflow;
+using Ghacu.Workflow.Exceptions;
 
 namespace Ghacu.Runner.Cli
 {
@@ -29,8 +31,28 @@ namespace Ghacu.Runner.Cli
     /// <param name="shouldUpgrade"></param>
     public void Run(string repository, bool shouldUpgrade)
     {
-      IEnumerable<WorkflowInfo> infos = _workflowService.GetWorkflows(repository);
-      IDictionary<WorkflowInfo, IEnumerable<Step>> outdated = _gitHubService.GetOutdated(infos);
+      IEnumerable<WorkflowInfo> infos;
+      try
+      {
+        infos = _workflowService.GetWorkflows(repository);
+      }
+      catch (WorkflowValidationException e)
+      {
+        Console.Write(e.Message);
+        return;
+      }
+
+      IDictionary<WorkflowInfo, IEnumerable<Step>> outdated;
+      try
+      {
+        outdated = _gitHubService.GetOutdated(infos);
+      }
+      catch (GitHubVersionNotFoundException e)
+      {
+        Console.Write(e.Message);
+        return;
+      }
+
       foreach ((WorkflowInfo wfi, IEnumerable<Step> steps) in outdated)
       {
         Console.WriteLine($"> {wfi.Workflow.Name} ({wfi.File.Name})");
@@ -62,11 +84,11 @@ namespace Ghacu.Runner.Cli
 
       if (!outdated.Any())
       {
-        Console.WriteLine("All GitHub Actions match the latest versions.");
+        Console.Write("All GitHub Actions match the latest versions.");
       }
       else if (!shouldUpgrade)
       {
-        Console.WriteLine("Run ghacu -u to upgrade actions.");
+        Console.Write("Run ghacu -u to upgrade actions.");
       }
     }
   }
