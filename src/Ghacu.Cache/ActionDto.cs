@@ -1,6 +1,6 @@
 using System;
 
-namespace Ghacu.Runner.Cache
+namespace Ghacu.Cache
 {
   internal class ActionDto
   {

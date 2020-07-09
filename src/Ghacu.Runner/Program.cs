@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using CommandLine;
 using Ghacu.Api;
+using Ghacu.Cache;
 using Ghacu.GitHub;
-using Ghacu.Runner.Cache;
 using Ghacu.Runner.Cli;
 using Ghacu.Workflow;
 using LiteDB;
@@ -14,7 +13,6 @@ using Microsoft.Extensions.Logging.Console;
 using StructureMap;
 
 [assembly: InternalsVisibleTo("Ghacu.Runner.Tests")]
-
 namespace Ghacu.Runner
 {
   public class Program

@@ -1,13 +1,11 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Ghacu.Api;
-using Ghacu.Runner.Cache;
 using Microsoft.Extensions.Logging;
 using Telerik.JustMock;
 using Xunit;
 
-namespace Ghacu.Runner.Tests.Cache
+namespace Ghacu.Cache.Tests
 {
   public class MemoryCacheTest
   {
@@ -28,7 +26,7 @@ namespace Ghacu.Runner.Tests.Cache
         return latestVersionProviderMock;
       }
 
-      var semaphoreMock = Mock.Create<ISemaphore>();
+      var semaphoreMock = Mock.Create<ISemaphoreSlimProxy>();
       Mock.Arrange(() => semaphoreMock.WaitAsync()).OccursNever();
       Mock.Arrange(() => semaphoreMock.Release()).OccursNever();
       
@@ -58,7 +56,7 @@ namespace Ghacu.Runner.Tests.Cache
         return latestVersionProviderMock;
       }
 
-      var semaphoreMock = Mock.Create<ISemaphore>();
+      var semaphoreMock = Mock.Create<ISemaphoreSlimProxy>();
       Mock.Arrange(() => semaphoreMock.WaitAsync()).Returns(Task.CompletedTask).OccursOnce();
       Mock.Arrange(() => semaphoreMock.Release()).Returns(1 /* any int */).OccursOnce();
 

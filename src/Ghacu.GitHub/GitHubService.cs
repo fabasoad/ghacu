@@ -12,12 +12,12 @@ namespace Ghacu.GitHub
   {
     private readonly ILogger<GitHubService> _logger;
     private readonly ILatestVersionProvider _provider;
-    private readonly ISemaphore _semaphore;
+    private readonly ISemaphoreSlimProxy _semaphore;
 
     public GitHubService(
       ILoggerFactory loggerFactory,
       Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory,
-      ISemaphore semaphore)
+      ISemaphoreSlimProxy semaphore)
     {
       _logger = loggerFactory.CreateLogger<GitHubService>();
       _provider = latestVersionProviderFactory(LatestVersionProviderType.MemoryCache);

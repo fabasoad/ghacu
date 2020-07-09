@@ -2,13 +2,12 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Ghacu.Api;
-using Ghacu.Runner.Cache;
 using LiteDB;
 using Microsoft.Extensions.Logging;
 using Telerik.JustMock;
 using Xunit;
 
-namespace Ghacu.Runner.Tests.Cache
+namespace Ghacu.Cache.Tests
 {
   public class DbCacheTest
   {

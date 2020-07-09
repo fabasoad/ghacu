@@ -8,18 +8,18 @@ using Microsoft.Extensions.Logging;
 
 [assembly: InternalsVisibleTo("Telerik.JustMock")]
 [assembly: InternalsVisibleTo("Ghacu.Cache.Tests")]
-namespace Ghacu.Runner.Cache
+namespace Ghacu.Cache
 {
   public class MemoryCache : ILatestVersionProvider
   {
     private readonly ILogger<MemoryCache> _logger;
     private readonly ILatestVersionProvider _provider;
-    private readonly ISemaphore _semaphore;
+    private readonly ISemaphoreSlimProxy _semaphore;
 
     public MemoryCache(
       ILoggerFactory loggerFactory,
       Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory,
-      ISemaphore semaphore)
+      ISemaphoreSlimProxy semaphore)
     {
       LocalCache = new ConcurrentDictionary<string, Task<string>>();
       _logger = loggerFactory.CreateLogger<MemoryCache>();

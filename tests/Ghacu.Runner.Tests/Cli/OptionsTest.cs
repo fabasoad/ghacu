@@ -10,7 +10,8 @@ namespace Ghacu.Runner.Tests.Cli
     [Fact]
     public void GitHubToken_ConfiguredCorrectly()
     {
-      object[] attrs = typeof(Options).GetProperty("GitHubToken").GetCustomAttributes(typeof(OptionAttribute), false);
+      object[] attrs = typeof(Options).GetProperty("GitHubToken")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.Equal("t", option.ShortName);
@@ -22,7 +23,8 @@ namespace Ghacu.Runner.Tests.Cli
     [Fact]
     public void LogLevel_ConfiguredCorrectly()
     {
-      object[] attrs = typeof(Options).GetProperty("LogLevel").GetCustomAttributes(typeof(OptionAttribute), false);
+      object[] attrs = typeof(Options).GetProperty("LogLevel")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.Equal("l", option.ShortName);
@@ -37,7 +39,8 @@ namespace Ghacu.Runner.Tests.Cli
     [Fact]
     public void NoCache_ConfiguredCorrectly()
     {
-      object[] attrs = typeof(Options).GetProperty("NoCache").GetCustomAttributes(typeof(OptionAttribute), false);
+      object[] attrs = typeof(Options).GetProperty("NoCache")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.Equal("n", option.ShortName);
@@ -75,8 +78,8 @@ namespace Ghacu.Runner.Tests.Cli
     [Fact]
     public void Repository_ConfiguredCorrectly()
     {
-      object[] attrs = typeof(Options)
-        .GetProperty("Repository")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      object[] attrs = typeof(Options).GetProperty("Repository")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.Equal("r", option.ShortName);
@@ -88,7 +91,8 @@ namespace Ghacu.Runner.Tests.Cli
     [Fact]
     public void Upgrade_ConfiguredCorrectly()
     {
-      object[] attrs = typeof(Options).GetProperty("Upgrade").GetCustomAttributes(typeof(OptionAttribute), false);
+      object[] attrs = typeof(Options).GetProperty("Upgrade")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.Equal("u", option.ShortName);

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace Ghacu.Api
 {
-  public interface ISemaphore
+  public interface ISemaphoreSlimProxy
   {
     Task WaitAsync();
     int Release();

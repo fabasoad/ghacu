@@ -1,8 +1,7 @@
 using System;
-using Ghacu.Runner.Cache;
 using Xunit;
 
-namespace Ghacu.Runner.Tests.Cache
+namespace Ghacu.Cache.Tests
 {
   public class ActionDtoTest
   {

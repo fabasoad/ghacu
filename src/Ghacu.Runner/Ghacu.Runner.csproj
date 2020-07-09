@@ -4,7 +4,6 @@
     <OutputType>Exe</OutputType>
     <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
     <TargetFramework>netcoreapp5.0</TargetFramework>
-    <RootNamespace>ghacu</RootNamespace>
     <AssemblyName>ghacu</AssemblyName>
     <Company>Yevhen Fabizhevskyi</Company>
     <Product>GHACU</Product>

@@ -5,7 +5,7 @@ using Ghacu.Api;
 using LiteDB;
 using Microsoft.Extensions.Logging;
 
-namespace Ghacu.Runner.Cache
+namespace Ghacu.Cache
 {
   public sealed class DbCache : ILatestVersionProvider
   {

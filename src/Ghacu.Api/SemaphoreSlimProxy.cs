@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Ghacu.Api
 {
-  public class SemaphoreSlimProxy : ISemaphore
+  public class SemaphoreSlimProxy : ISemaphoreSlimProxy
   {
     private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
     
