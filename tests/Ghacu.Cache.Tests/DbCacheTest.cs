@@ -51,10 +51,11 @@ namespace Ghacu.Runner.Tests.Cache
       var dbCache = new DbCache(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
+      Mock.Assert(dtoListMock);
     }
 
     [Fact]
-    public async Task GetLatestVersion_OldCachedDto()
+    public async Task GetLatestVersion_InvalidCachedDto()
     {
       const string owner = "test-owner";
       const string repository = "test-repository";
@@ -94,6 +95,53 @@ namespace Ghacu.Runner.Tests.Cache
       var dbCache = new DbCache(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
+      Mock.Assert(dtoListMock);
+    }
+
+    [Fact]
+    public async Task GetLatestVersion_ValidCachedDto()
+    {
+      const string owner = "test-owner";
+      const string repository = "test-repository";
+      const string version = "test-version";
+      string actionName = $"{owner}/{repository}";
+
+      var latestVersionProviderMock = Mock.Create<ILatestVersionProvider>();
+      Mock.Arrange(() => latestVersionProviderMock.GetLatestVersionAsync(owner, repository))
+        .Returns(Task.FromResult(version));
+
+      ILatestVersionProvider LatestVersionProviderFactory(LatestVersionProviderType type)
+      {
+        Assert.Equal(LatestVersionProviderType.GitHub, type);
+        return latestVersionProviderMock;
+      }
+
+      var actionDto = new ActionDto
+      {
+        Name = actionName, Timestamp = DateTime.Now, Version = version
+      };
+
+      var dtoListMock = Mock.Create<ILiteCollection<ActionDto>>();
+      Mock.Arrange(() => dtoListMock.FindById(actionName)).Returns(actionDto);
+      Mock.Arrange(() => dtoListMock.Insert(Arg.AnyString, Arg.IsAny<ActionDto>())).OccursNever();
+      Mock.Arrange(() => dtoListMock.Update(Arg.AnyString, Arg.IsAny<ActionDto>())).OccursNever();
+
+      var liteDatabaseMock = Mock.Create<ILiteDatabase>();
+      Mock.Arrange(() => liteDatabaseMock.GetCollection<ActionDto>("actions", Arg.IsAny<BsonAutoId>()))
+        .Returns(dtoListMock);
+
+      ILiteDatabase DatabaseFactory(string dbPath)
+      {
+        string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        string ghacuFolder = Path.Combine(appData, "ghacu");
+        Assert.Equal(Path.Combine(ghacuFolder, DbCache.DB_NAME), dbPath);
+        return liteDatabaseMock;
+      }
+
+      var dbCache = new DbCache(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
+      string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
+      Assert.Equal(version, actualVersion);
+      Mock.Assert(dtoListMock);
     }
   }
 }

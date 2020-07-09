@@ -72,6 +72,7 @@
     <Rule Id="SA1600" Action="Warning" /> <!-- Elements should be documented -->
     <Rule Id="SA1633" Action="None" /> <!-- File should have header -->
     <Rule Id="SA0001" Action="None" /> <!-- XML comments -->
+    <Rule Id="SA1028" Action="None" /> <!-- Remove trailing whitespaces -->
     <Rule Id="SA1101" Action="None" /> <!-- Prefix local calls with this -->
     <Rule Id="SA1407" Action="None" /> <!-- Arithmetic expressions should declare precedence -->
     <Rule Id="SA1116" Action="None" /> <!-- Split parameters should start on line after declaration -->
