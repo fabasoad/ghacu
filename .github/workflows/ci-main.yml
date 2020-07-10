@@ -45,11 +45,6 @@ jobs:
         uses: actions/setup-dotnet@v1.5.0
         with:
           dotnet-version: 5.0.100-preview.6.20318.15
-      - name: Build
-        run: |
-          dotnet clean
-          ./build.ps1 -os ${{ matrix.os }}
-        shell: pwsh
       - name: Extract version
         id: version
         run: |
@@ -57,21 +52,9 @@ jobs:
           Write-Output "Current version is $Version"
           Write-Output "::set-output name=value::$Version"
         shell: pwsh
-      - name: Run GHACU (Windows)
-        if: ${{ matrix.os == 'windows-latest' }}
-        working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-win-x64
-        run: ./ghacu.exe --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }}
-      - name: Run GHACU (Linux)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-linux-x64
+      - name: Build
         run: |
-          chmod +x ./ghacu
-          ./ghacu --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }}
-        shell: pwsh
-      - name: Run GHACU (MacOS)
-        if: ${{ matrix.os == 'macos-latest' }}
-        working-directory: ${{ github.workspace }}/bin/ghacu-${{ steps.version.outputs.value }}-osx-x64
-        run: |
-          chmod +x ./ghacu
-          ./ghacu --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }}
-        shell: pwsh
+          dotnet clean
+          dotnet build -c Release -p:Version=${{ steps.version.outputs.value }} -f netcoreapp5.0 -o bin/
+      - name: Run ghacu
+        run: dotnet ./bin/ghacu.dll --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }}
