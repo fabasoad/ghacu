@@ -1,9 +1,8 @@
-namespace Ghacu.Runner.Tests.Cache
-{
-  using System;
-  using Ghacu.Runner.Cache;
-  using Xunit;
+using System;
+using Xunit;
 
+namespace Ghacu.Cache.Tests
+{
   public class ActionDtoTest
   {
     [Fact]

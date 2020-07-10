@@ -8,7 +8,7 @@ namespace Ghacu.Runner.Tests.Cli
     [Fact]
     public void Create_ReturnsValidMessage()
     {
-      var message = "Test Message";
+      const string message = "Test Message";
       Assert.Equal(message, new OptionValidationException(message).Message);
     }
   }

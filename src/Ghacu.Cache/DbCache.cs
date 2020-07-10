@@ -1,20 +1,20 @@
-namespace Ghacu.Runner.Cache
-{
-  using System;
-  using System.IO;
-  using System.Threading.Tasks;
-  using Ghacu.Api;
-  using LiteDB;
-  using Microsoft.Extensions.Logging;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Ghacu.Api;
+using LiteDB;
+using Microsoft.Extensions.Logging;
 
+namespace Ghacu.Cache
+{
   public sealed class DbCache : ILatestVersionProvider
   {
     internal const string DB_NAME = "e6DF9AfAmX1Sy7zHCX07VPHS";
     private const string ACTIONS_COLLECTION = "actions";
-    private readonly TimeSpan _storageTime = TimeSpan.FromMinutes(1);
+    private readonly Func<string, ILiteDatabase> _databaseFactory;
     private readonly ILogger<DbCache> _logger;
     private readonly ILatestVersionProvider _provider;
-    private readonly Func<string, ILiteDatabase> _databaseFactory;
+    private readonly TimeSpan _storageTime = TimeSpan.FromMinutes(1);
 
     public DbCache(
       ILoggerFactory loggerFactory,
@@ -22,7 +22,7 @@ namespace Ghacu.Runner.Cache
       Func<string, ILiteDatabase> databaseFactory)
     {
       _logger = loggerFactory.CreateLogger<DbCache>();
-      _provider = latestVersionProviderFactory(LatestVersionProviderType.GITHUB);
+      _provider = latestVersionProviderFactory(LatestVersionProviderType.GitHub);
       _databaseFactory = databaseFactory;
     }
 
@@ -38,7 +38,7 @@ namespace Ghacu.Runner.Cache
         {
           Name = actionName,
           Version = await _provider.GetLatestVersionAsync(owner, repository),
-          Timestamp = DateTime.Now,
+          Timestamp = DateTime.Now
         };
         actions.Insert(actionName, actionDto);
       }

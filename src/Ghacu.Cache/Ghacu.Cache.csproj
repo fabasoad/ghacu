@@ -1,14 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>netcoreapp5.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="LiteDB" Version="5.0.8" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.5" />
-      <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.5" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.5" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0-preview.6.20305.6" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-preview.6.20305.6" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0-preview.6.20305.6" />
+      <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" />
     </ItemGroup>
 
     <ItemGroup>

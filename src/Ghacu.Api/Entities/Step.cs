@@ -1,4 +1,3 @@
-using System;
 using YamlDotNet.Serialization;
 
 namespace Ghacu.Api.Entities
@@ -9,6 +8,7 @@ namespace Ghacu.Api.Entities
 
     [YamlMember(Alias = "uses", ApplyNamingConventions = false)]
     public string UsesFullName { get; set; }
+
     public Uses Uses => _uses ??= new Uses(UsesFullName);
     public bool IsInternal => UsesFullName == null || "./".Equals(UsesFullName);
     public bool IsUpToDate => IsInternal || Uses.CurrentVersion.CompareTo(Uses.GetLatestVersion()) >= 0;

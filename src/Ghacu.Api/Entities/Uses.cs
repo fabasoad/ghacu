@@ -1,10 +1,9 @@
-using Semver;
-
 namespace Ghacu.Api.Entities
 {
   public sealed class Uses
   {
     private Version _latestVersion;
+
     public Uses(string fullName)
     {
       Type = fullName.StartsWith("docker://") ? UsesType.DOCKER : UsesType.GITHUB;
@@ -27,7 +26,10 @@ namespace Ghacu.Api.Entities
 
     public UsesType Type { get; }
 
-    public Version GetLatestVersion() => _latestVersion;
+    public Version GetLatestVersion()
+    {
+      return _latestVersion;
+    }
 
     public void SetLatestVersion(string version)
     {

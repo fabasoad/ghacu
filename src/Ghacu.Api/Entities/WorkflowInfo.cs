@@ -10,8 +10,10 @@ namespace Ghacu.Api.Entities
       File = new WorkflowFile(file);
       Workflow = wf;
     }
+
     public WorkflowFile File { get; }
     public ActionWorkflow Workflow { get; }
+
     public void Upgrade()
     {
       string content = System.IO.File.ReadAllText(File.FilePath);
@@ -26,6 +28,7 @@ namespace Ghacu.Api.Entities
           $"(.*)({step.UsesFullName}[ \t]*)(\n.*)",
           $"$1{prefix}{step.Uses.FullName}{delimiter}{step.Uses.GetLatestVersion().Value}$3");
       }
+
       System.IO.File.WriteAllText(File.FilePath, content);
     }
   }

@@ -16,7 +16,7 @@
     <mailingListUrl>mailto://fabasoad@gmail.com</mailingListUrl>
     <bugTrackerUrl>https://github.com/fabasoad/ghacu/issues</bugTrackerUrl>
     <tags>ghacu githubactions ci cicd dependency dependencymanagement versions</tags>
-    <summary>First release of GHACU tool. You can either just to check the current state of your actions or update them as well.</summary>
+    <summary>GitHub Actions Check Updates - CLI tool to check whether all your actions are up-to-date or not.</summary>
     <description>CLI tool to check whether all your actions are up-to-date or not.</description>
     <releaseNotes>https://github.com/fabasoad/ghacu/releases</releaseNotes>
     <dependencies>

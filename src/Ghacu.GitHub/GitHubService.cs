@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Ghacu.Api;
 using Ghacu.Api.Entities;
 using Ghacu.GitHub.Exceptions;
@@ -11,14 +10,18 @@ namespace Ghacu.GitHub
 {
   public class GitHubService : IGitHubService
   {
-    private readonly ILatestVersionProvider _provider;
     private readonly ILogger<GitHubService> _logger;
-    private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+    private readonly ILatestVersionProvider _provider;
+    private readonly ISemaphoreSlimProxy _semaphore;
 
-    public GitHubService(ILoggerFactory loggerFactory, Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory)
+    public GitHubService(
+      ILoggerFactory loggerFactory,
+      Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory,
+      ISemaphoreSlimProxy semaphore)
     {
       _logger = loggerFactory.CreateLogger<GitHubService>();
-      _provider = latestVersionProviderFactory(LatestVersionProviderType.MEMORY_CACHE);
+      _provider = latestVersionProviderFactory(LatestVersionProviderType.MemoryCache);
+      _semaphore = semaphore;
     }
 
     public IDictionary<WorkflowInfo, IEnumerable<Step>> GetOutdated(IEnumerable<WorkflowInfo> items)

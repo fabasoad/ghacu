@@ -8,7 +8,7 @@ namespace Ghacu.Workflow
 {
   public sealed class WorkflowParser : IWorkflowParser
   {
-    private IDeserializer _deserializer;
+    private readonly IDeserializer _deserializer;
 
     public WorkflowParser()
     {

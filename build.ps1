@@ -14,7 +14,7 @@ function Build-Package {
     [string] $argOS
   )
   $Output = Build-Output $argVersion $argOS
-  dotnet build -c Release -r $argOS -p:Version=$argVersion -o bin/$Output -f netcoreapp3.1
+  dotnet build -c Release -r $argOS -p:Version=$argVersion -o bin/$Output -f netcoreapp5.0
 }
 
 function Compress-Package {
