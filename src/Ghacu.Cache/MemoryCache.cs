@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 
 [assembly: InternalsVisibleTo("Telerik.JustMock")]
 [assembly: InternalsVisibleTo("Ghacu.Cache.Tests")]
+
 namespace Ghacu.Cache
 {
   public class MemoryCache : ILatestVersionProvider

@@ -1,3 +1,5 @@
+using System;
+
 namespace Ghacu.Api.Entities
 {
   public sealed class WorkflowFile
@@ -7,7 +9,7 @@ namespace Ghacu.Api.Entities
       FilePath = path;
     }
 
-    public string Name => FilePath.Substring(FilePath.IndexOf(".github"));
+    public string Name => FilePath.Substring(FilePath.IndexOf(".github", StringComparison.Ordinal));
     public string FilePath { get; }
   }
 }

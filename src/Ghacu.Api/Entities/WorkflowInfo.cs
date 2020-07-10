@@ -21,8 +21,8 @@ namespace Ghacu.Api.Entities
         .SelectMany(job => job.Steps)
         .Where(step => !step.IsUpToDate))
       {
-        string delimiter = step.Uses.Type == UsesType.DOCKER ? ":" : "@";
-        string prefix = step.Uses.Type == UsesType.DOCKER ? "docker://" : string.Empty;
+        string delimiter = step.Uses.Type == UsesType.Docker ? ":" : "@";
+        string prefix = step.Uses.Type == UsesType.Docker ? "docker://" : string.Empty;
         content = Regex.Replace(
           content,
           $"(.*)({step.UsesFullName}[ \t]*)(\n.*)",

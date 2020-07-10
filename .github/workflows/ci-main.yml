@@ -45,10 +45,10 @@ jobs:
         uses: actions/setup-dotnet@v1.5.0
         with:
           dotnet-version: 5.0.100-preview.6.20318.15
-      - name: .NET Core Info
-        run: dotnet --info
       - name: Build
-        run: ./build.ps1 -os ${{ matrix.os }}
+        run: |
+          dotnet clean
+          ./build.ps1 -os ${{ matrix.os }}
         shell: pwsh
       - name: Extract version
         id: version

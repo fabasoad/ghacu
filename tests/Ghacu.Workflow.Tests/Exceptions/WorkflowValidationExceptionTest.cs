@@ -8,7 +8,7 @@ namespace Ghacu.Workflow.Tests.Exceptions
     [Fact]
     public void Create_ReturnsValidMessage()
     {
-      var message = "Test Message";
+      const string message = "Test Message";
       Assert.Equal(message, new WorkflowValidationException(message).Message);
     }
   }
