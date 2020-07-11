@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging.Console;
 using StructureMap;
 
 [assembly: InternalsVisibleTo("Ghacu.Runner.Tests")]
+
 namespace Ghacu.Runner
 {
   public class Program

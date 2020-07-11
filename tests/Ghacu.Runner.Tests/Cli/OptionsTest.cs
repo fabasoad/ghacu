@@ -14,6 +14,7 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
+      Assert.NotNull(option);
       Assert.Equal("t", option.ShortName);
       Assert.Equal("token", option.LongName);
       Assert.False(option.Required);
@@ -27,6 +28,7 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
+      Assert.NotNull(option);
       Assert.Equal("l", option.ShortName);
       Assert.Equal("log-level", option.LongName);
       Assert.False(option.Required);
@@ -43,6 +45,7 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
+      Assert.NotNull(option);
       Assert.Equal("n", option.ShortName);
       Assert.Equal("no-cache", option.LongName);
       Assert.False(option.Required);
@@ -82,6 +85,7 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
+      Assert.NotNull(option);
       Assert.Equal("r", option.ShortName);
       Assert.Equal("repository", option.LongName);
       Assert.False(option.Required);
@@ -95,6 +99,7 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
+      Assert.NotNull(option);
       Assert.Equal("u", option.ShortName);
       Assert.Equal("upgrade", option.LongName);
       Assert.False(option.Required);

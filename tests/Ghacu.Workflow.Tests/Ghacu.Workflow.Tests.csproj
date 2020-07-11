@@ -5,6 +5,16 @@
     <IsPackable>false</IsPackable>
     <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
     <TargetFramework>netcoreapp5.0</TargetFramework>
+    <PackageVersion>2.0.0</PackageVersion>
+    <Authors>fabasoad</Authors>
+    <Title>GHACU</Title>
+    <Copyright>Yevhen Fabizhevskyi</Copyright>
+    <PackageProjectUrl>https://github.com/fabasoad/ghacu/</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/fabasoad/ghacu/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,10 +32,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Ghacu.Workflow\Ghacu.Workflow.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="coverage" />
   </ItemGroup>
 
 </Project>

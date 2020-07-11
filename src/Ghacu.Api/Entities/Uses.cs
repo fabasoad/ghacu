@@ -6,10 +6,10 @@ namespace Ghacu.Api.Entities
 
     public Uses(string fullName)
     {
-      Type = fullName.StartsWith("docker://") ? UsesType.DOCKER : UsesType.GITHUB;
+      Type = fullName.StartsWith("docker://") ? UsesType.Docker : UsesType.GitHub;
       string[] fullNameParts = Type switch
       {
-        UsesType.DOCKER => fullName.Substring(9).Split(':'),
+        UsesType.Docker => fullName.Substring(9).Split(':'),
         _ => fullName.Split('@')
       };
       FullName = fullNameParts[0];

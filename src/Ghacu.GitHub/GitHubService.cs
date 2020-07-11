@@ -17,10 +17,12 @@ namespace Ghacu.GitHub
     public GitHubService(
       ILoggerFactory loggerFactory,
       Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory,
+      IGlobalConfig globalConfig,
       ISemaphoreSlimProxy semaphore)
     {
       _logger = loggerFactory.CreateLogger<GitHubService>();
-      _provider = latestVersionProviderFactory(LatestVersionProviderType.MemoryCache);
+      _provider = latestVersionProviderFactory(
+        globalConfig.UseCache ? LatestVersionProviderType.MemoryCache : LatestVersionProviderType.GitHub);
       _semaphore = semaphore;
     }
 

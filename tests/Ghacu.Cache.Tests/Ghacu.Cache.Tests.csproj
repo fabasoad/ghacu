@@ -2,6 +2,16 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp5.0</TargetFramework>
+        <Title>GHACU</Title>
+        <Copyright>Yevhen Fabizhevskyi</Copyright>
+        <PackageProjectUrl>https://github.com/fabasoad/ghacu/</PackageProjectUrl>
+        <PackageLicenseUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/logo.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/fabasoad/ghacu/</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageVersion>2.0.0</PackageVersion>
+        <Authors>fabasoad</Authors>
+        <OutputType>Library</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,6 +22,7 @@
       <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" />
       <PackageReference Include="xunit" Version="2.4.1" />
       <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2" />
+      <PackageReference Update="StyleCop.Analyzers" Version="1.2.0-beta.164" />
     </ItemGroup>
 
     <ItemGroup>
