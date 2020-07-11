@@ -49,7 +49,7 @@ jobs:
       - name: Extract version
         id: version
         run: |
-          $Version = $([xml](Get-Content ghacu.nuspec)).package.metadata.version
+          $Version = $([xml](Get-Content src/Ghacu.Runner/Ghacu.Runner.csproj)).Project.PropertyGroup.PackageVersion
           Write-Output "Current ghacu version is $Version"
           Write-Output "::set-output name=value::$Version"
         shell: pwsh
