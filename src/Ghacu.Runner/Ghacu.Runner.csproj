@@ -9,7 +9,7 @@
     <Product>GHACU</Product>
     <NeutralLanguage>en-UA</NeutralLanguage>
     <LangVersion>preview</LangVersion>
-    <PackageVersion>2.0.0</PackageVersion>
+    <PackageVersion>2.0.1</PackageVersion>
     <Title>GHACU</Title>
     <Copyright>Yevhen Fabizhevskyi</Copyright>
     <PackageProjectUrl>https://github.com/fabasoad/ghacu/</PackageProjectUrl>

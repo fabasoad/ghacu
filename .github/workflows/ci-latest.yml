@@ -32,26 +32,26 @@ jobs:
       - name: Install application (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          Invoke-WebRequest -Uri https://github.com/fabasoad/ghacu/releases/download/v2.0.0/ghacu-2.0.0-win-x64.tgz -OutFile ghacu-2.0.0-win-x64.tgz
-          tar -xvf ghacu-2.0.0-win-x64.tgz
-          $env:Path += ";${{ github.workspace }}\ghacu-2.0.0-win-x64"
+          Invoke-WebRequest -Uri https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-win-x64.tgz -OutFile ghacu-2.0.1-win-x64.tgz
+          tar -xvf ghacu-2.0.1-win-x64.tgz
+          $env:Path += ";${{ github.workspace }}\ghacu-2.0.1-win-x64"
           Write-Output "::set-env name=PATH::$env:Path"
         shell: pwsh
       - name: Install application (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v2.0.0/ghacu-2.0.0-linux-x64.tgz
-          tar -xvf ghacu-2.0.0-linux-x64.tgz
-          chmod +x ~/ghacu-2.0.0-linux-x64/ghacu
-          PATH=$PATH:~/ghacu-2.0.0-linux-x64
+          cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-linux-x64.tgz
+          tar -xvf ghacu-2.0.1-linux-x64.tgz
+          chmod +x ~/ghacu-2.0.1-linux-x64/ghacu
+          PATH=$PATH:~/ghacu-2.0.1-linux-x64
           echo "::set-env name=PATH::$PATH"
       - name: Install application (MacOS)
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v2.0.0/ghacu-2.0.0-osx-x64.tgz
-          tar -xvf ghacu-2.0.0-osx-x64.tgz
-          chmod +x ~/ghacu-2.0.0-osx-x64/ghacu
-          PATH=$PATH:~/ghacu-2.0.0-osx-x64
+          cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-osx-x64.tgz
+          tar -xvf ghacu-2.0.1-osx-x64.tgz
+          chmod +x ~/ghacu-2.0.1-osx-x64/ghacu
+          PATH=$PATH:~/ghacu-2.0.1-osx-x64
           echo "::set-env name=PATH::$PATH"
       - name: Run GHACU
         run: ghacu --version

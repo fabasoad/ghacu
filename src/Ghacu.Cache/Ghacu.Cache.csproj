@@ -10,7 +10,7 @@
         <PackageIconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/logo.png</PackageIconUrl>
         <RepositoryUrl>https://github.com/fabasoad/ghacu/</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageVersion>2.0.0</PackageVersion>
+        <PackageVersion>2.0.1</PackageVersion>
         <Authors>fabasoad</Authors>
         <OutputType>Library</OutputType>
     </PropertyGroup>

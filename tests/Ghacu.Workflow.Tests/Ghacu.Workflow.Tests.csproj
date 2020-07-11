@@ -5,7 +5,7 @@
     <IsPackable>false</IsPackable>
     <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
     <TargetFramework>netcoreapp5.0</TargetFramework>
-    <PackageVersion>2.0.0</PackageVersion>
+    <PackageVersion>2.0.1</PackageVersion>
     <Authors>fabasoad</Authors>
     <Title>GHACU</Title>
     <Copyright>Yevhen Fabizhevskyi</Copyright>

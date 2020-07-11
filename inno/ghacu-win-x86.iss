@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ghacu"
-#define MyAppVersion "2.0.0"
+#define MyAppVersion "2.0.1"
 #define MyAppPublisher "Yevhen Fabizhevskyi"
 #define MyAppURL "https://github.com/fabasoad/ghacu"
 #define MyAppExeName "ghacu.exe"
@@ -25,7 +25,7 @@ DisableProgramGroupPage=yes
 LicenseFile=..\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=ghacu-2.0.0-win-x86
+OutputBaseFilename=ghacu-2.0.1-win-x86
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -34,8 +34,8 @@ WizardStyle=modern
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\bin\ghacu-2.0.0-win-x86\ghacu.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\ghacu-2.0.0-win-x86\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\ghacu-2.0.1-win-x86\ghacu.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\ghacu-2.0.1-win-x86\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
