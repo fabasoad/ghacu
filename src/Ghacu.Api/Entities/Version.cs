@@ -26,7 +26,7 @@ namespace Ghacu.Api.Entities
 
       try
       {
-        return ToSemVersion(Value).CompareByPrecedence(ToSemVersion(other.Value));
+        return ToSemVersion().CompareByPrecedence(other.ToSemVersion());
       }
       catch (Exception)
       {
@@ -34,9 +34,9 @@ namespace Ghacu.Api.Entities
       }
     }
 
-    private static SemVersion ToSemVersion(string version)
+    public SemVersion ToSemVersion()
     {
-      return SemVersion.Parse(version.StartsWith('v') ? version.Substring(1) : version);
+      return SemVersion.Parse(Value.StartsWith('v') ? Value.Substring(1) : Value);
     }
   }
 }

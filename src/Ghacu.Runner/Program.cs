@@ -5,6 +5,7 @@ using Ghacu.Api;
 using Ghacu.Cache;
 using Ghacu.GitHub;
 using Ghacu.Runner.Cli;
+using Ghacu.Runner.Cli.Print;
 using Ghacu.Workflow;
 using LiteDB;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,7 @@ namespace Ghacu.Runner
         .WithParsed(o =>
         {
           IServiceCollection services = new ServiceCollection()
-            .AddSingleton<IGlobalConfig, GlobalConfig>(_ => new GlobalConfig(o.GitHubToken, !o.NoCache))
+            .AddSingleton<IGlobalConfig, GlobalConfig>(_ => new GlobalConfig(o.GitHubToken, o.UseCache == BooleanOption.Yes))
             .AddTransient<GitHubClient>()
             .AddTransient<DbCache>()
             .AddTransient<MemoryCache>()
@@ -44,6 +45,15 @@ namespace Ghacu.Runner
                 options.Format = ConsoleLoggerFormat.Default;
               })
               .SetMinimumLevel(o.LogLevel));
+
+          if (o.UseColor == BooleanOption.Yes)
+          {
+            services.AddTransient<IActionPrinter, ColorActionPrinter>();
+          }
+          else
+          {
+            services.AddTransient<IActionPrinter, NoColorActionPrinter>();
+          }
 
           using var container = new Container();
           container.Configure(config =>
