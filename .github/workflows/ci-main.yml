@@ -24,7 +24,7 @@ jobs:
         with:
           dotnet-version: 5.0.100-preview.6.20318.15
       - name: Run tests
-        run: dotnet test ./GHACU.sln /p:CollectCoverage=true /p:MergeWith=$(pwd)/coverage/coverage.json /p:CoverletOutput=$(pwd)/coverage/ "/p:CoverletOutputFormat=\"opencover\""
+        run: dotnet test ./GHACU.sln /p:CollectCoverage=true /p:MergeWith=$(pwd)/coverage/coverage.json /p:CoverletOutput=$(pwd)/coverage/ "/p:CoverletOutputFormat=\"json,opencover\""
       - name: Upload report to CodeCov
         if: github.event_name == 'push'
         uses: codecov/codecov-action@v1.0.10
