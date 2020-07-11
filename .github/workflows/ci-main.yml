@@ -55,6 +55,6 @@ jobs:
       - name: Build
         run: |
           dotnet clean
-          dotnet build -c Release -p:Version=${{ steps.version.outputs.value }} -f netcoreapp5.0 -o bin/
+          dotnet build -c Release -p:Version=${{ steps.version.outputs.value }}
       - name: Run ghacu
-        run: dotnet ./bin/ghacu.dll --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }} --log-level Information
+        run: dotnet ./src/Ghacu.Runner/bin/Release/netcoreapp5.0/ghacu.dll --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }} --log-level Information

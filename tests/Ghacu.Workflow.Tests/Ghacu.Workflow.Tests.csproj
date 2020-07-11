@@ -14,6 +14,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/logo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/fabasoad/ghacu/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
