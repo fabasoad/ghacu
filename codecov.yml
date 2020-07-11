@@ -2,4 +2,4 @@
 coverage:
   precision: 2
   round: nearest
-  range: 60...90
+  range: 60...80
