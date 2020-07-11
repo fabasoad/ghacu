@@ -2,15 +2,24 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp5.0</TargetFramework>
+        <Title>GHACU</Title>
+        <Copyright>Yevhen Fabizhevskyi</Copyright>
+        <PackageProjectUrl>https://github.com/fabasoad/ghacu/</PackageProjectUrl>
+        <PackageLicenseUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/logo.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/fabasoad/ghacu/</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageVersion>2.0.0</PackageVersion>
+        <Authors>fabasoad</Authors>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0-preview.6.20305.6" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-preview.6.20305.6" />
       <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0-preview.6.20305.6" />
-      <PackageReference Include="StructureMap.Microsoft.DependencyInjection" Version="2.0.0" />
       <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" />
       <PackageReference Include="YamlDotNet" Version="8.1.2" />
+      <PackageReference Update="StyleCop.Analyzers" Version="1.2.0-beta.164" />
     </ItemGroup>
 
     <ItemGroup>
