@@ -45,17 +45,7 @@ namespace Ghacu.Runner.Cli
         return;
       }
 
-      IDictionary<WorkflowInfo, IEnumerable<Step>> outdated;
-      try
-      {
-        outdated = _gitHubService.GetOutdated(infos);
-      }
-      catch (GitHubVersionNotFoundException e)
-      {
-        Console.Write(e.Message);
-        return;
-      }
-
+      IDictionary<WorkflowInfo, IEnumerable<Step>> outdated = _gitHubService.GetOutdated(infos);
       foreach ((WorkflowInfo wfi, IEnumerable<Step> steps) in outdated)
       {
         _printer.PrintHeader(wfi.Workflow.Name, wfi.File.Name);

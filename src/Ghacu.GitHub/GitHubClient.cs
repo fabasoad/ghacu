@@ -26,27 +26,40 @@ namespace Ghacu.GitHub
     public async Task<string> GetLatestVersionAsync(string owner, string repository)
     {
       _client ??= CreateGitHubClient();
-      string tagName;
+      Exception lastException = null;
+      string tagName = null;
       try
       {
-        _logger.LogInformation($"Getting latest release for {owner}/{repository}Ghacu.GitHubGitHub...");
+        _logger.LogInformation($"Getting latest release for {owner}/{repository}...");
         tagName = (await _client.Repository.Release.GetLatest(owner, repository)).TagName;
       }
       catch (NotFoundException)
       {
         try
         {
-          _logger.LogInformation($"{owner}/{repository} release is not found. Getting latest tagGhacu.GitHubGitHub...");
-          tagName = (await _client.Repository.GetAllTags(owner, repository)).Last().Name;
+          _logger.LogInformation($"{owner}/{repository} release is not found. Getting latest tag...");
+          tagName = (await _client.Repository.GetAllTags(owner, repository)).LastOrDefault()?.Name;
         }
         catch (Exception e)
         {
-          throw new GitHubVersionNotFoundException(e.Message, e);
+          lastException = e;
         }
       }
       catch (Exception e)
       {
-        throw new GitHubVersionNotFoundException(e.Message, e);
+        lastException = e;
+      }
+
+      string errorMessage = $"{owner}/{repository} version is not found.";
+      if (lastException != null)
+      {
+        _logger.LogError(lastException, lastException.Message);
+        throw new GitHubVersionNotFoundException(errorMessage, lastException);
+      }
+
+      if (tagName == null)
+      {
+        throw new GitHubVersionNotFoundException(errorMessage);
       }
 
       _logger.LogInformation($"{owner}/{repository} latest release is {tagName}");

@@ -49,7 +49,7 @@ namespace Ghacu.GitHub
                 }
                 catch (GitHubVersionNotFoundException e)
                 {
-                  _logger.LogError(e, e.Message);
+                  _logger.LogWarning(e, e.Message);
                 }
                 finally
                 {

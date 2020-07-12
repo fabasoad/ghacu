@@ -7,5 +7,9 @@ namespace Ghacu.GitHub.Exceptions
     public GitHubVersionNotFoundException(string message, Exception innerException) : base(message, innerException)
     {
     }
+    
+    public GitHubVersionNotFoundException(string message) : base(message)
+    {
+    }
   }
 }

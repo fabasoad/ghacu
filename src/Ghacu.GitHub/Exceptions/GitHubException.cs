@@ -7,5 +7,9 @@ namespace Ghacu.GitHub.Exceptions
     protected GitHubException(string message, Exception innerException) : base(message, innerException)
     {
     }
+    
+    protected GitHubException(string message) : base(message)
+    {
+    }
   }
 }
