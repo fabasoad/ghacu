@@ -49,8 +49,6 @@ namespace Ghacu.Workflow.Tests
   
   public class FilesFixture : IDisposable
   {
-    internal string[] Files { get; }
-
     public FilesFixture()
     {
       var files = new[] { "test1.temp", "test2.temp" };
@@ -61,7 +59,9 @@ namespace Ghacu.Workflow.Tests
 
       Files = files;
     }
-    
+
+    internal string[] Files { get; }
+
     public void Dispose()
     {
       foreach (string file in Files)
