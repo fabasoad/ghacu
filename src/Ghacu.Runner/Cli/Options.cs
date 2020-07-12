@@ -19,7 +19,7 @@ namespace Ghacu.Runner.Cli
     [Option("repository", Required = false, HelpText = "Path to the root of a project.")]
     public string Repository { get; set; }
 
-    [Option("token", Required = false, HelpText = "Ghacu.GitHub token to work with actions repositories.")]
+    [Option("token", Required = false, HelpText = "GitHub token to work with actions repositories.")]
     public string GitHubToken { get; set; }
 
     [Option("upgrade", Required = false, HelpText = "Upgrade versions to the latest one.")]
