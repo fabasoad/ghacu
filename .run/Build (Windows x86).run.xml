@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build (Windows x86)" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="$PROJECT_DIR$/build.ps1" scriptParameters="-os win-x86" workingDirectory="$PROJECT_DIR$">
+    <method v="2" />
+  </configuration>
+</component>

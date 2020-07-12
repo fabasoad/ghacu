@@ -77,7 +77,7 @@ namespace Ghacu.Runner.Cli.Print
     {
       Console.Write("Run ");
       Console.ForegroundColor = FOREGROUND_COLOR_INFO;
-      Console.Write("ghacu -u");
+      Console.Write("ghacu --upgrade");
       Console.ForegroundColor = _foregroundColorDefault;
       Console.WriteLine(" to upgrade actions.");
     }
