@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using Ghacu.Api;
@@ -12,7 +14,7 @@ namespace Ghacu.Cache.Tests
   public class DbCacheTest
   {
     [Fact]
-    public async Task GetLatestVersion_NoDto()
+    public async Task GetLatestVersionAsync_NoDto()
     {
       const string owner = "test-owner";
       const string repository = "test-repository";
@@ -54,7 +56,7 @@ namespace Ghacu.Cache.Tests
     }
 
     [Fact]
-    public async Task GetLatestVersion_InvalidCachedDto()
+    public async Task GetLatestVersionAsync_InvalidCachedDto()
     {
       const string owner = "test-owner";
       const string repository = "test-repository";
@@ -98,7 +100,7 @@ namespace Ghacu.Cache.Tests
     }
 
     [Fact]
-    public async Task GetLatestVersion_ValidCachedDto()
+    public async Task GetLatestVersionAsync_ValidCachedDto()
     {
       const string owner = "test-owner";
       const string repository = "test-repository";
@@ -141,6 +143,60 @@ namespace Ghacu.Cache.Tests
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
       Mock.Assert(dtoListMock);
+    }
+
+    [Theory]
+    [MemberData(nameof(DataDatabaseFolderExistence))]
+    public void GetLatestVersionAsync_DatabaseFolderExistence(Action setUp)
+    {
+      setUp();
+
+      static ILiteDatabase DatabaseFactory(string dbPath)
+      {
+        Assert.True(Directory.Exists(dbPath));
+        throw new DbCacheMockException();
+      }
+
+      var dbCache = new DbCache(new LoggerFactory(), _ => null, DatabaseFactory);
+      Assert.ThrowsAsync<DbCacheMockException>(async () =>
+        await dbCache.GetLatestVersionAsync(string.Empty, string.Empty));
+    }
+
+    [SuppressMessage("ReSharper", "SA1201")]
+    public static IEnumerable<object[]> DataDatabaseFolderExistence
+    {
+      get
+      {
+        string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        string ghacuFolder = Path.Combine(appData, "ghacu");
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new Action(() =>
+            {
+              if (!Directory.Exists(ghacuFolder))
+              {
+                Directory.CreateDirectory(ghacuFolder);
+              }
+            })
+          },
+          new object[]
+          {
+            new Action(() =>
+            {
+              if (Directory.Exists(ghacuFolder))
+              {
+                Directory.Delete(ghacuFolder, true);
+              }
+            })
+          }
+        };
+      }
+    }
+
+    public class DbCacheMockException : Exception
+    {
     }
   }
 }

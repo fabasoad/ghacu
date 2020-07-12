@@ -56,6 +56,6 @@ namespace Ghacu.Api.Entities
     public override bool Equals(object obj) =>
       ReferenceEquals(this, obj) || obj is Uses other && Equals(other);
 
-    public override int GetHashCode() => HashCode.Combine(FullName, (int) Type);
+    public override int GetHashCode() => HashCode.Combine(FullName, (int)Type);
   }
 }

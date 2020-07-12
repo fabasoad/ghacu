@@ -10,7 +10,6 @@ namespace Ghacu.Api.Entities
 
     [YamlMember(Alias = "uses", ApplyNamingConventions = false)]
     public string UsesFullName { get; set; }
-
     public Uses Uses => _uses ??= new Uses(UsesFullName);
     public bool IsInternal => UsesFullName == null || "./".Equals(UsesFullName);
     public bool IsUpToDate => IsInternal || Uses.CurrentVersion.CompareTo(Uses.GetLatestVersion()) >= 0;
@@ -51,14 +50,12 @@ namespace Ghacu.Api.Entities
           return VersionDiffType.Patch;
         }
 
-        if (!string.Equals(currentVersion.Prerelease, latestVersion.Prerelease, StringComparison.Ordinal))
+        if (currentVersion.Prerelease != latestVersion.Prerelease)
         {
           return VersionDiffType.Prerelease;
         }
 
-        return string.Equals(currentVersion.Build, latestVersion.Build, StringComparison.Ordinal)
-          ? VersionDiffType.None
-          : VersionDiffType.Build;
+        return currentVersion.Build == latestVersion.Build ? VersionDiffType.None : VersionDiffType.Build;
       }
     }
   }
