@@ -17,16 +17,18 @@ namespace Ghacu.Api.Entities
     public void Upgrade()
     {
       string content = System.IO.File.ReadAllText(File.FilePath);
-      foreach (Step step in Workflow.Jobs.Values
+      foreach (Uses uses in Workflow.Jobs.Values
         .SelectMany(job => job.Steps)
-        .Where(step => !step.IsUpToDate))
+        .Where(step => !step.IsUpToDate)
+        .Select(step => step.Uses)
+        .Distinct())
       {
-        string delimiter = step.Uses.Type == UsesType.Docker ? ":" : "@";
-        string prefix = step.Uses.Type == UsesType.Docker ? "docker://" : string.Empty;
+        string delimiter = uses.Type == UsesType.Docker ? ":" : "@";
+        string prefix = uses.Type == UsesType.Docker ? "docker://" : string.Empty;
         content = Regex.Replace(
           content,
-          $"(.*)({step.UsesFullName}[ \t]*)(\n.*)",
-          $"$1{prefix}{step.Uses.FullName}{delimiter}{step.Uses.GetLatestVersion().Value}$3");
+          $"(.*)({uses.FullName}{delimiter}.+[ \t]*)(\n.*)",
+          $"$1{prefix}{uses.FullName}{delimiter}{uses.GetLatestVersion().Value}$3");
       }
 
       System.IO.File.WriteAllText(File.FilePath, content);

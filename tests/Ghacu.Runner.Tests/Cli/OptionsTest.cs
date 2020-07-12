@@ -15,10 +15,9 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.NotNull(option);
-      Assert.Equal("t", option.ShortName);
       Assert.Equal("token", option.LongName);
       Assert.False(option.Required);
-      Assert.Equal("Ghacu.GitHub token to work with actions repositories.", option.HelpText);
+      Assert.Equal("GitHub token to work with actions repositories.", option.HelpText);
     }
 
     [Fact]
@@ -29,7 +28,6 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.NotNull(option);
-      Assert.Equal("l", option.ShortName);
       Assert.Equal("log-level", option.LongName);
       Assert.False(option.Required);
       Assert.Equal(
@@ -41,15 +39,15 @@ namespace Ghacu.Runner.Tests.Cli
     [Fact]
     public void NoCache_ConfiguredCorrectly()
     {
-      object[] attrs = typeof(Options).GetProperty("NoCache")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      object[] attrs = typeof(Options).GetProperty("UseCache")?.GetCustomAttributes(typeof(OptionAttribute), false);
       Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.NotNull(option);
-      Assert.Equal("n", option.ShortName);
-      Assert.Equal("no-cache", option.LongName);
+      Assert.Equal("cache", option.LongName);
       Assert.False(option.Required);
-      Assert.Equal("Turn it on if you do not want to use caching.", option.HelpText);
+      Assert.Equal("Enable cache.", option.HelpText);
+      Assert.Equal(BooleanOption.Yes, option.Default);
     }
 
     [Fact]
@@ -69,9 +67,9 @@ namespace Ghacu.Runner.Tests.Cli
       options.LogLevel = expectedLogLevel;
       Assert.Equal(expectedLogLevel, options.LogLevel);
 
-      const bool expectedNoCache = true;
-      options.NoCache = expectedNoCache;
-      Assert.Equal(expectedNoCache, options.NoCache);
+      const BooleanOption expectedUseCache = BooleanOption.Yes;
+      options.UseCache = expectedUseCache;
+      Assert.Equal(expectedUseCache, options.UseCache);
 
       const string expectedGitHubToken = "SomeToken";
       options.GitHubToken = expectedGitHubToken;
@@ -86,7 +84,6 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.NotNull(option);
-      Assert.Equal("r", option.ShortName);
       Assert.Equal("repository", option.LongName);
       Assert.False(option.Required);
       Assert.Equal("Path to the root of a project.", option.HelpText);
@@ -100,10 +97,23 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.NotNull(option);
-      Assert.Equal("u", option.ShortName);
       Assert.Equal("upgrade", option.LongName);
       Assert.False(option.Required);
       Assert.Equal("Upgrade versions to the latest one.", option.HelpText);
+    }
+
+    [Fact]
+    public void UseColor_ConfiguredCorrectly()
+    {
+      object[] attrs = typeof(Options).GetProperty("OutputType")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      Assert.NotNull(attrs);
+      Assert.Single(attrs);
+      var option = attrs[0] as OptionAttribute;
+      Assert.NotNull(option);
+      Assert.Equal("output-type", option.LongName);
+      Assert.False(option.Required);
+      Assert.Equal("Console output type. Possible values: Color, NoColor.", option.HelpText);
+      Assert.Equal(OutputType.Color, option.Default);
     }
   }
 }

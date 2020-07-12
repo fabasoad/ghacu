@@ -4,7 +4,7 @@
         <TargetFramework>netcoreapp5.0</TargetFramework>
         <NeutralLanguage>en-UA</NeutralLanguage>
         <Title>GHACU</Title>
-        <Copyright>Yevhen Fabizhevskyi</Copyright>
+        <Copyright>© Yevhen Fabizhevskyi (https://github.com/fabasoad)</Copyright>
         <PackageProjectUrl>https://github.com/fabasoad/ghacu/</PackageProjectUrl>
         <PackageLicenseUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/LICENSE</PackageLicenseUrl>
         <PackageIconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/logo.png</PackageIconUrl>
@@ -13,6 +13,10 @@
         <PackageVersion>2.0.1</PackageVersion>
         <Authors>fabasoad</Authors>
         <OutputType>Library</OutputType>
+        <AssemblyVersion>2.0.1</AssemblyVersion>
+        <InformationalVersion>2.0.1</InformationalVersion>
+        <FileVersion>2.0.1</FileVersion>
+        <Product>ghacu</Product>
     </PropertyGroup>
 
     <ItemGroup>

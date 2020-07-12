@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build (Ubuntu)" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="$PROJECT_DIR$/build.ps1" scriptParameters="-os ubuntu-latest" workingDirectory="$PROJECT_DIR$">
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,6 +1,8 @@
+using System;
+
 namespace Ghacu.Api.Entities
 {
-  public sealed class Uses
+  public sealed class Uses : IEquatable<Uses>
   {
     private Version _latestVersion;
 
@@ -35,5 +37,25 @@ namespace Ghacu.Api.Entities
     {
       _latestVersion = new Version(version);
     }
+
+    public bool Equals(Uses other)
+    {
+      if (ReferenceEquals(null, other))
+      {
+        return false;
+      }
+
+      if (ReferenceEquals(this, other))
+      {
+        return true;
+      }
+
+      return FullName == other.FullName && Type == other.Type;
+    }
+
+    public override bool Equals(object obj) =>
+      ReferenceEquals(this, obj) || obj is Uses other && Equals(other);
+
+    public override int GetHashCode() => HashCode.Combine(FullName, (int)Type);
   }
 }

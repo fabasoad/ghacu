@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using Ghacu.Api.Entities;
 using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace Ghacu.Workflow
 {
@@ -10,12 +9,9 @@ namespace Ghacu.Workflow
   {
     private readonly IDeserializer _deserializer;
 
-    public WorkflowParser()
+    public WorkflowParser(IDeserializerFactory deserializerFactory)
     {
-      _deserializer = new DeserializerBuilder()
-        .WithNamingConvention(CamelCaseNamingConvention.Instance)
-        .IgnoreUnmatchedProperties()
-        .Build();
+      _deserializer = deserializerFactory.Get();
     }
 
     public IEnumerable<WorkflowInfo> Parse(IEnumerable<string> files)
