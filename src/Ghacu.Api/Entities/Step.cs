@@ -14,6 +14,7 @@ namespace Ghacu.Api.Entities
     public Uses Uses => _uses ??= new Uses(UsesFullName);
     public bool IsInternal => UsesFullName == null || "./".Equals(UsesFullName);
     public bool IsUpToDate => IsInternal || Uses.CurrentVersion.CompareTo(Uses.GetLatestVersion()) >= 0;
+
     public VersionDiffType VersionDiffType
     {
       get
@@ -56,7 +57,8 @@ namespace Ghacu.Api.Entities
         }
 
         return string.Equals(currentVersion.Build, latestVersion.Build, StringComparison.Ordinal)
-          ? VersionDiffType.None : VersionDiffType.Build;
+          ? VersionDiffType.None
+          : VersionDiffType.Build;
       }
     }
   }

@@ -55,8 +55,6 @@ namespace Ghacu.Runner.Cli
         {
           wfi.Upgrade();
         }
-
-        Console.WriteLine();
       }
 
       if (!outdated.Any())
@@ -65,6 +63,7 @@ namespace Ghacu.Runner.Cli
       }
       else if (!shouldUpgrade)
       {
+        Console.WriteLine();
         _printer.PrintRunUpgrade();
       }
     }
