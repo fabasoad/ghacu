@@ -73,7 +73,7 @@ crazy-max/ghaction-github-pages  v1  »  v1.3.0
 actions/checkout                          master  »  v2.1.0
 decathlon/release-notes-generator-action   2.0.0  »  v2.0.1
 
-Run ghacu -u to upgrade actions.
+Run ghacu --upgrade to upgrade the actions.
 ```
 ## Dev section
 ### How to build an application
