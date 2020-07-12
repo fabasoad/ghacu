@@ -15,6 +15,11 @@
     <RepositoryUrl>https://github.com/fabasoad/ghacu/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <OutputType>Library</OutputType>
+    <Product>ghacu</Product>
+    <AssemblyVersion>2.0.1</AssemblyVersion>
+    <InformationalVersion>2.0.1</InformationalVersion>
+    <FileVersion>2.0.1</FileVersion>
+    <NeutralLanguage>en-UA</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>

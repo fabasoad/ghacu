@@ -46,13 +46,14 @@ namespace Ghacu.Runner
               })
               .SetMinimumLevel(o.LogLevel));
 
-          if (o.UseColor == BooleanOption.Yes)
+          switch (o.OutputType)
           {
-            services.AddTransient<IActionPrinter, ColorActionPrinter>();
-          }
-          else
-          {
-            services.AddTransient<IActionPrinter, NoColorActionPrinter>();
+            case OutputType.Color:
+              services.AddTransient<IActionPrinter, ColorActionPrinter>();
+              break;
+            case OutputType.NoColor:
+              services.AddTransient<IActionPrinter, NoColorActionPrinter>();
+              break;
           }
 
           using var container = new Container();

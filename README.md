@@ -30,21 +30,23 @@ PATH=$PATH:~/ghacu-2.0.1-osx-x64
 ```bash
 > ghacu --help
 ghacu 2.0.1
-Copyright (C) 2020 ghacu
+© Yevhen Fabizhevskyi (https://github.com/fabasoad)
 
-  -l, --log-level     (Default: Error) Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.
+  --cache          (Default: Yes) Enable cache.
 
-  -n, --no-cache      Turn it on if you do not want to use caching.
+  --log-level      (Default: Error) Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.
 
-  -r, --repository    Path to the root of a project.
+  --output-type    (Default: Color) Console output type. Possible values: Color, NoColor.
 
-  -t, --token         GitHub token to work with actions repositories.
+  --repository     Path to the root of a project.
 
-  -u, --upgrade       Upgrade versions to the latest one.
+  --token          Ghacu.GitHub token to work with actions repositories.
 
-  --help              Display this help screen.
+  --upgrade        Upgrade versions to the latest one.
 
-  --version           Display version information.
+  --help           Display this help screen.
+
+  --version        Display version information.
 ```
 All commands are optional and can be run by purpose.
 ### GitHub Token

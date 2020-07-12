@@ -105,15 +105,15 @@ namespace Ghacu.Runner.Tests.Cli
     [Fact]
     public void UseColor_ConfiguredCorrectly()
     {
-      object[] attrs = typeof(Options).GetProperty("UseColor")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      object[] attrs = typeof(Options).GetProperty("OutputType")?.GetCustomAttributes(typeof(OptionAttribute), false);
       Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.NotNull(option);
-      Assert.Equal("color", option.LongName);
+      Assert.Equal("output-type", option.LongName);
       Assert.False(option.Required);
-      Assert.Equal("Enable colors in console output.", option.HelpText);
-      Assert.Equal(BooleanOption.Yes, option.Default);
+      Assert.Equal("Console output type. Possible values: Color, NoColor.", option.HelpText);
+      Assert.Equal(OutputType.Color, option.Default);
     }
   }
 }

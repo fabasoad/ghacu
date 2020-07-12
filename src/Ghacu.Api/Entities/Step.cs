@@ -23,8 +23,17 @@ namespace Ghacu.Api.Entities
           return VersionDiffType.None;
         }
 
-        var currentVersion = Uses.CurrentVersion.ToSemVersion();
-        var latestVersion = Uses.GetLatestVersion().ToSemVersion();
+        SemVersion currentVersion;
+        SemVersion latestVersion;
+        try
+        {
+          currentVersion = Uses.CurrentVersion.ToSemVersion();
+          latestVersion = Uses.GetLatestVersion().ToSemVersion();
+        }
+        catch
+        {
+          return VersionDiffType.None;
+        }
 
         if (currentVersion.Major != latestVersion.Major)
         {

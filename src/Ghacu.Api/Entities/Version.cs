@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using Semver;
 
 namespace Ghacu.Api.Entities
@@ -36,7 +37,7 @@ namespace Ghacu.Api.Entities
 
     public SemVersion ToSemVersion()
     {
-      return SemVersion.Parse(Value.StartsWith('v') ? Value.Substring(1) : Value);
+      return SemVersion.Parse(Regex.IsMatch(Value, "v\\d\\.\\d.\\d.*") ? Value.Substring(1) : Value);
     }
   }
 }
