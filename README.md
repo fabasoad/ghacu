@@ -1,41 +1,8 @@
 # GitHub Actions Check Updates
 ![CI (main)](https://github.com/fabasoad/ghacu/workflows/CI%20(main)/badge.svg) ![CI (latest)](https://github.com/fabasoad/ghacu/workflows/CI%20(latest)/badge.svg) ![YAML Lint](https://github.com/fabasoad/ghacu/workflows/YAML%20Lint/badge.svg) ![PowerShell Lint](https://github.com/fabasoad/ghacu/workflows/PowerShell%20Lint/badge.svg) [![Total alerts](https://img.shields.io/lgtm/alerts/g/fabasoad/ghacu.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fabasoad/ghacu/alerts/) [![Maintainability](https://api.codeclimate.com/v1/badges/261a8a73037043dfde09/maintainability)](https://codeclimate.com/github/fabasoad/ghacu/maintainability) [![codecov](https://codecov.io/gh/fabasoad/ghacu/branch/main/graph/badge.svg)](https://codecov.io/gh/fabasoad/ghacu) ![License: MIT](https://img.shields.io/github/license/fabasoad/ghacu)
 ## Description
-CLI tool that checks versions of GitHub Actions that used in a repository.
-## Install
-> .NET Core should be installed on your machine as a prerequisite.
-### Windows
-1. Install using:
-    1. Installer:
-        * _x86_: https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-win-x86.exe
-        * _x64_: https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-win-x64.exe
-    2. Compressed package:
-        * _x86_: https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-win-x86.tgz
-        * _x64_: https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-win-x64.tgz
-1. [Add application path](https://stackoverflow.com/questions/44272416/how-to-add-a-folder-to-path-environment-variable-in-windows-10-with-screensho) to _PATH_ environment variable.
-### Linux
-```bash
-curl https://raw.githubusercontent.com/fabasoad/ghacu/main/scripts/install-ghacu-linux.sh | bash
-```
-### MacOS
-```bash
-curl https://raw.githubusercontent.com/fabasoad/ghacu/main/scripts/install-ghacu-osx.sh | bash
-```
-> Examples above use version `2.0.1` but you can use any version from the [releases](https://github.com/fabasoad/ghacu/releases) page. Latest version is preferable.
-## Uninstall
-### Windows
-1. Remove application path from `PATH` environment variable.
-1. Uninstall application using one of the following options:
-    * If you installed it using installer then go to _Settings_ -> _Applications_, find it in list and click "Uninstall".
-    * If you installed it manually then just delete application folder.
-### Linux
-```bash
-curl https://raw.githubusercontent.com/fabasoad/ghacu/main/scripts/uninstall-ghacu-linux.sh | bash
-```
-### MacOS
-```bash
-curl https://raw.githubusercontent.com/fabasoad/ghacu/main/scripts/uninstall-ghacu-osx.sh | bash
-```
+CLI tool that checks versions of GitHub Actions that used in a repository. Please read [documentation](https://github.com/fabasoad/ghacu/wiki) for more details.
+
 ## Commands
 ```bash
 > ghacu --help
