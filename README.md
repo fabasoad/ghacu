@@ -1,31 +1,8 @@
 # GitHub Actions Check Updates
 ![CI (main)](https://github.com/fabasoad/ghacu/workflows/CI%20(main)/badge.svg) ![CI (latest)](https://github.com/fabasoad/ghacu/workflows/CI%20(latest)/badge.svg) ![YAML Lint](https://github.com/fabasoad/ghacu/workflows/YAML%20Lint/badge.svg) ![PowerShell Lint](https://github.com/fabasoad/ghacu/workflows/PowerShell%20Lint/badge.svg) [![Total alerts](https://img.shields.io/lgtm/alerts/g/fabasoad/ghacu.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fabasoad/ghacu/alerts/) [![Maintainability](https://api.codeclimate.com/v1/badges/261a8a73037043dfde09/maintainability)](https://codeclimate.com/github/fabasoad/ghacu/maintainability) [![codecov](https://codecov.io/gh/fabasoad/ghacu/branch/main/graph/badge.svg)](https://codecov.io/gh/fabasoad/ghacu) ![License: MIT](https://img.shields.io/github/license/fabasoad/ghacu)
 ## Description
-CLI tool that checks versions of GitHub Actions that used in a repository.
-## Installation
-> .NET Core should be installed on your machine as a prerequisite.
-### Windows
-1. Install using:
-    1. Installer:
-    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-win-x86.exe
-    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-win-x64.exe
-    2. Compressed package:
-    * _x86_: https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-win-x86.tgz
-    * _x64_: https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-win-x64.tgz
-2. [Add application path](https://stackoverflow.com/questions/44272416/how-to-add-a-folder-to-path-environment-variable-in-windows-10-with-screensho) to _PATH_ environment variable.
-### Linux
-```bash
-cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-linux-x64.tgz
-tar -xvf ghacu-2.0.1-linux-x64.tgz
-PATH=$PATH:~/ghacu-2.0.1-linux-x64
-```
-### MacOS
-```bash
-cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v2.0.1/ghacu-2.0.1-osx-x64.tgz
-tar -xvf ghacu-2.0.1-osx-x64.tgz
-PATH=$PATH:~/ghacu-2.0.1-osx-x64
-```
-> Examples above use version `2.0.1` but you can use any version from the [releases](https://github.com/fabasoad/ghacu/releases) page. Latest version is preferable.
+CLI tool that checks versions of GitHub Actions that used in a repository. Please read [documentation](https://github.com/fabasoad/ghacu/wiki) for more details.
+
 ## Commands
 ```bash
 > ghacu --help
@@ -40,7 +17,7 @@ ghacu 2.0.1
 
   --repository     Path to the root of a project.
 
-  --token          Ghacu.GitHub token to work with actions repositories.
+  --token          GitHub token to work with actions repositories.
 
   --upgrade        Upgrade versions to the latest one.
 
@@ -73,7 +50,7 @@ crazy-max/ghaction-github-pages  v1  »  v1.3.0
 actions/checkout                          master  »  v2.1.0
 decathlon/release-notes-generator-action   2.0.0  »  v2.0.1
 
-Run ghacu -u to upgrade actions.
+Run ghacu --upgrade to upgrade the actions.
 ```
 ## Dev section
 ### How to build an application

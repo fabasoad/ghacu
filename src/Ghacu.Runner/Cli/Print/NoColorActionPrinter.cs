@@ -12,6 +12,6 @@ namespace Ghacu.Runner.Cli.Print
 
     public override void PrintNoUpgradeNeeded() => Console.WriteLine("All GitHub Actions match the latest versions :)");
 
-    public override void PrintRunUpgrade() => Console.WriteLine("Run ghacu --upgrade to upgrade actions.");
+    public override void PrintRunUpgrade() => Console.WriteLine("Run ghacu --upgrade to upgrade the actions.");
   }
 }
