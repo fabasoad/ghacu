@@ -4,6 +4,7 @@ namespace Ghacu.Api.Entities
   {
     Docker,
     GitHub,
-    Internal
+    Internal,
+    Unknown
   }
 }

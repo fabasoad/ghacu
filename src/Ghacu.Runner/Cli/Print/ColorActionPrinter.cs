@@ -59,7 +59,7 @@ namespace Ghacu.Runner.Cli.Print
         color = FOREGROUND_COLOR_BUILD;
       }
       
-      Console.Write(template, action.ActionName, action.CurrentVersion, ArrowChar, latestVersion1);
+      Console.Write(template, action.Repository, action.CurrentVersion, ArrowChar, latestVersion1);
       Console.ForegroundColor = color;
       Console.WriteLine(latestVersion2);
       Console.ForegroundColor = _foregroundColorDefault;

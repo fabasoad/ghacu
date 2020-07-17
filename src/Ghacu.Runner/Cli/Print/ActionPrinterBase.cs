@@ -17,7 +17,7 @@ namespace Ghacu.Runner.Cli.Print
       var maxWidthCurrentVersion = 0;
       foreach (Action action in actions)
       {
-        maxWidthName = Math.Max(maxWidthName, action.ActionName.Length);
+        maxWidthName = Math.Max(maxWidthName, action.Repository.Length);
         maxWidthCurrentVersion = Math.Max(maxWidthCurrentVersion, action.CurrentVersion.Length);
       }
 

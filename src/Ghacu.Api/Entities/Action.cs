@@ -1,42 +1,89 @@
 using System;
+using System.Text.RegularExpressions;
 using Semver;
 
 namespace Ghacu.Api.Entities
 {
   public sealed class Action : IEquatable<Action>
   {
+    private const string DOCKER_PATTERN1 = "docker://(.+?)/(.+):(.+)";
+    private const string DOCKER_PATTERN2 = "docker://(.+):(.+)";
+    private const string GITHUB_PATTERN = "(.+?)/(.+)@(.+)";
+    private const string INTERNAL_PATTERN = "(./)";
+
     private Version _currentVersion;
     private Version _latestVersion;
-    
-    public Action(string fullName)
+
+    public Action(string actionName)
     {
-      Type = string.IsNullOrEmpty(fullName) || fullName == "./"
-        ? UsesType.Internal
-        : fullName.StartsWith("docker://") ? UsesType.Docker : UsesType.GitHub;
-      string[] fullNameParts = Type switch
+      if (actionName == null)
       {
-        UsesType.Docker => fullName.Substring(9).Split(':'),
-        UsesType.GitHub => fullName.Split('@'),
-        _ => new[] { fullName, string.Empty }
-      };
-      FullName = fullNameParts[0];
-      _currentVersion = new Version(fullNameParts[1]);
-      if (Type == UsesType.Internal)
+        Type = UsesType.Unknown;
+      }
+      else
       {
-        _latestVersion = new Version(fullNameParts[1]);
+        Match match = Regex.Match(actionName, DOCKER_PATTERN1);
+        if (match.Success)
+        {
+          Type = UsesType.Docker;
+          string owner = match.Groups[1].Captures[0].Value;
+          string repository = match.Groups[2].Captures[0].Value;
+          FullName = $"{owner}/{repository}";
+          Initialize(owner, repository, match.Groups[3].Captures[0].Value);
+          return;
+        }
+
+        match = Regex.Match(actionName, DOCKER_PATTERN2);
+        if (match.Success)
+        {
+          Type = UsesType.Docker;
+          string repository = match.Groups[1].Captures[0].Value;
+          FullName = repository;
+          Initialize(null, repository, match.Groups[2].Captures[0].Value);
+          return;
+        }
+
+        match = Regex.Match(actionName, GITHUB_PATTERN);
+        if (match.Success)
+        {
+          Type = UsesType.GitHub;
+          Initialize(
+            match.Groups[1].Captures[0].Value,
+            match.Groups[2].Captures[0].Value,
+            match.Groups[3].Captures[0].Value);
+          return;
+        }
+
+        match = Regex.Match(actionName, INTERNAL_PATTERN);
+        Type = match.Success ? UsesType.Internal : UsesType.Unknown;
+      }
+
+      Initialize(null, actionName, null);
+    }
+
+    private void Initialize(string owner, string repository, string version)
+    {
+      Owner = owner;
+      Repository = repository;
+      _currentVersion = new Version(version);
+      if (!IsValidForUpgrade)
+      {
+        _latestVersion = new Version(version);
       }
     }
 
-    public string FullName { get; }
+    public string FullName { get; private set; }
 
-    public string Owner => FullName.Split('/')[0];
+    public string Owner { get; private set; }
 
-    public string ActionName => FullName.Split('/')[1];
+    public string Repository { get; private set; }
 
     public string CurrentVersion => _currentVersion.Value;
 
     public UsesType Type { get; }
-    
+
+    public bool IsValidForUpgrade => Type == UsesType.Docker || Type == UsesType.GitHub;
+
     public bool IsUpToDate => _currentVersion.CompareTo(_latestVersion) >= 0;
 
     public string LatestVersion
@@ -44,7 +91,7 @@ namespace Ghacu.Api.Entities
       get => _latestVersion?.Value;
       set => _latestVersion = new Version(value);
     }
-    
+
     public VersionDiffType VersionDiffType
     {
       get
@@ -108,6 +155,6 @@ namespace Ghacu.Api.Entities
     public override bool Equals(object obj) =>
       ReferenceEquals(this, obj) || obj is Action other && Equals(other);
 
-    public override int GetHashCode() => HashCode.Combine(FullName, (int)Type);
+    public override int GetHashCode() => HashCode.Combine(FullName, (int) Type);
   }
 }

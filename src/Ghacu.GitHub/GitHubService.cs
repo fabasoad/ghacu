@@ -37,7 +37,7 @@ namespace Ghacu.GitHub
             .SelectMany(job => job.Value.Steps)
             .AsParallel()
             .Select(step => step.Action)
-            .Where(action => action.Type != UsesType.Internal)
+            .Where(action => action.IsValidForUpgrade)
             .Select(async action =>
             {
               if (action.LatestVersion == null)
@@ -46,7 +46,7 @@ namespace Ghacu.GitHub
                 try
                 {
                   action.LatestVersion = await _provider
-                    .GetLatestVersionAsync(action.Owner, action.ActionName);
+                    .GetLatestVersionAsync(action.Owner, action.Repository);
                 }
                 catch (GitHubVersionNotFoundException e)
                 {
