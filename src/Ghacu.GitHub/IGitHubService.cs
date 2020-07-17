@@ -5,6 +5,6 @@ namespace Ghacu.GitHub
 {
   public interface IGitHubService
   {
-    IDictionary<WorkflowInfo, IEnumerable<Step>> GetOutdated(IEnumerable<WorkflowInfo> items);
+    IDictionary<WorkflowInfo, IEnumerable<Action>> GetOutdated(IEnumerable<WorkflowInfo> items);
   }
 }

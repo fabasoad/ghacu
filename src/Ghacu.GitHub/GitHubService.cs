@@ -5,6 +5,7 @@ using Ghacu.Api;
 using Ghacu.Api.Entities;
 using Ghacu.GitHub.Exceptions;
 using Microsoft.Extensions.Logging;
+using Action = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.GitHub
 {
@@ -26,7 +27,7 @@ namespace Ghacu.GitHub
       _semaphore = semaphore;
     }
 
-    public IDictionary<WorkflowInfo, IEnumerable<Step>> GetOutdated(IEnumerable<WorkflowInfo> items)
+    public IDictionary<WorkflowInfo, IEnumerable<Action>> GetOutdated(IEnumerable<WorkflowInfo> items)
     {
       return items
         .AsParallel()
@@ -35,17 +36,17 @@ namespace Ghacu.GitHub
           wfi => wfi.Workflow.Jobs
             .SelectMany(job => job.Value.Steps)
             .AsParallel()
-            .Where(step => !step.IsInternal)
-            .Select(async step =>
+            .Select(step => step.Action)
+            .Where(action => action.Type != UsesType.Internal)
+            .Select(async action =>
             {
-              if (step.Uses.GetLatestVersion() == null)
+              if (action.LatestVersion == null)
               {
                 await _semaphore.WaitAsync();
                 try
                 {
-                  string latestVersion = await _provider
-                    .GetLatestVersionAsync(step.Uses.Owner, step.Uses.ActionName);
-                  step.Uses.SetLatestVersion(latestVersion);
+                  action.LatestVersion = await _provider
+                    .GetLatestVersionAsync(action.Owner, action.ActionName);
                 }
                 catch (GitHubVersionNotFoundException e)
                 {
@@ -57,10 +58,10 @@ namespace Ghacu.GitHub
                 }
               }
 
-              return step;
+              return action;
             })
             .Select(t => t.Result)
-            .Where(step => !step.IsUpToDate))
+            .Where(action => !action.IsUpToDate))
         .Where(p => p.Value.Any())
         .ToDictionary(p => p.Key, p => p.Value.AsEnumerable());
     }

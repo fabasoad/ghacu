@@ -7,6 +7,7 @@ using Ghacu.GitHub.Exceptions;
 using Ghacu.Runner.Cli.Print;
 using Ghacu.Workflow;
 using Ghacu.Workflow.Exceptions;
+using Action = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.Runner.Cli
 {
@@ -45,11 +46,11 @@ namespace Ghacu.Runner.Cli
         return;
       }
 
-      IDictionary<WorkflowInfo, IEnumerable<Step>> outdated = _gitHubService.GetOutdated(infos);
-      foreach ((WorkflowInfo wfi, IEnumerable<Step> steps) in outdated)
+      IDictionary<WorkflowInfo, IEnumerable<Action>> outdated = _gitHubService.GetOutdated(infos);
+      foreach ((WorkflowInfo wfi, IEnumerable<Action> actions) in outdated)
       {
         _printer.PrintHeader(wfi.Workflow.Name, wfi.File.Name);
-        _printer.Print(steps);
+        _printer.Print(actions);
 
         if (shouldUpgrade)
         {

@@ -3,6 +3,7 @@ namespace Ghacu.Api.Entities
   public enum UsesType
   {
     Docker,
-    GitHub
+    GitHub,
+    Internal
   }
 }

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp5.0</TargetFramework>
+        <Title>GHACU</Title>
+        <Copyright>© Yevhen Fabizhevskyi (https://github.com/fabasoad)</Copyright>
+        <PackageProjectUrl>https://github.com/fabasoad/ghacu/</PackageProjectUrl>
+        <PackageLicenseUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/logo.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/fabasoad/ghacu/</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageVersion>2.0.1</PackageVersion>
+        <Authors>fabasoad</Authors>
+        <OutputType>Library</OutputType>
+        <Product>ghacu</Product>
+        <AssemblyVersion>2.0.1</AssemblyVersion>
+        <InformationalVersion>2.0.1</InformationalVersion>
+        <FileVersion>2.0.1</FileVersion>
+        <NeutralLanguage>en-UA</NeutralLanguage>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="1.3.0" />
+        <PackageReference Include="coverlet.msbuild" Version="2.9.0" />
+        <PackageReference Include="JustMock" Version="2020.2.616.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.0-preview-20200519-01" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2" />
+        <PackageReference Update="StyleCop.Analyzers" Version="1.2.0-beta.164" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Ghacu.Api\Ghacu.Api.csproj" />
+    </ItemGroup>
+
+</Project>
