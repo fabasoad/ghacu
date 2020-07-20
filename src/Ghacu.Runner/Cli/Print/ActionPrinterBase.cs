@@ -27,7 +27,7 @@ namespace Ghacu.Runner.Cli.Print
       }
     }
 
-    protected abstract void Print(string template, Action step);
+    protected abstract void Print(string template, Action action);
 
     public abstract void PrintNoUpgradeNeeded();
 
