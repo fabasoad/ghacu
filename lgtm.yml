@@ -1,3 +1,5 @@
 extraction:
-  dotnet:
-    version: 5.0
+  csharp:
+    index:
+      dotnet:
+        version: 5.0
