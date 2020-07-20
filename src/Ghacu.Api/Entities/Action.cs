@@ -62,18 +62,6 @@ namespace Ghacu.Api.Entities
       Initialize(null, actionName, null);
     }
 
-    private void Initialize(string owner, string repository, string version)
-    {
-      FullName = owner == null ? repository : $"{owner}/{repository}";
-      Owner = owner;
-      Repository = repository;
-      _currentVersion = new Version(version);
-      if (!IsValidForUpgrade)
-      {
-        _latestVersion = new Version(version);
-      }
-    }
-
     public string FullName { get; private set; }
 
     public string Owner { get; private set; }
@@ -134,6 +122,18 @@ namespace Ghacu.Api.Entities
       }
     }
 
+    private void Initialize(string owner, string repository, string version)
+    {
+      FullName = owner == null ? repository : $"{owner}/{repository}";
+      Owner = owner;
+      Repository = repository;
+      _currentVersion = new Version(version);
+      if (!IsValidForUpgrade)
+      {
+        _latestVersion = new Version(version);
+      }
+    }
+
     public bool Equals(Action other)
     {
       if (ReferenceEquals(null, other))
@@ -152,6 +152,6 @@ namespace Ghacu.Api.Entities
     public override bool Equals(object obj) =>
       ReferenceEquals(this, obj) || obj is Action other && Equals(other);
 
-    public override int GetHashCode() => HashCode.Combine(FullName, (int) Type);
+    public override int GetHashCode() => HashCode.Combine(FullName, (int)Type);
   }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ghacu.Api.Entities;
 using Xunit;
@@ -50,7 +51,7 @@ namespace Ghacu.Api.Tests.Entities
       bool isUpToDate,
       VersionDiffType versionDiffType)
     {
-      var action = new Action(actionName) {LatestVersion = latestVersion};
+      var action = new Action(actionName) { LatestVersion = latestVersion };
       Assert.Equal(type, action.Type);
       Assert.Equal(fullName, action.FullName);
       Assert.Equal(owner, action.Owner);
@@ -62,6 +63,7 @@ namespace Ghacu.Api.Tests.Entities
       Assert.Equal(versionDiffType, action.VersionDiffType);
     }
 
+    [SuppressMessage("ReSharper", "SA1201")]
     public static IEnumerable<object[]> DataInitializeAllCases => new List<object[]>
     {
       new object[]
@@ -248,6 +250,7 @@ namespace Ghacu.Api.Tests.Entities
       Assert.Equal(expected, action1.Equals((object)action2));
     }
 
+    [SuppressMessage("ReSharper", "SA1201")]
     public static IEnumerable<object[]> DataEqualsAllCases
     {
       get

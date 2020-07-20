@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Ghacu.Api.Entities;
 using Xunit;
@@ -17,6 +18,7 @@ namespace Ghacu.Api.Tests.Entities
       Assert.Equal(name, workflowFile.Name);
     }
 
+    [SuppressMessage("ReSharper", "SA1201")]
     public static IEnumerable<object[]> DataTestGettersSetters
     {
       get
