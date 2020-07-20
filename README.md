@@ -6,7 +6,7 @@ CLI tool that checks versions of GitHub Actions that used in a repository. Pleas
 ## Commands
 ```bash
 > ghacu --help
-ghacu 2.0.1
+ghacu 2.0.2
 © Yevhen Fabizhevskyi (https://github.com/fabasoad)
 
   --cache          (Default: Yes) Enable cache.
@@ -28,7 +28,7 @@ ghacu 2.0.1
 All commands are optional and can be run by purpose.
 ### GitHub Token
 There are 2 ways to pass GitHub token to _ghacu_:
-1. Using `-t`, `--token` parameter:
+1. Using `--token` parameter:
 ```bash
 ghacu --token abc123 --repository "C:\Projects\business-card"
 ```
@@ -67,7 +67,7 @@ pwsh ./build.ps1
 #### MacOS
 1. Open `inno/ghacu-win-{x64|x86}.iss` file in IDE.
 2. Increase version.
-3. Run the following command:
+3. Run the following command (bash):
 ```bash
 docker run --rm -i -v "$PWD:/work" amake/innosetup inno/ghacu-win-{x64|x86}.iss
 ```
