@@ -9,7 +9,15 @@ namespace Ghacu.Api.Entities
       FilePath = path;
     }
 
-    public string Name => FilePath.Substring(FilePath.IndexOf(".github", StringComparison.Ordinal));
+    public string Name
+    {
+      get
+      {
+        int index = FilePath?.IndexOf(".github", StringComparison.Ordinal) ?? -1;
+        return index < 0 ? string.Empty : FilePath.Substring(index);
+      }
+    }
+
     public string FilePath { get; }
   }
 }

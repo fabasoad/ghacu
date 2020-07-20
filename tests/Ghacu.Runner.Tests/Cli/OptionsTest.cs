@@ -37,7 +37,7 @@ namespace Ghacu.Runner.Tests.Cli
     }
 
     [Fact]
-    public void NoCache_ConfiguredCorrectly()
+    public void UseCache_ConfiguredCorrectly()
     {
       object[] attrs = typeof(Options).GetProperty("UseCache")?.GetCustomAttributes(typeof(OptionAttribute), false);
       Assert.NotNull(attrs);
@@ -74,6 +74,10 @@ namespace Ghacu.Runner.Tests.Cli
       const string expectedGitHubToken = "SomeToken";
       options.GitHubToken = expectedGitHubToken;
       Assert.Equal(expectedGitHubToken, options.GitHubToken);
+
+      const OutputType outputType = OutputType.Color;
+      options.OutputType = outputType;
+      Assert.Equal(outputType, options.OutputType);
     }
 
     [Fact]
@@ -103,7 +107,7 @@ namespace Ghacu.Runner.Tests.Cli
     }
 
     [Fact]
-    public void UseColor_ConfiguredCorrectly()
+    public void OutputType_ConfiguredCorrectly()
     {
       object[] attrs = typeof(Options).GetProperty("OutputType")?.GetCustomAttributes(typeof(OptionAttribute), false);
       Assert.NotNull(attrs);

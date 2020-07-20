@@ -26,10 +26,10 @@ namespace Ghacu.Api.Entities
         if (match.Success)
         {
           Type = UsesType.Docker;
-          string owner = match.Groups[1].Captures[0].Value;
-          string repository = match.Groups[2].Captures[0].Value;
-          FullName = $"{owner}/{repository}";
-          Initialize(owner, repository, match.Groups[3].Captures[0].Value);
+          Initialize(
+            match.Groups[1].Captures[0].Value,
+            match.Groups[2].Captures[0].Value,
+            match.Groups[3].Captures[0].Value);
           return;
         }
 
@@ -37,9 +37,10 @@ namespace Ghacu.Api.Entities
         if (match.Success)
         {
           Type = UsesType.Docker;
-          string repository = match.Groups[1].Captures[0].Value;
-          FullName = repository;
-          Initialize(null, repository, match.Groups[2].Captures[0].Value);
+          Initialize(
+            null,
+            match.Groups[1].Captures[0].Value,
+            match.Groups[2].Captures[0].Value);
           return;
         }
 
@@ -63,6 +64,7 @@ namespace Ghacu.Api.Entities
 
     private void Initialize(string owner, string repository, string version)
     {
+      FullName = owner == null ? repository : $"{owner}/{repository}";
       Owner = owner;
       Repository = repository;
       _currentVersion = new Version(version);
@@ -96,11 +98,6 @@ namespace Ghacu.Api.Entities
     {
       get
       {
-        if (IsUpToDate)
-        {
-          return VersionDiffType.None;
-        }
-
         SemVersion currentVersion;
         SemVersion latestVersion;
         try

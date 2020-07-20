@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using Ghacu.Api.Entities;
 using Xunit;
 
@@ -29,7 +28,9 @@ namespace Ghacu.Api.Tests.Entities
     {
       var step = new Step { Uses = uses };
       Assert.Equal(uses, step.Uses);
-      Assert.NotNull(step.Action);
+      Action action = step.Action;
+      Assert.NotNull(action);
+      Assert.Same(action, step.Action);
     }
   }
 }
