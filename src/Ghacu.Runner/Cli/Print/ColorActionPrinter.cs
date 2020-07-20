@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Ghacu.Api.Entities;
+using Action = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.Runner.Cli.Print
 {
@@ -23,30 +23,30 @@ namespace Ghacu.Runner.Cli.Print
       Console.ForegroundColor = _foregroundColorDefault;
     }
 
-    protected override void Print(string template, Step step)
+    protected override void Print(string template, Action action)
     {
-      string latestVersion = step.Uses.GetLatestVersion().Value;
+      string latestVersion = action.LatestVersion;
       string latestVersion1, latestVersion2;
       ConsoleColor color;
-      if (step.VersionDiffType == VersionDiffType.Major || step.VersionDiffType == VersionDiffType.None)
+      if (action.VersionDiffType == VersionDiffType.Major || action.VersionDiffType == VersionDiffType.None)
       {
         latestVersion1 = Regex.Replace(latestVersion, "(v*)(.*)", "$1");
         latestVersion2 = Regex.Replace(latestVersion, "(v*)(.*)", "$2");
         color = FOREGROUND_COLOR_MAJOR;
       }
-      else if (step.VersionDiffType == VersionDiffType.Minor)
+      else if (action.VersionDiffType == VersionDiffType.Minor)
       {
         latestVersion1 = Regex.Replace(latestVersion, "([a-zA-Z0-9]+\\.)(.*)", "$1");
         latestVersion2 = Regex.Replace(latestVersion, "([a-zA-Z0-9]+\\.)(.*)", "$2");
         color = FOREGROUND_COLOR_MINOR;
       }
-      else if (step.VersionDiffType == VersionDiffType.Patch)
+      else if (action.VersionDiffType == VersionDiffType.Patch)
       {
         latestVersion1 = Regex.Replace(latestVersion, "([a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\.)(.*)", "$1");
         latestVersion2 = Regex.Replace(latestVersion, "([a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\.)(.*)", "$2");
         color = FOREGROUND_COLOR_PATCH;
       }
-      else if (step.VersionDiffType == VersionDiffType.Prerelease)
+      else if (action.VersionDiffType == VersionDiffType.Prerelease)
       {
         latestVersion1 = Regex.Replace(latestVersion, "([a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\.[a-zA-Z0-9]+)(.*)", "$1");
         latestVersion2 = Regex.Replace(latestVersion, "([a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\.[a-zA-Z0-9]+)(.*)", "$2");
@@ -59,7 +59,7 @@ namespace Ghacu.Runner.Cli.Print
         color = FOREGROUND_COLOR_BUILD;
       }
       
-      Console.Write(template, step.Uses.ActionName, step.Uses.CurrentVersion.Value, ArrowChar, latestVersion1);
+      Console.Write(template, action.Repository, action.CurrentVersion, ArrowChar, latestVersion1);
       Console.ForegroundColor = color;
       Console.WriteLine(latestVersion2);
       Console.ForegroundColor = _foregroundColorDefault;

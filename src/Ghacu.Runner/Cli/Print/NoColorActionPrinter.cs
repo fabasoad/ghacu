@@ -1,5 +1,5 @@
 using System;
-using Ghacu.Api.Entities;
+using Action = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.Runner.Cli.Print
 {
@@ -7,8 +7,8 @@ namespace Ghacu.Runner.Cli.Print
   {
     public override void PrintHeader(string workflowName, string fileName) => Console.WriteLine($"> {workflowName} ({fileName})");
 
-    protected override void Print(string template, Step step) => Console.WriteLine(
-      template, step.Uses.ActionName, step.Uses.CurrentVersion.Value, ArrowChar, step.Uses.GetLatestVersion().Value);
+    protected override void Print(string template, Action action) => Console.WriteLine(
+      template, action.Repository, action.CurrentVersion, ArrowChar, action.LatestVersion);
 
     public override void PrintNoUpgradeNeeded() => Console.WriteLine("All GitHub Actions match the latest versions :)");
 

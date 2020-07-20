@@ -7,7 +7,7 @@ namespace Ghacu.Runner.Cli.Print
   {
     void PrintHeader(string workflowName, string fileName);
     
-    void Print(IEnumerable<Step> steps);
+    void Print(IEnumerable<Action> steps);
 
     void PrintNoUpgradeNeeded();
 

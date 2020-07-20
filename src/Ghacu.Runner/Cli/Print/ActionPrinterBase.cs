@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Ghacu.Api.Entities;
+using Action = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.Runner.Cli.Print
 {
@@ -10,23 +11,23 @@ namespace Ghacu.Runner.Cli.Print
     
     public abstract void PrintHeader(string workflowName, string fileName);
 
-    public void Print(IEnumerable<Step> steps)
+    public void Print(IEnumerable<Action> actions)
     {
       var maxWidthName = 0;
       var maxWidthCurrentVersion = 0;
-      foreach (Step step in steps)
+      foreach (Action action in actions)
       {
-        maxWidthName = Math.Max(maxWidthName, step.Uses.ActionName.Length);
-        maxWidthCurrentVersion = Math.Max(maxWidthCurrentVersion, step.Uses.CurrentVersion.Value.Length);
+        maxWidthName = Math.Max(maxWidthName, action.Repository.Length);
+        maxWidthCurrentVersion = Math.Max(maxWidthCurrentVersion, action.CurrentVersion.Length);
       }
 
-      foreach (Step step in steps)
+      foreach (Action action in actions)
       {
-        Print("{0,-" + maxWidthName + "}  {1," + maxWidthCurrentVersion + "}  {2}  {3}", step);
+        Print("{0,-" + maxWidthName + "}  {1," + maxWidthCurrentVersion + "}  {2}  {3}", action);
       }
     }
 
-    protected abstract void Print(string template, Step step);
+    protected abstract void Print(string template, Action action);
 
     public abstract void PrintNoUpgradeNeeded();
 
