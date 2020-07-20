@@ -1,4 +1,5 @@
 <!-- Please refer to our contributing documentation for any questions on submitting a pull request, or let us know here if you need any help -->
+Closes #<IssueNumber>
 
 ## Pull request checklist
 
@@ -27,8 +28,6 @@ Please check the type of change your PR introduces:
 
 ## What is the current behavior?
 <!-- Please describe the current behavior that you are modifying, or link to a relevant issue. -->
-
-Closes #<IssueNumber>
 
 
 ## What is the new behavior?
