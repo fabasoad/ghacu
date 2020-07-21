@@ -44,7 +44,7 @@ jobs:
       - name: Install application (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          Invoke-WebRequest -Uri $GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v$env:GHACU_VERSION/ghacu-$env:GHACU_VERSION-win-x64.tgz -OutFile ghacu-$env:GHACU_VERSION-win-x64.tgz
+          Invoke-WebRequest -Uri $env:GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v$env:GHACU_VERSION/ghacu-$env:GHACU_VERSION-win-x64.tgz -OutFile ghacu-$env:GHACU_VERSION-win-x64.tgz
           tar -xvf ghacu-$env:GHACU_VERSION-win-x64.tgz
           $env:Path += ";${{ github.workspace }}\ghacu-$env:GHACU_VERSION-win-x64"
           Write-Output "::set-env name=PATH::$env:Path"
