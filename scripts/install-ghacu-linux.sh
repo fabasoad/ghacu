@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 os='linux-x64'
-asset=$(curl -s https://api.github.com/repos/fabasoad/ghacu/releases/latest | jq -c '.assets[] | select(.name | contains('"\"$os\""'))')
+asset=$(curl -s https://api.github.com/repos/fabasoad/ghacu/releases/latest | jq -c '.assets[] | select(.name | contains('"\"$os.tgz\""'))')
 cd ~ && echo ${asset} | jq -r '.browser_download_url' | xargs wget
 tar_name=$(echo ${asset} | jq -r '.name')
 tar -xvf ${tar_name}
