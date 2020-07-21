@@ -28,8 +28,8 @@ function Compress-Package {
   Set-Location ..
 }
 
-$xml = [xml](Get-Content ghacu.nuspec)
-$version = $xml.package.metadata.version
+$xml = [xml](Get-Content src/Ghacu.Runner/Ghacu.Runner.csproj)
+$version = $xml.Project.PropertyGroup.PackageVersion
 
 switch($os) {
   {($_ -eq "macos-latest") -Or ($_ -eq "")} {

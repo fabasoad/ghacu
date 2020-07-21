@@ -47,16 +47,16 @@ jobs:
         uses: actions/setup-dotnet@v1.5.0
         with:
           dotnet-version: 5.0.100-preview.6.20318.15
-      - name: Extract version
-        id: version
+      - name: Get latest release
         run: |
-          $Version = $([xml](Get-Content src/Ghacu.Runner/Ghacu.Runner.csproj)).Project.PropertyGroup.PackageVersion
-          Write-Output "Current ghacu version is $Version"
-          Write-Output "::set-output name=value::$Version"
-        shell: pwsh
+          tag_name=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s $GITHUB_API_URL/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
+          echo "ghacu latest version is ${tag_name:1}"
+          echo "::set-env name=GHACU_VERSION::${tag_name:1}"
+        shell: bash
       - name: Build
         run: |
           dotnet clean
-          dotnet build -c Release -p:Version=${{ steps.version.outputs.value }}
+          dotnet build -c Release -p:Version=$GHACU_VERSION
+        shell: bash
       - name: Run ghacu
         run: dotnet ./src/Ghacu.Runner/bin/Release/netcoreapp5.0/ghacu.dll --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }} --log-level Information

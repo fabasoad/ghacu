@@ -9,12 +9,12 @@
         <PackageIconUrl>https://raw.githubusercontent.com/fabasoad/ghacu/main/logo.png</PackageIconUrl>
         <RepositoryUrl>https://github.com/fabasoad/ghacu/</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageVersion>2.0.1</PackageVersion>
+        <PackageVersion>$(GHACU_VERSION)</PackageVersion>
         <Authors>fabasoad</Authors>
         <OutputType>Library</OutputType>
-        <AssemblyVersion>2.0.1</AssemblyVersion>
-        <InformationalVersion>2.0.1</InformationalVersion>
-        <FileVersion>2.0.1</FileVersion>
+        <AssemblyVersion>$(GHACU_VERSION)</AssemblyVersion>
+        <InformationalVersion>$(GHACU_VERSION)</InformationalVersion>
+        <FileVersion>$(GHACU_VERSION)</FileVersion>
         <NeutralLanguage>en-UA</NeutralLanguage>
         <Product>ghacu</Product>
     </PropertyGroup>
