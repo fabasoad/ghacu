@@ -38,6 +38,7 @@ jobs:
       - name: Get latest version
         run: |
           tag_name=$(curl -s https://api.github.com/repos/fabasoad/ghacu/releases/latest | jq -r '.tag_name')
+          echo "ghacu latest version is ${tag_name:1}"
           echo "::set-env name=GHACU_VERSION::${tag_name:1}"
         shell: bash
       - name: Install application (Windows)
