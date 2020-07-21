@@ -35,16 +35,22 @@ jobs:
         uses: actions/setup-dotnet@v1.5.0
         with:
           dotnet-version: 5.0.100-preview.6.20318.15
-      - name: Get latest version
+      - name: Get latest release
+        id: latest_version
+        uses: abatilo/release-info-action@v1.1.0
+        with:
+          owner: fabasoad
+          repo: ghacu
+      - name: Define GHACU_VERSION env
         run: |
-          tag_name=$(curl -s https://api.github.com/repos/fabasoad/ghacu/releases/latest | jq -r '.tag_name')
+          tag_name=${{ steps.latest_version.outputs.latest_tag }}
           echo "ghacu latest version is ${tag_name:1}"
           echo "::set-env name=GHACU_VERSION::${tag_name:1}"
         shell: bash
       - name: Install application (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          Invoke-WebRequest -Uri https://github.com/fabasoad/ghacu/releases/download/v$env:GHACU_VERSION/ghacu-$env:GHACU_VERSION-win-x64.tgz -OutFile ghacu-$env:GHACU_VERSION-win-x64.tgz
+          Invoke-WebRequest -Uri $GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v$env:GHACU_VERSION/ghacu-$env:GHACU_VERSION-win-x64.tgz -OutFile ghacu-$env:GHACU_VERSION-win-x64.tgz
           tar -xvf ghacu-$env:GHACU_VERSION-win-x64.tgz
           $env:Path += ";${{ github.workspace }}\ghacu-$env:GHACU_VERSION-win-x64"
           Write-Output "::set-env name=PATH::$env:Path"
@@ -52,7 +58,7 @@ jobs:
       - name: Install application (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v$GHACU_VERSION/ghacu-$GHACU_VERSION-linux-x64.tgz
+          cd ~ && wget $GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v$GHACU_VERSION/ghacu-$GHACU_VERSION-linux-x64.tgz
           tar -xvf ghacu-$GHACU_VERSION-linux-x64.tgz
           chmod +x ~/ghacu-$GHACU_VERSION-linux-x64/ghacu
           PATH=$PATH:~/ghacu-$GHACU_VERSION-linux-x64
@@ -60,7 +66,7 @@ jobs:
       - name: Install application (MacOS)
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v$GHACU_VERSION/ghacu-$GHACU_VERSION-osx-x64.tgz
+          cd ~ && wget $GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v$GHACU_VERSION/ghacu-$GHACU_VERSION-osx-x64.tgz
           tar -xvf ghacu-$GHACU_VERSION-osx-x64.tgz
           chmod +x ~/ghacu-$GHACU_VERSION-osx-x64/ghacu
           PATH=$PATH:~/ghacu-$GHACU_VERSION-osx-x64
