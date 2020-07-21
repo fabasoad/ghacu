@@ -36,14 +36,8 @@ jobs:
         with:
           dotnet-version: 5.0.100-preview.6.20318.15
       - name: Get latest release
-        id: latest_version
-        uses: pozetroninc/github-action-get-latest-release@v0.4.0
-        with:
-          owner: fabasoad
-          repo: ghacu
-      - name: Define GHACU_VERSION env
         run: |
-          tag_name=${{ steps.latest_version.outputs.release }}
+          tag_name=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s $GITHUB_API_URL/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
           echo "ghacu latest version is ${tag_name:1}"
           echo "::set-env name=GHACU_VERSION::${tag_name:1}"
         shell: bash
