@@ -43,16 +43,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2.3.1
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v1.5.0
+        with:
+          dotnet-version: 5.0.100-preview.6.20318.15
       - name: Get latest release
         run: |
           tag_name=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s $GITHUB_API_URL/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
           echo "ghacu latest version is ${tag_name:1}"
           echo "::set-env name=GHACU_VERSION::${tag_name:1}"
         shell: bash
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v1.5.0
-        with:
-          dotnet-version: 5.0.100-preview.6.20318.15
       - name: Build
         run: |
           dotnet clean

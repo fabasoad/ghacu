@@ -49,6 +49,7 @@ decathlon/release-notes-generator-action   2.0.0  »  v2.0.1
 Run ghacu --upgrade to upgrade the actions.
 ```
 ## Dev section
+As a prerequisite you need to define `GHACU_VERSION` environment variable.
 ### How to build an application
 #### MacOS
 ```bash

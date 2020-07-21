@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ghacu"
-#define MyAppVersion "2.0.2"
+#define MyAppVersion GetEnv('GHACU_VERSION')
 #define MyAppPublisher "Yevhen Fabizhevskyi"
 #define MyAppURL "https://github.com/fabasoad/ghacu"
 #define MyAppExeName "ghacu.exe"

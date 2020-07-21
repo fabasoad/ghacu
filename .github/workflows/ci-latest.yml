@@ -3,8 +3,6 @@ name: CI (latest)
 
 on:
   push:
-    branches:
-      - 'feature/**'
     tags:
       - 'v*.*.*'
 
@@ -57,6 +55,7 @@ jobs:
           chmod +x ~/ghacu-$GHACU_VERSION-linux-x64/ghacu
           PATH=$PATH:~/ghacu-$GHACU_VERSION-linux-x64
           echo "::set-env name=PATH::$PATH"
+        shell: bash
       - name: Install application (MacOS)
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
@@ -65,5 +64,6 @@ jobs:
           chmod +x ~/ghacu-$GHACU_VERSION-osx-x64/ghacu
           PATH=$PATH:~/ghacu-$GHACU_VERSION-osx-x64
           echo "::set-env name=PATH::$PATH"
+        shell: bash
       - name: Run GHACU
         run: ghacu --version
