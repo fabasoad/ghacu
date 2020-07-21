@@ -57,7 +57,10 @@ jobs:
       - name: Install application (MacOS)
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          curl https://raw.githubusercontent.com/fabasoad/ghacu/feature/40/scripts/install-ghacu-osx.sh | bash
+          cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v$GHACU_VERSION/ghacu-$GHACU_VERSION-osx-x64.tgz
+          tar -xvf ghacu-$GHACU_VERSION-osx-x64.tgz
+          chmod +x ~/ghacu-$GHACU_VERSION-osx-x64/ghacu
+          PATH=$PATH:~/ghacu-$GHACU_VERSION-osx-x64
           echo "::set-env name=PATH::$PATH"
       - name: Run GHACU
         run: ghacu --version
