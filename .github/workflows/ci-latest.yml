@@ -8,9 +8,6 @@ on:
     tags:
       - 'v*.*.*'
 
-env:
-  GHACU_VERSION: 2.0.2
-
 jobs:
   unit:
     name: Unit Testing
@@ -38,6 +35,11 @@ jobs:
         uses: actions/setup-dotnet@v1.5.0
         with:
           dotnet-version: 5.0.100-preview.6.20318.15
+      - name: Get latest version
+        run: |
+          tag_name=$(curl -s https://api.github.com/repos/fabasoad/ghacu/releases/latest | jq -r '.tag_name')
+          echo "::set-env name=GHACU_VERSION::${tag_name:1}"
+        shell: bash
       - name: Install application (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
