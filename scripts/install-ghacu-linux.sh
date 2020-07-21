@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 os='linux-x64'
-version='2.0.2'
-cd ~ && wget https://github.com/fabasoad/ghacu/releases/download/v$version/ghacu-$version-$os.tgz
-tar -xvf ghacu-$version-$os.tgz
-chmod +x ~/ghacu-$version-$os/ghacu
-ln -sfn ~/ghacu-$version-$os/ghacu /usr/local/bin/ghacu
+asset=$(curl -s https://api.github.com/repos/fabasoad/ghacu/releases/latest | jq -c '.assets[] | select(.name | contains('"\"$os\""'))')
+cd ~ && echo ${asset} | jq -r '.browser_download_url' | xargs wget
+tar_name=$(echo ${asset} | jq -r '.name')
+tar -xvf ${tar_name}
+folder=$(basename ${tar_name} .tgz)
+PATH=$PATH:~/${folder}
+chmod +x ~/${folder}/ghacu
+ln -sfn ~/${folder}/ghacu /usr/local/bin/ghacu

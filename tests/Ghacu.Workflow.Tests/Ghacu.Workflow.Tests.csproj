@@ -5,7 +5,7 @@
     <IsPackable>false</IsPackable>
     <RuntimeIdentifiers>win-x64;win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
     <TargetFramework>netcoreapp5.0</TargetFramework>
-    <PackageVersion>2.0.2</PackageVersion>
+    <PackageVersion>$(GHACU_VERSION)</PackageVersion>
     <Authors>fabasoad</Authors>
     <Title>GHACU</Title>
     <Copyright>© Yevhen Fabizhevskyi (https://github.com/fabasoad)</Copyright>
@@ -16,9 +16,9 @@
     <RepositoryType>git</RepositoryType>
     <OutputType>Library</OutputType>
     <Product>ghacu</Product>
-    <AssemblyVersion>2.0.2</AssemblyVersion>
-    <InformationalVersion>2.0.2</InformationalVersion>
-    <FileVersion>2.0.2</FileVersion>
+    <AssemblyVersion>$(GHACU_VERSION)</AssemblyVersion>
+    <InformationalVersion>$(GHACU_VERSION)</InformationalVersion>
+    <FileVersion>$(GHACU_VERSION)</FileVersion>
     <NeutralLanguage>en-UA</NeutralLanguage>
   </PropertyGroup>
 

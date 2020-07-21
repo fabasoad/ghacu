@@ -12,6 +12,9 @@ on:
     branches:
       - main
 
+env:
+  GHACU_VERSION: 2.0.2
+
 jobs:
   unit:
     name: Unit Testing

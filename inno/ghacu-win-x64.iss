@@ -25,7 +25,7 @@ DisableProgramGroupPage=yes
 LicenseFile=..\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=ghacu-2.0.2-win-x64
+OutputBaseFilename=ghacu-{#MyAppVersion}-win-x64
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -34,8 +34,8 @@ WizardStyle=modern
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\bin\ghacu-2.0.2-win-x64\ghacu.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\ghacu-2.0.2-win-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\ghacu-{#MyAppVersion}-win-x64\ghacu.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\ghacu-{#MyAppVersion}-win-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

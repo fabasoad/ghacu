@@ -5,10 +5,6 @@ CLI tool that checks versions of GitHub Actions that used in a repository. Pleas
 
 ## Commands
 ```bash
-> ghacu --help
-ghacu 2.0.2
-© Yevhen Fabizhevskyi (https://github.com/fabasoad)
-
   --cache          (Default: Yes) Enable cache.
 
   --log-level      (Default: Error) Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.
