@@ -1,6 +1,6 @@
 $os = 'win-x64'
 $release = Invoke-WebRequest -Uri "https://api.github.com/repos/fabasoad/ghacu/releases/latest" | ConvertFrom-Json
-$asset = null
+$asset = $null
 For ($i = 0; $i -lt $release.assets.Length; $i++)
 {
     If ($release.assets[$i].name -like "*$os*")
