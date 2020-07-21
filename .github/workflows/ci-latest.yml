@@ -41,9 +41,9 @@ jobs:
       - name: Install application (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          Invoke-WebRequest -Uri https://github.com/fabasoad/ghacu/releases/download/v$GHACU_VERSION/ghacu-$GHACU_VERSION-win-x64.tgz -OutFile ghacu-$GHACU_VERSION-win-x64.tgz
-          tar -xvf ghacu-$GHACU_VERSION-win-x64.tgz
-          $env:Path += ";${{ github.workspace }}\ghacu-$GHACU_VERSION-win-x64"
+          Invoke-WebRequest -Uri https://github.com/fabasoad/ghacu/releases/download/v$env:GHACU_VERSION/ghacu-$env:GHACU_VERSION-win-x64.tgz -OutFile ghacu-$env:GHACU_VERSION-win-x64.tgz
+          tar -xvf ghacu-$env:GHACU_VERSION-win-x64.tgz
+          $env:Path += ";${{ github.workspace }}\ghacu-$env:GHACU_VERSION-win-x64"
           Write-Output "::set-env name=PATH::$env:Path"
         shell: pwsh
       - name: Install application (Linux)
