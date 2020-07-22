@@ -74,6 +74,3 @@ docker run --rm -i -v "$PWD:/work" amake/innosetup inno/ghacu-win-{x64|x86}.iss
 2. Open `inno\ghacu-win-{x64|x86}.iss` file with _Inno Setup_.
 3. Increase version.
 4. Run _Build_ -> _Compile_.
-## Troubleshooting
-### API rate limit exceeded for...
-If you see such message it means that you [exceeded limit](https://developer.github.com/v3/#rate-limiting) of requests as unauthenticated user. For authenticated users rate limit is much bigger, so to solve this problem you need to pass GitHub token to _ghacu_. More information [here](#github-token).
