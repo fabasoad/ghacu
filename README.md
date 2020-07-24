@@ -16,7 +16,7 @@
 
 <p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/feature/41/resources/ghacu-demo.gif" width="60%"/></a></p><br/>
 
-## :newspaper: Description
+## :page_with_curl: Description
 CLI tool that checks versions of GitHub Actions that used in a repository. Please read [documentation](https://github.com/fabasoad/ghacu/wiki) for more details.
 
 ## :shipit: Commands
