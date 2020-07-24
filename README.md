@@ -1,9 +1,25 @@
-# GitHub Actions Check Updates
-![CI (main)](https://github.com/fabasoad/ghacu/workflows/CI%20(main)/badge.svg) ![CI (latest)](https://github.com/fabasoad/ghacu/workflows/CI%20(latest)/badge.svg) ![YAML Lint](https://github.com/fabasoad/ghacu/workflows/YAML%20Lint/badge.svg) ![PowerShell Lint](https://github.com/fabasoad/ghacu/workflows/PowerShell%20Lint/badge.svg) [![Total alerts](https://img.shields.io/lgtm/alerts/g/fabasoad/ghacu.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fabasoad/ghacu/alerts/) [![Maintainability](https://api.codeclimate.com/v1/badges/261a8a73037043dfde09/maintainability)](https://codeclimate.com/github/fabasoad/ghacu/maintainability) [![codecov](https://codecov.io/gh/fabasoad/ghacu/branch/main/graph/badge.svg)](https://codecov.io/gh/fabasoad/ghacu) ![License: MIT](https://img.shields.io/github/license/fabasoad/ghacu)
-## Description
+<p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/feature/41/resources/ghacu-logo-png-img.png" alt="ghacu logo" height="120"/></a></p>
+<h1 align="center">ghacu</h1>
+<p align="center">Keep your GitHub Actions up-to-date.</p>
+
+<p align="center">
+	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22CI+%28main%29%22"><img src="https://github.com/fabasoad/ghacu/workflows/CI%20(main)/badge.svg" /></a>
+	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22CI+%28latest%29%22"><img src="https://github.com/fabasoad/ghacu/workflows/CI%20(latest)/badge.svg" /></a>
+	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22YAML+Lint%22"><img src="https://github.com/fabasoad/ghacu/workflows/YAML%20Lint/badge.svg" /></a>
+	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22PowerShell+Lint%22"><img src="https://github.com/fabasoad/ghacu/workflows/PowerShell%20Lint/badge.svg" /></a>
+	<a href="https://lgtm.com/projects/g/fabasoad/ghacu/alerts/"><img src="https://img.shields.io/lgtm/alerts/g/fabasoad/ghacu.svg?logo=lgtm&logoWidth=18" /></a>
+	<a href="https://codeclimate.com/github/fabasoad/ghacu/maintainability"><img src="https://api.codeclimate.com/v1/badges/261a8a73037043dfde09/maintainability" /></a>
+	<a href="https://codecov.io/gh/fabasoad/ghacu"><img src="https://codecov.io/gh/fabasoad/ghacu/branch/main/graph/badge.svg" /></a>
+	<a href="https://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/github/license/fabasoad/ghacu" /></a>
+    <a href="https://twitter.com/intent/tweet?text=Ditch%20all%20that%20convoluted%20%22Math.random()%22%20code.%20Rando.js%20makes%20picking%20a%20number%201-100%20as%20simple%20as%20%22rando(1,%20100)%22,%20and%20it%20can%20do%20way%20more%20just%20as%20easily-%20at%20a%20cryptographically%20strong%20level.&url=https://github.com/nastyox/Rando.js&hashtags=javascript,opensource,js,webdev,developers"><img src="http://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
+</p><br/><br/>
+
+<p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/feature/41/resources/ghacu-demo.gif" width="100%"/></a></p><br/>
+
+## :newspaper: Description
 CLI tool that checks versions of GitHub Actions that used in a repository. Please read [documentation](https://github.com/fabasoad/ghacu/wiki) for more details.
 
-## Commands
+## :shipit: Commands
 ```bash
   --cache          (Default: Yes) Enable cache.
 
@@ -22,7 +38,8 @@ CLI tool that checks versions of GitHub Actions that used in a repository. Pleas
   --version        Display version information.
 ```
 All commands are optional and can be run by purpose.
-### GitHub Token
+
+### :key: GitHub Token
 There are 2 ways to pass GitHub token to _ghacu_:
 1. Using `--token` parameter:
 ```bash
@@ -34,7 +51,8 @@ export GHACU_GITHUB_TOKEN=abc123
 ghacu --repository "C:\Projects\business-card"
 ```
 > Program argument way takes precedence over the environment variable way. So the program looks at program argument first, if it's not present it looks at GHACU_GITHUB_TOKEN environment variable and if it's not present as well then ghacu will work as unauthenticated user.
-## Example
+
+## :crystal_ball: Examples  
 ```bash
 PS C:\Projects\business-card> ghacu
 > CI (.github\workflows\ci.yml)
@@ -48,29 +66,5 @@ decathlon/release-notes-generator-action   2.0.0  »  v2.0.1
 
 Run ghacu --upgrade to upgrade the actions.
 ```
-## Dev section
-As a prerequisite you need to define `GHACU_VERSION` environment variable.
-### How to build an application
-#### MacOS
-```bash
-brew cask install pwsh
-pwsh ./build.ps1
-```
-#### Windows
-```bash
-.\build.ps1
-```
-### How to create MSI
-#### MacOS
-1. Open `inno/ghacu-win-{x64|x86}.iss` file in IDE.
-2. Increase version.
-3. Run the following command (bash):
-```bash
-docker run --rm -i -v "$PWD:/work" amake/innosetup inno/ghacu-win-{x64|x86}.iss
-```
-> Please take a look at [this](https://gist.github.com/amake/3e7194e5e61d0e1850bba144797fd797) page for more details.
-#### Windows
-1. Download and install [Inno Setup](https://jrsoftware.org/isinfo.php).
-2. Open `inno\ghacu-win-{x64|x86}.iss` file with _Inno Setup_.
-3. Increase version.
-4. Run _Build_ -> _Compile_.
+
+<p align="center"><a href="https://github.com/fabasoad/ghacu#">:top:</a></p>
