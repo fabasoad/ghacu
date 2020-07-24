@@ -19,6 +19,9 @@ namespace Ghacu.Runner
 {
   public class Program
   {
+    private const string APP_NAME = "ghacu";
+    private const string ENV_GITHUB_TOKEN = "GHACU_GITHUB_TOKEN";
+    
     public static void Main(string[] args)
     {
       Parser.Default
@@ -26,8 +29,8 @@ namespace Ghacu.Runner
         .WithParsed(o =>
         {
           IServiceCollection services = new ServiceCollection()
-            .AddSingleton<IGlobalConfig, GlobalConfig>(_ => new GlobalConfig(o.GitHubToken, o.UseCache == BooleanOption.Yes))
-            .AddTransient<GitHubClient>()
+            .AddSingleton<IGlobalConfig, GlobalConfig>(_ => new GlobalConfig(o.UseCache == BooleanOption.Yes))
+            .AddTransient<GitHubVersionProvider>()
             .AddTransient<DbCache>()
             .AddTransient<MemoryCache>()
             .AddTransient<Func<LatestVersionProviderType, ILatestVersionProvider>>(serviceProvider => type =>
@@ -35,8 +38,10 @@ namespace Ghacu.Runner
               {
                 LatestVersionProviderType.DbCache => serviceProvider.GetService<DbCache>(),
                 LatestVersionProviderType.MemoryCache => serviceProvider.GetService<MemoryCache>(),
-                _ => serviceProvider.GetService<GitHubClient>()
+                _ => serviceProvider.GetService<GitHubVersionProvider>()
               })
+            .AddTransient<IGitHubClient, GitHubClient>(
+              _ => new GitHubClient(APP_NAME, o.GitHubToken ?? Environment.GetEnvironmentVariable(ENV_GITHUB_TOKEN)))
             .AddTransient<Func<string, ILiteDatabase>>(_ => filePath => new LiteDatabase(filePath))
             .AddLogging(b => b
               .AddConsole(options =>
