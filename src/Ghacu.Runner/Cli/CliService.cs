@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Ghacu.Api.Entities;
 using Ghacu.GitHub;
-using Ghacu.GitHub.Exceptions;
 using Ghacu.Runner.Cli.Print;
 using Ghacu.Workflow;
 using Ghacu.Workflow.Exceptions;

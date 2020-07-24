@@ -14,6 +14,7 @@ namespace Ghacu.Api.Entities
       get
       {
         int index = FilePath?.IndexOf(".github", StringComparison.Ordinal) ?? -1;
+        // ReSharper disable once PossibleNullReferenceException
         return index < 0 ? string.Empty : FilePath.Substring(index);
       }
     }
