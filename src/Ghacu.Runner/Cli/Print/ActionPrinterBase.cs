@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Ghacu.Api.Entities;
 using Action = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.Runner.Cli.Print
