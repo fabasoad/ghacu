@@ -26,7 +26,8 @@ namespace Ghacu.Api.Entities
 
       try
       {
-        return ToSemVersion().CompareTo(other.ToSemVersion());
+        int result = ToSemVersion().CompareTo(other.ToSemVersion());
+        return result == 0 ? string.Compare(Value, other.Value, StringComparison.Ordinal) : result;
       }
       catch (Exception)
       {

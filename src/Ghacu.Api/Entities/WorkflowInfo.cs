@@ -16,6 +16,11 @@ namespace Ghacu.Api.Entities
 
     public void Upgrade()
     {
+      if (string.IsNullOrWhiteSpace(File.FilePath) || !System.IO.File.Exists(File.FilePath))
+      {
+        return;
+      }
+
       string content = System.IO.File.ReadAllText(File.FilePath);
       foreach (Action action in Workflow.Jobs.Values
         .SelectMany(job => job.Steps)
@@ -24,11 +29,10 @@ namespace Ghacu.Api.Entities
         .Distinct())
       {
         string delimiter = action.Type == UsesType.Docker ? ":" : "@";
-        string prefix = action.Type == UsesType.Docker ? "docker://" : string.Empty;
         content = Regex.Replace(
           content,
-          $"(.*)({action.FullName}{delimiter}.+[ \t]*)(\n.*)",
-          $"$1{prefix}{action.FullName}{delimiter}{action.LatestVersion}$3");
+          $"(.*)({action.FullName}{delimiter}.+[ \t]*)(.*)",
+          $"$1{action.FullName}{delimiter}{action.LatestVersion}$3");
       }
 
       System.IO.File.WriteAllText(File.FilePath, content);
