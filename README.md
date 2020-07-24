@@ -11,7 +11,7 @@
 	<a href="https://codeclimate.com/github/fabasoad/ghacu/maintainability"><img src="https://api.codeclimate.com/v1/badges/261a8a73037043dfde09/maintainability" /></a>
 	<a href="https://codecov.io/gh/fabasoad/ghacu"><img src="https://codecov.io/gh/fabasoad/ghacu/branch/main/graph/badge.svg" /></a>
 	<a href="https://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/github/license/fabasoad/ghacu" /></a>
-    <a href="https://twitter.com/intent/tweet?text=Ditch%20all%20that%20convoluted%20%22Math.random()%22%20code.%20Rando.js%20makes%20picking%20a%20number%201-100%20as%20simple%20as%20%22rando(1,%20100)%22,%20and%20it%20can%20do%20way%20more%20just%20as%20easily-%20at%20a%20cryptographically%20strong%20level.&url=https://github.com/nastyox/Rando.js&hashtags=javascript,opensource,js,webdev,developers"><img src="http://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
+    <a href="https://twitter.com/intent/tweet?text=Keep%20your%20GitHub%20Actions%20up-to-date!%20It's%20easy%20to%20use%20locally%20as%20well%20as%20in%20your%20CI%20pipeline.%20Check%20it%20out!&url=https://github.com/fabasoad/ghacu&hashtags=githubactions,opensource,dependencies,csharp,updates"><img src="http://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
 </p><br/><br/>
 
 <p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/feature/41/resources/ghacu-demo.gif" width="60%"/></a></p><br/>
