@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/feature/41/resources/ghacu-logo-png-img.png" alt="ghacu logo" height="120"/></a></p>
+<p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/main/resources/ghacu-logo-png-img.png" alt="ghacu logo" height="120"/></a></p>
 <h1 align="center">ghacu</h1>
 <p align="center">Keep your GitHub Actions up-to-date.</p>
 
@@ -14,7 +14,7 @@
     <a href="https://twitter.com/intent/tweet?text=Keep%20your%20GitHub%20Actions%20up-to-date!%20It's%20easy%20to%20use%20locally%20as%20well%20as%20in%20your%20CI%20pipeline.%20Check%20it%20out!&url=https://github.com/fabasoad/ghacu&hashtags=githubactions,opensource,dependencies,csharp,updates"><img src="http://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
 </p><br/><br/>
 
-<p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/feature/41/resources/ghacu-demo.gif" width="60%"/></a></p><br/>
+<p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/main/resources/ghacu-demo.gif" width="60%"/></a></p><br/>
 
 ## :page_with_curl: Description
 CLI tool that checks versions of GitHub Actions that used in a repository. Please read [documentation](https://github.com/fabasoad/ghacu/wiki) for more details.
