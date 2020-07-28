@@ -56,9 +56,9 @@ namespace Ghacu.GitHub
                 await _semaphore.WaitAsync();
                 try
                 {
+                  OnRepositoryChecked(++index, totalCount);
                   action.LatestVersion = await _provider
                     .GetLatestVersionAsync(action.Owner, action.Repository);
-                  OnRepositoryChecked(++index, totalCount);
                 }
                 catch (GitHubVersionNotFoundException e)
                 {

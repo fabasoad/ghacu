@@ -33,8 +33,7 @@ namespace Ghacu.Runner.Cli
 
     private void ProgressBarPrepare() => _progressBar = new ProgressBar();
     
-    private void ProgressBarProcessed(RepositoryCheckedArgs args) =>
-      _progressBar.Report(new ProgressBarValue(args.Index, args.TotalCount));
+    private void ProgressBarProcessed(RepositoryCheckedArgs args) => _progressBar.Report(args.ProgressValue);
 
     private void ProgressBarDispose() => _progressBar.Dispose();
 

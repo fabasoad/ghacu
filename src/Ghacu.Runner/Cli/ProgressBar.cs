@@ -7,11 +7,11 @@ namespace Ghacu.Runner.Cli
   /// <summary>
   /// An ASCII progress bar.
   /// </summary>
-  public class ProgressBar : IDisposable, IProgress<ProgressBarValue>
+  public class ProgressBar : IDisposable, IProgress<double>
   {
     private const int BLOCK_COUNT = 10;
-    private readonly TimeSpan _animationInterval = TimeSpan.FromSeconds(1.0 / 8);
     private const string ANIMATION = @"|/-\";
+    private readonly TimeSpan _animationInterval = TimeSpan.FromSeconds(1.0 / 8);
 
     private readonly Timer _timer;
 
@@ -33,18 +33,21 @@ namespace Ghacu.Runner.Cli
       }
     }
 
-    public void Report(ProgressBarValue value)
+    public void Report(double value)
     {
       // Make sure value is in [0..1] range
-      double v = Math.Max(0, Math.Min(1, value.ProgressValue));
-      Interlocked.Exchange(ref _currentProgress, v);
+      value = Math.Max(0, Math.Min(1, value));
+      Interlocked.Exchange(ref _currentProgress, value);
     }
 
     private void TimerHandler(object state)
     {
       lock (_timer)
       {
-        if (_disposed) return;
+        if (_disposed)
+        {
+          return;
+        }
 
         var progressBlockCount = (int)(_currentProgress * BLOCK_COUNT);
         var percent = (int)(_currentProgress * 100);
