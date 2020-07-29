@@ -29,7 +29,7 @@ namespace Ghacu.GitHub
 
     public event Action<RepositoryCheckedArgs> RepositoryChecked;
     public event System.Action RepositoryCheckedFinished;
-    public event System.Action RepositoryCheckedStarted;
+    public event Action<int> RepositoryCheckedStarted;
 
     public IDictionary<WorkflowInfo, IEnumerable<GitHubAction>> GetOutdated(IEnumerable<WorkflowInfo> items)
     {
@@ -38,7 +38,7 @@ namespace Ghacu.GitHub
         .SelectMany(j => j.Value.Steps)
         .Count(s => s.Action.IsValidForUpgrade);
       
-      OnRepositoryCheckedStarted();
+      OnRepositoryCheckedStarted(totalCount);
       var index = 0;
       Dictionary<WorkflowInfo, IEnumerable<GitHubAction>> result = items
         .AsParallel()
@@ -83,7 +83,7 @@ namespace Ghacu.GitHub
     private void OnRepositoryChecked(int index, int totalCount) =>
       RepositoryChecked?.Invoke(new RepositoryCheckedArgs(index, totalCount));
 
-    private void OnRepositoryCheckedStarted() => RepositoryCheckedStarted?.Invoke();
+    private void OnRepositoryCheckedStarted(int totalCount) => RepositoryCheckedStarted?.Invoke(totalCount);
     private void OnRepositoryCheckedFinished() => RepositoryCheckedFinished?.Invoke();
   }
 }

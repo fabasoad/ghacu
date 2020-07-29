@@ -7,21 +7,24 @@ namespace Ghacu.Runner.Cli.Progress
   /// <summary>
   /// An ASCII progress bar.
   /// </summary>
-  public class ProgressBarPercentage : IProgressBar
+  public class PercentageProgressBar : IProgressBar
   {
     private const int BLOCK_COUNT = 10;
     private const string ANIMATION = @"|/-\";
+    
+    private readonly int _totalTicks;
     private readonly TimeSpan _animationInterval = TimeSpan.FromSeconds(1.0 / 8);
-
     private readonly Timer _timer;
-
+    
+    private int _currentTick;
     private double _currentProgress;
     private string _currentText = string.Empty;
     private bool _disposed;
     private int _animationIndex;
 
-    public ProgressBarPercentage()
+    public PercentageProgressBar(int totalTicks)
     {
+      _totalTicks = totalTicks;
       _timer = new Timer(TimerHandler);
 
       // A progress bar is only for temporary display in a console window.
@@ -51,8 +54,11 @@ namespace Ghacu.Runner.Cli.Progress
 
         var progressBlockCount = (int)(_currentProgress * BLOCK_COUNT);
         var percent = (int)(_currentProgress * 100);
-        string text = string.Format("[{0}{1}] {2,3}% {3}",
-          new string('#', progressBlockCount), new string('-', BLOCK_COUNT - progressBlockCount),
+        string text = string.Format("[{0}{1}] [{2}/{3}] {4,5}% {5}",
+          new string('#', progressBlockCount),
+          new string('-', BLOCK_COUNT - progressBlockCount),
+          ++_currentTick,
+          _totalTicks,
           percent,
           ANIMATION[_animationIndex++ % ANIMATION.Length]);
         UpdateText(text);

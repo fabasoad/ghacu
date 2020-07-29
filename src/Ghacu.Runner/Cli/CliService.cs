@@ -19,14 +19,14 @@ namespace Ghacu.Runner.Cli
     private readonly IGitHubService _gitHubService;
     private readonly IWorkflowService _workflowService;
     private readonly IActionPrinter _printer;
-    private readonly Func<IProgressBar> _progressBarFactory;
+    private readonly Func<int, IProgressBar> _progressBarFactory;
     private IProgressBar _progressBar;
 
     public CliService(
       IWorkflowService workflowService,
       IGitHubService gitHubService,
       IActionPrinter printer,
-      Func<IProgressBar> progressBarFactory)
+      Func<int, IProgressBar> progressBarFactory)
     {
       _workflowService = workflowService;
       _gitHubService = gitHubService;
@@ -37,7 +37,7 @@ namespace Ghacu.Runner.Cli
       _gitHubService.RepositoryCheckedFinished += ProgressBarDispose;
     }
 
-    private void ProgressBarPrepare() => _progressBar = _progressBarFactory();
+    private void ProgressBarPrepare(int totalTicks) => _progressBar = _progressBarFactory(totalTicks);
     
     private void ProgressBarProcessed(RepositoryCheckedArgs args) => _progressBar.Report(args.ProgressValue);
 

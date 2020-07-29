@@ -34,7 +34,20 @@ namespace Ghacu.Runner
             .AddTransient<GitHubVersionProvider>()
             .AddTransient<DbCache>()
             .AddTransient<MemoryCache>()
-            .AddTransient<Func<IProgressBar>>(sp => () => new ProgressBarPercentage())
+            .AddTransient(sp =>
+            {
+              if (o.LogLevel.CompareTo(LogLevel.Error) < 0)
+              {
+                return _ => new NoProgressBar();
+              }
+
+              var dict = new Func<int, IProgressBar>[]
+              {
+                totalTicks => new GhacuShellProgressBar(totalTicks),
+                totalTicks => new PercentageProgressBar(totalTicks)
+              };
+              return dict[new Random().Next(0, 2)];
+            })
             .AddTransient<Func<LatestVersionProviderType, ILatestVersionProvider>>(serviceProvider => type =>
               type switch
               {

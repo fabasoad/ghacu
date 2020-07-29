@@ -7,7 +7,7 @@ namespace Ghacu.GitHub
   {
     event System.Action<RepositoryCheckedArgs> RepositoryChecked;
     event System.Action RepositoryCheckedFinished;
-    event System.Action RepositoryCheckedStarted;
+    event System.Action<int> RepositoryCheckedStarted;
     
     /// <summary>
     /// Gets outdated actions.

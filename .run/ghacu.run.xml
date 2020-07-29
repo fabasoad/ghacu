@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ghacu" type="DotNetProject" factoryName=".NET Project">
     <option name="EXE_PATH" value="$PROJECT_DIR$/src/Ghacu.Runner/bin/Debug/netcoreapp5.0/ghacu.dll" />
-    <option name="PROGRAM_PARAMETERS" value="--repository $PROJECT_DIR$/../setup-cassandra-action --log-level Information" />
+    <option name="PROGRAM_PARAMETERS" value="--repository $PROJECT_DIR$ --log-level None" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/Ghacu.Runner/bin/Debug/netcoreapp5.0" />
     <option name="PASS_PARENT_ENVS" value="1" />
     <option name="USE_EXTERNAL_CONSOLE" value="0" />
