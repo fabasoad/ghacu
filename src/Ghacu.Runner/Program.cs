@@ -6,6 +6,7 @@ using Ghacu.Cache;
 using Ghacu.GitHub;
 using Ghacu.Runner.Cli;
 using Ghacu.Runner.Cli.Print;
+using Ghacu.Runner.Cli.Progress;
 using Ghacu.Workflow;
 using LiteDB;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +34,7 @@ namespace Ghacu.Runner
             .AddTransient<GitHubVersionProvider>()
             .AddTransient<DbCache>()
             .AddTransient<MemoryCache>()
+            .AddTransient<Func<IProgressBar>>(sp => () => new ProgressBarPercentage())
             .AddTransient<Func<LatestVersionProviderType, ILatestVersionProvider>>(serviceProvider => type =>
               type switch
               {

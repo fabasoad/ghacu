@@ -2,12 +2,12 @@ using System;
 using System.Text;
 using System.Threading;
 
-namespace Ghacu.Runner.Cli
+namespace Ghacu.Runner.Cli.Progress
 {
   /// <summary>
   /// An ASCII progress bar.
   /// </summary>
-  public class ProgressBar : IDisposable, IProgress<double>
+  public class ProgressBarPercentage : IProgressBar
   {
     private const int BLOCK_COUNT = 10;
     private const string ANIMATION = @"|/-\";
@@ -20,7 +20,7 @@ namespace Ghacu.Runner.Cli
     private bool _disposed;
     private int _animationIndex;
 
-    public ProgressBar()
+    public ProgressBarPercentage()
     {
       _timer = new Timer(TimerHandler);
 
