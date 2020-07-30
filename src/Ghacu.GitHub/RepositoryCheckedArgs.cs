@@ -1,3 +1,5 @@
+using System;
+
 namespace Ghacu.GitHub
 {
   public class RepositoryCheckedArgs
@@ -11,6 +13,6 @@ namespace Ghacu.GitHub
       _totalCount = totalCount;
     }
 
-    public double ProgressValue => (double)_index / _totalCount;
+    public double ProgressValue => Math.Max(0, Math.Min(1, (double)_index / _totalCount));
   }
 }

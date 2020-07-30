@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Ghacu.Cache.Tests
 {
-  public class DbCacheTest
+  public class DbCacheVersionProviderTest
   {
     [Fact]
     public async Task GetLatestVersionAsync_NoDto()
@@ -45,11 +45,11 @@ namespace Ghacu.Cache.Tests
       {
         string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string ghacuFolder = Path.Combine(appData, "ghacu");
-        Assert.Equal(Path.Combine(ghacuFolder, DbCache.DB_NAME), dbPath);
+        Assert.Equal(Path.Combine(ghacuFolder, DbCacheVersionProvider.DB_NAME), dbPath);
         return liteDatabaseMock;
       }
 
-      var dbCache = new DbCache(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
       Mock.Assert(dtoListMock);
@@ -89,11 +89,11 @@ namespace Ghacu.Cache.Tests
       {
         string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string ghacuFolder = Path.Combine(appData, "ghacu");
-        Assert.Equal(Path.Combine(ghacuFolder, DbCache.DB_NAME), dbPath);
+        Assert.Equal(Path.Combine(ghacuFolder, DbCacheVersionProvider.DB_NAME), dbPath);
         return liteDatabaseMock;
       }
 
-      var dbCache = new DbCache(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
       Mock.Assert(dtoListMock);
@@ -135,11 +135,11 @@ namespace Ghacu.Cache.Tests
       {
         string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string ghacuFolder = Path.Combine(appData, "ghacu");
-        Assert.Equal(Path.Combine(ghacuFolder, DbCache.DB_NAME), dbPath);
+        Assert.Equal(Path.Combine(ghacuFolder, DbCacheVersionProvider.DB_NAME), dbPath);
         return liteDatabaseMock;
       }
 
-      var dbCache = new DbCache(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
       Mock.Assert(dtoListMock);
@@ -157,7 +157,7 @@ namespace Ghacu.Cache.Tests
         throw new DbCacheMockException();
       }
 
-      var dbCache = new DbCache(new LoggerFactory(), _ => null, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), _ => null, DatabaseFactory);
       Assert.ThrowsAsync<DbCacheMockException>(async () =>
         await dbCache.GetLatestVersionAsync(string.Empty, string.Empty));
     }

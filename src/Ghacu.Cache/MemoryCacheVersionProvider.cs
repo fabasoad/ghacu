@@ -11,19 +11,19 @@ using Microsoft.Extensions.Logging;
 
 namespace Ghacu.Cache
 {
-  public class MemoryCache : ILatestVersionProvider
+  public class MemoryCacheVersionProvider : ILatestVersionProvider
   {
-    private readonly ILogger<MemoryCache> _logger;
+    private readonly ILogger<MemoryCacheVersionProvider> _logger;
     private readonly ILatestVersionProvider _provider;
     private readonly ISemaphoreSlimProxy _semaphore;
 
-    public MemoryCache(
+    public MemoryCacheVersionProvider(
       ILoggerFactory loggerFactory,
       Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory,
       ISemaphoreSlimProxy semaphore)
     {
       LocalCache = new ConcurrentDictionary<string, Task<string>>();
-      _logger = loggerFactory.CreateLogger<MemoryCache>();
+      _logger = loggerFactory.CreateLogger<MemoryCacheVersionProvider>();
       _provider = latestVersionProviderFactory(LatestVersionProviderType.DbCache);
       _semaphore = semaphore;
     }
