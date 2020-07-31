@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
+using Ghacu.Api.Stream;
 using Ghacu.Api.Version;
 using LiteDB;
 using Microsoft.Extensions.Logging;
@@ -43,7 +44,7 @@ namespace Ghacu.Cache.Tests
         return liteDatabaseMock;
       }
 
-      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), versionProviderMock, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(versionProviderMock, Mock.Create<IStreamer>(), DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
       Mock.Assert(dtoListMock);
@@ -81,7 +82,7 @@ namespace Ghacu.Cache.Tests
         return liteDatabaseMock;
       }
 
-      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), versionProviderMock, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(versionProviderMock, Mock.Create<IStreamer>(), DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
       Mock.Assert(dtoListMock);
@@ -121,7 +122,7 @@ namespace Ghacu.Cache.Tests
         return liteDatabaseMock;
       }
 
-      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), versionProviderMock, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(versionProviderMock, Mock.Create<IStreamer>(), DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
       Mock.Assert(dtoListMock);
@@ -139,7 +140,7 @@ namespace Ghacu.Cache.Tests
         throw new DbCacheMockException();
       }
 
-      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), null, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(null, null, DatabaseFactory);
       Assert.ThrowsAsync<DbCacheMockException>(async () =>
         await dbCache.GetLatestVersionAsync(string.Empty, string.Empty));
     }

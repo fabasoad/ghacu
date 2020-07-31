@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Ghacu.Api;
+using Ghacu.Api.Stream;
 using Ghacu.Api.Version;
 using Microsoft.Extensions.Logging;
 
@@ -14,19 +14,19 @@ namespace Ghacu.Cache
 {
   public class MemoryCacheVersionProvider : IMemoryCacheVersionProvider
   {
-    private readonly ILogger<MemoryCacheVersionProvider> _logger;
     private readonly IDbCacheVersionProvider _provider;
     private readonly ISemaphoreSlimProxy _semaphore;
+    private readonly IStreamer _streamer;
 
     public MemoryCacheVersionProvider(
-      ILoggerFactory loggerFactory,
       IDbCacheVersionProvider versionProvider,
-      ISemaphoreSlimProxy semaphore)
+      ISemaphoreSlimProxy semaphore,
+      IStreamer streamer)
     {
-      LocalCache = new ConcurrentDictionary<string, Task<string>>();
-      _logger = loggerFactory.CreateLogger<MemoryCacheVersionProvider>();
       _provider = versionProvider;
       _semaphore = semaphore;
+      _streamer = streamer;
+      LocalCache = new ConcurrentDictionary<string, Task<string>>();
     }
 
     internal IDictionary<string, Task<string>> LocalCache { get; }
@@ -36,7 +36,11 @@ namespace Ghacu.Cache
       string key = $"{owner}/{repository}";
       if (LocalCache.ContainsKey(key))
       {
-        _logger.LogInformation($"{owner}/{repository} latest release is retrieved from cache");
+        _streamer.PushLine<MemoryCacheVersionProvider>(new StreamOptions
+        {
+          Level = LogLevel.Debug,
+          Message = $"{owner}/{repository} latest release is retrieved from cache"
+        });
       }
       else
       {

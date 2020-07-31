@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using Ghacu.Api.Stream;
 using Ghacu.GitHub.Exceptions;
 using Microsoft.Extensions.Logging;
 using Octokit;
@@ -23,7 +24,7 @@ namespace Ghacu.GitHub.Tests
       Mock.Arrange(() => gitHubClientMock.GetLatestTagVersionAsync(Arg.AnyString, Arg.AnyString))
         .OccursNever();
       
-      var provider = new GitHubVersionProvider(new LoggerFactory(), gitHubClientMock);
+      var provider = new GitHubVersionProvider(gitHubClientMock, Mock.Create<IStreamer>());
       string actual = await provider.GetLatestVersionAsync(owner, repository);
       Assert.Equal(expected, actual);
       Mock.Assert(gitHubClientMock);
@@ -41,7 +42,7 @@ namespace Ghacu.GitHub.Tests
       Mock.Arrange(() => gitHubClientMock.GetLatestTagVersionAsync(Arg.AnyString, Arg.AnyString))
         .OccursNever();
       
-      var provider = new GitHubVersionProvider(new LoggerFactory(), gitHubClientMock);
+      var provider = new GitHubVersionProvider(gitHubClientMock, Mock.Create<IStreamer>());
       await Assert.ThrowsAsync<GitHubVersionNotFoundException>(
         () => provider.GetLatestVersionAsync(owner, repository));
       Mock.Assert(gitHubClientMock);
@@ -61,7 +62,7 @@ namespace Ghacu.GitHub.Tests
       Mock.Arrange(() => gitHubClientMock.GetLatestTagVersionAsync(owner, repository))
         .TaskResult(expected);
       
-      var provider = new GitHubVersionProvider(new LoggerFactory(), gitHubClientMock);
+      var provider = new GitHubVersionProvider(gitHubClientMock, Mock.Create<IStreamer>());
       string actual = await provider.GetLatestVersionAsync(owner, repository);
       Assert.Equal(expected, actual);
       Mock.Assert(gitHubClientMock);
@@ -81,7 +82,7 @@ namespace Ghacu.GitHub.Tests
         .TaskResult(null)
         .OccursOnce();
       
-      var provider = new GitHubVersionProvider(new LoggerFactory(), gitHubClientMock);
+      var provider = new GitHubVersionProvider(gitHubClientMock, Mock.Create<IStreamer>());
       await Assert.ThrowsAsync<GitHubVersionNotFoundException>(
         () => provider.GetLatestVersionAsync(owner, repository));
       Mock.Assert(gitHubClientMock);
@@ -99,7 +100,7 @@ namespace Ghacu.GitHub.Tests
       Mock.Arrange(() => gitHubClientMock.GetLatestTagVersionAsync(Arg.AnyString, Arg.AnyString))
         .OccursNever();
       
-      var provider = new GitHubVersionProvider(new LoggerFactory(), gitHubClientMock);
+      var provider = new GitHubVersionProvider(gitHubClientMock, Mock.Create<IStreamer>());
       await Assert.ThrowsAsync<GitHubVersionNotFoundException>(
         () => provider.GetLatestVersionAsync(owner, repository));
       Mock.Assert(gitHubClientMock);
@@ -119,7 +120,7 @@ namespace Ghacu.GitHub.Tests
         .Throws<Exception>()
         .OccursOnce();
       
-      var provider = new GitHubVersionProvider(new LoggerFactory(), gitHubClientMock);
+      var provider = new GitHubVersionProvider(gitHubClientMock, Mock.Create<IStreamer>());
       await Assert.ThrowsAsync<GitHubVersionNotFoundException>(
         () => provider.GetLatestVersionAsync(owner, repository));
       Mock.Assert(gitHubClientMock);

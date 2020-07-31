@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using Ghacu.Api;
+using Ghacu.Api.Stream;
 using Ghacu.Api.Version;
-using Microsoft.Extensions.Logging;
 using Telerik.JustMock;
 using Xunit;
 
@@ -25,7 +25,7 @@ namespace Ghacu.Cache.Tests
       Mock.Arrange(() => semaphoreMock.WaitAsync()).OccursNever();
       Mock.Arrange(() => semaphoreMock.Release()).OccursNever();
       
-      var cache = new MemoryCacheVersionProvider(new LoggerFactory(), versionProviderMock, semaphoreMock);
+      var cache = new MemoryCacheVersionProvider(versionProviderMock, semaphoreMock, Mock.Create<IStreamer>());
       cache.LocalCache.Add($"{owner}/{repository}", Task.FromResult(expected));
       string actual = await cache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(expected, actual);
@@ -49,7 +49,7 @@ namespace Ghacu.Cache.Tests
       Mock.Arrange(() => semaphoreMock.WaitAsync()).Returns(Task.CompletedTask).OccursOnce();
       Mock.Arrange(() => semaphoreMock.Release()).Returns(1 /* any int */).OccursOnce();
 
-      var cache = new MemoryCacheVersionProvider(new LoggerFactory(), versionProviderMock, semaphoreMock);
+      var cache = new MemoryCacheVersionProvider(versionProviderMock, semaphoreMock, Mock.Create<IStreamer>());
       string actual = await cache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(expected, actual);
       // Check that second call will get value from cache
@@ -75,7 +75,8 @@ namespace Ghacu.Cache.Tests
         }))
         .OccursOnce();
       
-      var cache = new MemoryCacheVersionProvider(new LoggerFactory(), versionProviderMock, new SemaphoreSlimProxy());
+      var cache = new MemoryCacheVersionProvider(
+        versionProviderMock, new SemaphoreSlimProxy(), Mock.Create<IStreamer>());
       async void Run() => Assert.Equal(expected, await cache.GetLatestVersionAsync(owner, repository));
       
       await Task.Run(Run);

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Ghacu.Api;
 using Ghacu.Api.Entities;
+using Ghacu.Api.Stream;
 using Ghacu.Api.Version;
 using Ghacu.GitHub.Exceptions;
 using Microsoft.Extensions.Logging;
@@ -13,18 +13,18 @@ namespace Ghacu.GitHub
 {
   public class GitHubService : IGitHubService
   {
-    private readonly ILogger<GitHubService> _logger;
     private readonly ILatestVersionProvider _provider;
     private readonly ISemaphoreSlimProxy _semaphore;
+    private readonly IStreamer _streamer;
 
     public GitHubService(
-      ILoggerFactory loggerFactory,
       ILatestVersionProvider versionProvider,
-      ISemaphoreSlimProxy semaphore)
+      ISemaphoreSlimProxy semaphore,
+      IStreamer streamer)
     {
-      _logger = loggerFactory.CreateLogger<GitHubService>();
       _provider = versionProvider;
       _semaphore = semaphore;
+      _streamer = streamer;
     }
 
     public event Action<RepositoryCheckedArgs> RepositoryChecked;
@@ -64,7 +64,8 @@ namespace Ghacu.GitHub
                 }
                 catch (GitHubVersionNotFoundException e)
                 {
-                  _logger.LogWarning(e, e.Message);
+                  _streamer.PushLine<GitHubService>(
+                    new StreamOptions { Level = LogLevel.Warning, Message = e.Message });
                 }
                 finally
                 {

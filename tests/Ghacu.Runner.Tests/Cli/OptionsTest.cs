@@ -134,7 +134,7 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.NotNull(option);
       Assert.Equal("output-type", option.LongName);
       Assert.False(option.Required);
-      Assert.Equal("Information output type. Possible values: Console, Silent.", option.HelpText);
+      Assert.Equal("Information output type. Possible values: Console, Logger, Silent.", option.HelpText);
       Assert.Equal(OutputType.Console, option.Default);
     }
   }

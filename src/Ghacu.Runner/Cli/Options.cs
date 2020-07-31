@@ -17,7 +17,7 @@ namespace Ghacu.Runner.Cli
     public LogLevel LogLevel { get; set; }
 
     [Option("output-type", Required = false,
-      HelpText = "Information output type. Possible values: Console, Silent.",
+      HelpText = "Information output type. Possible values: Console, Logger, Silent.",
       Default = OutputType.Console)]
     public OutputType OutputType { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using CommandLine;
-using Ghacu.Api;
+using Ghacu.Api.Stream;
 using Ghacu.Api.Version;
 using Ghacu.Cache;
 using Ghacu.GitHub;
@@ -33,13 +33,18 @@ namespace Ghacu.Runner
         .WithParsed(o =>
         {
           IServiceCollection services = new ServiceCollection();
-          if (o.OutputType == OutputType.Silent)
+          switch (o.OutputType)
           {
-            services.AddTransient<IStreamer, SilentStreamer>();
-          }
-          else
-          {
-            services.AddTransient<IStreamer, ConsoleStreamer>(_ => new ConsoleStreamer(Console.ForegroundColor));
+            case OutputType.Console:
+              services.AddTransient<IStreamer, ConsoleStreamer>(
+                _ => new ConsoleStreamer(o.LogLevel, Console.ForegroundColor));
+              break;
+            case OutputType.Logger:
+              services.AddTransient<IStreamer, LoggerStreamer>();
+              break;
+            default:
+              services.AddTransient<IStreamer, SilentStreamer>();
+              break;
           }
 
           services

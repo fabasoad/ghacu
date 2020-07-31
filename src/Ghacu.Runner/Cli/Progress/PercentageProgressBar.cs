@@ -1,7 +1,9 @@
 using System;
 using System.Text;
 using System.Threading;
+using Ghacu.Api.Stream;
 using Ghacu.Runner.Cli.Stream;
+using Microsoft.Extensions.Logging;
 
 namespace Ghacu.Runner.Cli.Progress
 {
@@ -94,14 +96,12 @@ namespace Ghacu.Runner.Cli.Progress
         outputBuilder.Append('\b', overlapCount);
       }
 
-      _streamer.Push(outputBuilder.ToString());
+      _streamer.Push<PercentageProgressBar>(
+        new StreamOptions { Level = LogLevel.Information, Message = outputBuilder.ToString() });
       _currentText = text;
     }
 
-    private void ResetTimer()
-    {
-      _timer.Change(_animationInterval, TimeSpan.FromMilliseconds(-1));
-    }
+    private void ResetTimer() => _timer.Change(_animationInterval, TimeSpan.FromMilliseconds(-1));
 
     public void Dispose()
     {

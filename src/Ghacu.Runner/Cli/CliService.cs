@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Ghacu.Api.Entities;
+using Ghacu.Api.Stream;
 using Ghacu.GitHub;
 using Ghacu.Runner.Cli.Print;
 using Ghacu.Runner.Cli.Progress;
-using Ghacu.Runner.Cli.Stream;
 using Ghacu.Workflow;
 using Ghacu.Workflow.Exceptions;
+using Microsoft.Extensions.Logging;
 using GitHubAction = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.Runner.Cli
@@ -62,7 +62,12 @@ namespace Ghacu.Runner.Cli
       }
       catch (WorkflowValidationException e)
       {
-        _streamer.Push(e.Message);
+        _streamer.Push<CliService>(new StreamOptions
+        {
+          Color = ConsoleColor.Red,
+          Level = LogLevel.Error,
+          Message = e.Message
+        });
         return;
       }
 
