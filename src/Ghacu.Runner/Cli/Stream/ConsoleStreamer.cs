@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Ghacu.Api.Stream;
 using Microsoft.Extensions.Logging;
 
@@ -23,10 +24,25 @@ namespace Ghacu.Runner.Cli.Stream
 
     private void PushInternal(Action<string> push, StreamOptions options)
     {
-      if (_logLevel.CompareTo(options.Level) <= 0)
+      if (_logLevel.CompareTo(options.Level) > 0)
       {
-        Console.ForegroundColor = options.Color ?? _defaultColor;
-        push(options.Message);
+        return;
+      }
+
+      int totalCount = options.Messages.Count();
+      for (var i = 0; i < totalCount; i++)
+      {
+        StreamMessage streamMessage = options.Messages.ElementAt(i);
+        Console.ForegroundColor = streamMessage.Color ?? _defaultColor;
+        if (i == totalCount - 1)
+        {
+          push(streamMessage.Message);
+        }
+        else
+        {
+          Console.Write(streamMessage.Message);
+        }
+
         Console.ForegroundColor = _defaultColor;
       }
     }

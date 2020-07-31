@@ -2,7 +2,6 @@ using System;
 using System.Text.RegularExpressions;
 using Ghacu.Api.Entities;
 using Ghacu.Api.Stream;
-using Ghacu.Runner.Cli.Stream;
 using Microsoft.Extensions.Logging;
 using Action = Ghacu.Api.Entities.Action;
 
@@ -27,9 +26,9 @@ namespace Ghacu.Runner.Cli.Print
     public override void PrintHeader(string workflowName, string fileName) =>
       _streamer.PushLine<ColorActionPrinter>(new StreamOptions
       {
-        Color = FOREGROUND_COLOR_INFO,
         Level = LogLevel.Information,
-        Message = $"> {workflowName} ({fileName})"
+        Messages = new StreamMessageBuilder()
+          .Add($"> {workflowName} ({fileName})", FOREGROUND_COLOR_INFO).Build()
       });
 
     protected override void Print(string template, Action action)
@@ -68,30 +67,37 @@ namespace Ghacu.Runner.Cli.Print
         color = FOREGROUND_COLOR_BUILD;
       }
       
-      _streamer.Push<ColorActionPrinter>(new StreamOptions
+      _streamer.PushLine<ColorActionPrinter>(new StreamOptions
       {
         Level = LogLevel.Information,
-        Message = string.Format(template, action.Repository, action.CurrentVersion, ArrowChar, latestVersion1)
+        Messages = new StreamMessageBuilder()
+          .Add(string.Format(template, action.Repository, action.CurrentVersion, ArrowChar, latestVersion1))
+          .Add(latestVersion2, color)
+          .Build()
       });
-      _streamer.PushLine<ColorActionPrinter>(
-        new StreamOptions { Color = color, Level = LogLevel.Information, Message = latestVersion2 });
     }
 
-    public override void PrintNoUpgradeNeeded()
-    {
-      _streamer.Push<ColorActionPrinter>(
-        new StreamOptions { Level = LogLevel.Information, Message = "All GitHub Actions match the latest versions " });
-      _streamer.PushLine<ColorActionPrinter>(
-        new StreamOptions { Color = FOREGROUND_COLOR_INFO, Level = LogLevel.Information, Message = ":)" });
-    }
+    public override void PrintNoUpgradeNeeded() =>
+      _streamer.PushLine<ColorActionPrinter>(new StreamOptions
+      {
+        Level = LogLevel.Information,
+        Messages = new StreamMessageBuilder()
+          .Add("All GitHub Actions match the latest versions ")
+          .Add(":)", FOREGROUND_COLOR_INFO)
+          .Build()
+      });
 
     public override void PrintRunUpgrade()
     {
-      _streamer.Push<ColorActionPrinter>(new StreamOptions { Level = LogLevel.Information, Message = "Run " });
-      _streamer.Push<ColorActionPrinter>(
-        new StreamOptions { Level = LogLevel.Information, Color = FOREGROUND_COLOR_INFO, Message = "ghacu --upgrade" });
-      _streamer.PushLine<ColorActionPrinter>(
-        new StreamOptions { Level = LogLevel.Information, Message = " to upgrade the actions." });
+      _streamer.PushLine<ColorActionPrinter>(new StreamOptions
+      {
+        Level = LogLevel.Information,
+        Messages = new StreamMessageBuilder()
+          .Add("Run ")
+          .Add("ghacu --upgrade", FOREGROUND_COLOR_INFO)
+          .Add(" to upgrade the actions.")
+          .Build()
+      });
     }
   }
 }

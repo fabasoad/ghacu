@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Ghacu.Api.Stream;
 using Microsoft.Extensions.Logging;
 
@@ -13,12 +14,16 @@ namespace Ghacu.Runner.Cli.Stream
       _loggerFactory = loggerFactory;
     }
     
-    public void Push<T>(StreamOptions options) =>
-      _loggerFactory.CreateLogger<T>().Log(options.Level, options.Message);
+    public void Push<T>(StreamOptions options) => _loggerFactory.CreateLogger<T>().Log(
+      options.Level,
+      options.Exception,
+      string.Join(string.Empty, options.Messages.Select(m => m.Message)));
+    
+    public void PushLine<T>(StreamOptions options) => _loggerFactory.CreateLogger<T>().Log(
+      options.Level,
+      options.Exception,
+      string.Join(string.Empty, options.Messages.Select(m => m.Message)));
 
-    public void PushLine<T>(StreamOptions options) =>
-      _loggerFactory.CreateLogger<T>().Log(options.Level, options.Message);
-
-    public void PushEmpty() => Console.WriteLine();
+    public void PushEmpty() { }
   }
 }

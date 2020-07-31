@@ -64,9 +64,9 @@ namespace Ghacu.Runner.Cli
       {
         _streamer.Push<CliService>(new StreamOptions
         {
-          Color = ConsoleColor.Red,
+          Exception = e,
           Level = LogLevel.Error,
-          Message = e.Message
+          Messages = new StreamMessageBuilder().Add(e.Message, ConsoleColor.Red).Build()
         });
         return;
       }

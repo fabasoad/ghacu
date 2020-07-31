@@ -39,7 +39,8 @@ namespace Ghacu.Cache
         _streamer.PushLine<MemoryCacheVersionProvider>(new StreamOptions
         {
           Level = LogLevel.Debug,
-          Message = $"{owner}/{repository} latest release is retrieved from cache"
+          Messages = new StreamMessageBuilder()
+            .Add($"{owner}/{repository} latest release is retrieved from cache").Build()
         });
       }
       else

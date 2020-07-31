@@ -64,8 +64,12 @@ namespace Ghacu.GitHub
                 }
                 catch (GitHubVersionNotFoundException e)
                 {
-                  _streamer.PushLine<GitHubService>(
-                    new StreamOptions { Level = LogLevel.Warning, Message = e.Message });
+                  _streamer.PushLine<GitHubService>(new StreamOptions
+                  {
+                    Exception = e,
+                    Level = LogLevel.Warning,
+                    Messages = new StreamMessageBuilder().Add(e.Message, ConsoleColor.Yellow).Build()
+                  });
                 }
                 finally
                 {

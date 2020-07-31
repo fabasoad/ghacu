@@ -28,7 +28,8 @@ namespace Ghacu.GitHub
         _streamer.PushLine<GitHubVersionProvider>(new StreamOptions
         {
           Level = LogLevel.Debug,
-          Message = $"Getting latest release for {owner}/{repository}..."
+          Messages = new StreamMessageBuilder()
+            .Add($"Getting latest release for {owner}/{repository}...").Build()
         });
         tagName = await _client.GetLatestReleaseVersionAsync(owner, repository);
       }
@@ -39,7 +40,8 @@ namespace Ghacu.GitHub
           _streamer.PushLine<GitHubVersionProvider>(new StreamOptions
           {
             Level = LogLevel.Debug,
-            Message = $"{owner}/{repository} release is not found. Getting latest tag..."
+            Messages = new StreamMessageBuilder()
+              .Add($"{owner}/{repository} release is not found. Getting latest tag...").Build()
           });
           tagName = await _client.GetLatestTagVersionAsync(owner, repository);
         }
@@ -58,9 +60,9 @@ namespace Ghacu.GitHub
       {
         _streamer.PushLine<GitHubVersionProvider>(new StreamOptions
         {
-          Color = ConsoleColor.Red,
+          Exception = lastException,
           Level = LogLevel.Error,
-          Message = lastException.Message
+          Messages = new StreamMessageBuilder().Add(lastException.Message, ConsoleColor.Red).Build()
         });
         throw new GitHubVersionNotFoundException(errorMessage, lastException);
       }
@@ -73,7 +75,7 @@ namespace Ghacu.GitHub
       _streamer.PushLine<GitHubVersionProvider>(new StreamOptions
       {
         Level = LogLevel.Debug,
-        Message = $"{owner}/{repository} latest release is {tagName}"
+        Messages = new StreamMessageBuilder().Add($"{owner}/{repository} latest release is {tagName}").Build()
       });
       return tagName;
     }

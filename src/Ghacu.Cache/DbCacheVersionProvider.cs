@@ -54,7 +54,8 @@ namespace Ghacu.Cache
         _streamer.PushLine<DbCacheVersionProvider>(new StreamOptions
         {
           Level = LogLevel.Debug,
-          Message = $"{owner}/{repository} version is retrieved from local DB"
+          Messages = new StreamMessageBuilder()
+            .Add($"{owner}/{repository} version is retrieved from local DB").Build()
         });
       }
 

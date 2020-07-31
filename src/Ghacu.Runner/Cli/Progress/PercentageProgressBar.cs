@@ -2,7 +2,6 @@ using System;
 using System.Text;
 using System.Threading;
 using Ghacu.Api.Stream;
-using Ghacu.Runner.Cli.Stream;
 using Microsoft.Extensions.Logging;
 
 namespace Ghacu.Runner.Cli.Progress
@@ -82,7 +81,7 @@ namespace Ghacu.Runner.Cli.Progress
       }
 
       // Backtrack to the first differing character
-      StringBuilder outputBuilder = new StringBuilder();
+      var outputBuilder = new StringBuilder();
       outputBuilder.Append('\b', _currentText.Length - commonPrefixLength);
 
       // Output new suffix
@@ -96,8 +95,11 @@ namespace Ghacu.Runner.Cli.Progress
         outputBuilder.Append('\b', overlapCount);
       }
 
-      _streamer.Push<PercentageProgressBar>(
-        new StreamOptions { Level = LogLevel.Information, Message = outputBuilder.ToString() });
+      _streamer.Push<PercentageProgressBar>(new StreamOptions
+      {
+        Level = LogLevel.Information,
+        Messages = new StreamMessageBuilder().Add(outputBuilder.ToString()).Build()
+      });
       _currentText = text;
     }
 
