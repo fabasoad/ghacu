@@ -1,6 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 using Ghacu.Api.Entities;
+using Ghacu.Runner.Cli.Stream;
 using Action = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.Runner.Cli.Print
@@ -13,15 +14,16 @@ namespace Ghacu.Runner.Cli.Print
     private const ConsoleColor FOREGROUND_COLOR_PATCH = ConsoleColor.DarkBlue;
     private const ConsoleColor FOREGROUND_COLOR_PRERELEASE = ConsoleColor.DarkMagenta;
     private const ConsoleColor FOREGROUND_COLOR_BUILD = ConsoleColor.DarkGray;
+    
+    private readonly IStreamer _streamer;
 
-    private readonly ConsoleColor _foregroundColorDefault = Console.ForegroundColor;
-
-    public override void PrintHeader(string workflowName, string fileName)
+    public ColorActionPrinter(IStreamer streamer)
     {
-      Console.ForegroundColor = FOREGROUND_COLOR_INFO;
-      Console.WriteLine($"> {workflowName} ({fileName})");
-      Console.ForegroundColor = _foregroundColorDefault;
+      _streamer = streamer;
     }
+
+    public override void PrintHeader(string workflowName, string fileName) =>
+      _streamer.PushLine(FOREGROUND_COLOR_INFO, "> {0} ({1})", workflowName, fileName);
 
     protected override void Print(string template, Action action)
     {
@@ -59,27 +61,21 @@ namespace Ghacu.Runner.Cli.Print
         color = FOREGROUND_COLOR_BUILD;
       }
       
-      Console.Write(template, action.Repository, action.CurrentVersion, ArrowChar, latestVersion1);
-      Console.ForegroundColor = color;
-      Console.WriteLine(latestVersion2);
-      Console.ForegroundColor = _foregroundColorDefault;
+      _streamer.Push(template, action.Repository, action.CurrentVersion, ArrowChar, latestVersion1);
+      _streamer.PushLine(color, latestVersion2);
     }
 
     public override void PrintNoUpgradeNeeded()
     {
-      Console.Write("All GitHub Actions match the latest versions ");
-      Console.ForegroundColor = FOREGROUND_COLOR_INFO;
-      Console.WriteLine(":)");
-      Console.ForegroundColor = _foregroundColorDefault;
+      _streamer.Push("All GitHub Actions match the latest versions ");
+      _streamer.PushLine(FOREGROUND_COLOR_INFO, ":)");
     }
 
     public override void PrintRunUpgrade()
     {
-      Console.Write("Run ");
-      Console.ForegroundColor = FOREGROUND_COLOR_INFO;
-      Console.Write("ghacu --upgrade");
-      Console.ForegroundColor = _foregroundColorDefault;
-      Console.WriteLine(" to upgrade the actions.");
+      _streamer.Push("Run ");
+      _streamer.Push(FOREGROUND_COLOR_INFO, "ghacu --upgrade");
+      _streamer.PushLine(" to upgrade the actions.");
     }
   }
 }

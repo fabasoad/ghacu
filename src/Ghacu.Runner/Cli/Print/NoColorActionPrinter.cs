@@ -1,17 +1,25 @@
-using System;
-using Action = Ghacu.Api.Entities.Action;
+using Ghacu.Runner.Cli.Stream;
+using GitHubAction = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.Runner.Cli.Print
 {
   public class NoColorActionPrinter : ActionPrinterBase
   {
-    public override void PrintHeader(string workflowName, string fileName) => Console.WriteLine($"> {workflowName} ({fileName})");
+    private readonly IStreamer _streamer;
 
-    protected override void Print(string template, Action action) => Console.WriteLine(
+    public NoColorActionPrinter(IStreamer streamer)
+    {
+      _streamer = streamer;
+    }
+    
+    public override void PrintHeader(string workflowName, string fileName) =>
+      _streamer.PushLine("> {0} ({1})", workflowName, fileName);
+
+    protected override void Print(string template, GitHubAction action) => _streamer.PushLine(
       template, action.Repository, action.CurrentVersion, ArrowChar, action.LatestVersion);
 
-    public override void PrintNoUpgradeNeeded() => Console.WriteLine("All GitHub Actions match the latest versions :)");
+    public override void PrintNoUpgradeNeeded() => _streamer.PushLine("All GitHub Actions match the latest versions :)");
 
-    public override void PrintRunUpgrade() => Console.WriteLine("Run ghacu --upgrade to upgrade the actions.");
+    public override void PrintRunUpgrade() => _streamer.PushLine("Run ghacu --upgrade to upgrade the actions.");
   }
 }
