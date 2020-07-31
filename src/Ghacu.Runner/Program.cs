@@ -6,6 +6,7 @@ using Ghacu.Cache;
 using Ghacu.GitHub;
 using Ghacu.Runner.Cli;
 using Ghacu.Runner.Cli.Print;
+using Ghacu.Runner.Cli.Progress;
 using Ghacu.Workflow;
 using LiteDB;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,14 +31,28 @@ namespace Ghacu.Runner
         {
           IServiceCollection services = new ServiceCollection()
             .AddSingleton<IGlobalConfig, GlobalConfig>(_ => new GlobalConfig(o.UseCache == BooleanOption.Yes))
+            .AddTransient(serviceProvider =>
+            {
+              if (o.LogLevel.CompareTo(LogLevel.Error) < 0)
+              {
+                return _ => new NoProgressBar();
+              }
+
+              var dict = new Func<int, IProgressBar>[]
+              {
+                totalTicks => new GhacuShellProgressBar(totalTicks),
+                totalTicks => new PercentageProgressBar(totalTicks)
+              };
+              return dict[new Random().Next(0, dict.Length)];
+            })
             .AddTransient<GitHubVersionProvider>()
-            .AddTransient<DbCache>()
-            .AddTransient<MemoryCache>()
+            .AddTransient<DbCacheVersionProvider>()
+            .AddTransient<MemoryCacheVersionProvider>()
             .AddTransient<Func<LatestVersionProviderType, ILatestVersionProvider>>(serviceProvider => type =>
               type switch
               {
-                LatestVersionProviderType.DbCache => serviceProvider.GetService<DbCache>(),
-                LatestVersionProviderType.MemoryCache => serviceProvider.GetService<MemoryCache>(),
+                LatestVersionProviderType.DbCache => serviceProvider.GetService<DbCacheVersionProvider>(),
+                LatestVersionProviderType.MemoryCache => serviceProvider.GetService<MemoryCacheVersionProvider>(),
                 _ => serviceProvider.GetService<GitHubVersionProvider>()
               })
             .AddTransient<IGitHubClient, GitHubClient>(
@@ -70,7 +85,7 @@ namespace Ghacu.Runner
               _.AssemblyContainingType<IWorkflowService>();
               _.AssemblyContainingType<ILatestVersionProvider>();
               _.AssemblyContainingType<IGitHubService>();
-              _.AssemblyContainingType<DbCache>();
+              _.AssemblyContainingType<DbCacheVersionProvider>();
               _.WithDefaultConventions();
             });
             config.Populate(services);

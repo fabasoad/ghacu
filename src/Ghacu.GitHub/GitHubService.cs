@@ -5,7 +5,7 @@ using Ghacu.Api;
 using Ghacu.Api.Entities;
 using Ghacu.GitHub.Exceptions;
 using Microsoft.Extensions.Logging;
-using Action = Ghacu.Api.Entities.Action;
+using GitHubAction = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.GitHub
 {
@@ -27,9 +27,20 @@ namespace Ghacu.GitHub
       _semaphore = semaphore;
     }
 
-    public IDictionary<WorkflowInfo, IEnumerable<Action>> GetOutdated(IEnumerable<WorkflowInfo> items)
+    public event Action<RepositoryCheckedArgs> RepositoryChecked;
+    public event System.Action RepositoryCheckedFinished;
+    public event Action<int> RepositoryCheckedStarted;
+
+    public IDictionary<WorkflowInfo, IEnumerable<GitHubAction>> GetOutdated(IEnumerable<WorkflowInfo> items)
     {
-      return items
+      int totalCount = items
+        .SelectMany(wfi => wfi.Workflow.Jobs)
+        .SelectMany(j => j.Value.Steps)
+        .Count(s => s.Action.IsValidForUpgrade);
+      
+      OnRepositoryCheckedStarted(totalCount);
+      var index = 0;
+      Dictionary<WorkflowInfo, IEnumerable<GitHubAction>> result = items
         .AsParallel()
         .ToDictionary(
           wfi => wfi,
@@ -45,6 +56,7 @@ namespace Ghacu.GitHub
                 await _semaphore.WaitAsync();
                 try
                 {
+                  OnRepositoryChecked(++index, totalCount);
                   action.LatestVersion = await _provider
                     .GetLatestVersionAsync(action.Owner, action.Repository);
                 }
@@ -64,6 +76,14 @@ namespace Ghacu.GitHub
             .Where(action => !action.IsUpToDate))
         .Where(p => p.Value.Any())
         .ToDictionary(p => p.Key, p => p.Value.AsEnumerable());
+      OnRepositoryCheckedFinished();
+      return result;
     }
+
+    private void OnRepositoryChecked(int index, int totalCount) =>
+      RepositoryChecked?.Invoke(new RepositoryCheckedArgs(index, totalCount));
+
+    private void OnRepositoryCheckedStarted(int totalCount) => RepositoryCheckedStarted?.Invoke(totalCount);
+    private void OnRepositoryCheckedFinished() => RepositoryCheckedFinished?.Invoke();
   }
 }

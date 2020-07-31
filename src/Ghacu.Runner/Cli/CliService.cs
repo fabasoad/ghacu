@@ -4,31 +4,47 @@ using System.Linq;
 using Ghacu.Api.Entities;
 using Ghacu.GitHub;
 using Ghacu.Runner.Cli.Print;
+using Ghacu.Runner.Cli.Progress;
 using Ghacu.Workflow;
 using Ghacu.Workflow.Exceptions;
-using Action = Ghacu.Api.Entities.Action;
+using GitHubAction = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.Runner.Cli
 {
   /// <summary>
-  ///   Class to work with <see cref="Options" /> class and run.
+  /// Class to work with <see cref="Options" /> class and run.
   /// </summary>
-  public sealed class CliService : ICliService
+  public sealed class CliService : ICliService, IDisposable
   {
     private readonly IGitHubService _gitHubService;
     private readonly IWorkflowService _workflowService;
     private readonly IActionPrinter _printer;
+    private readonly Func<int, IProgressBar> _progressBarFactory;
+    private IProgressBar _progressBar;
 
     public CliService(
-      IWorkflowService workflowService, IGitHubService gitHubService, IActionPrinter printer)
+      IWorkflowService workflowService,
+      IGitHubService gitHubService,
+      IActionPrinter printer,
+      Func<int, IProgressBar> progressBarFactory)
     {
       _workflowService = workflowService;
       _gitHubService = gitHubService;
       _printer = printer;
+      _progressBarFactory = progressBarFactory;
+      _gitHubService.RepositoryChecked += ProgressBarProcessed;
+      _gitHubService.RepositoryCheckedStarted += ProgressBarPrepare;
+      _gitHubService.RepositoryCheckedFinished += ProgressBarDispose;
     }
 
+    private void ProgressBarPrepare(int totalTicks) => _progressBar = _progressBarFactory(totalTicks);
+    
+    private void ProgressBarProcessed(RepositoryCheckedArgs args) => _progressBar.Report(args.ProgressValue);
+
+    private void ProgressBarDispose() => _progressBar.Dispose();
+
     /// <summary>
-    ///   Run GHACU logic on repository provided by user.
+    /// Run GHACU logic on repository provided by user.
     /// </summary>
     /// <param name="repository">Path to repository.</param>
     /// <param name="shouldUpgrade">If true, actions will be updated, otherwise - just checking will be performed.</param>
@@ -45,8 +61,8 @@ namespace Ghacu.Runner.Cli
         return;
       }
 
-      IDictionary<WorkflowInfo, IEnumerable<Action>> outdated = _gitHubService.GetOutdated(infos);
-      foreach ((WorkflowInfo wfi, IEnumerable<Action> actions) in outdated)
+      IDictionary<WorkflowInfo, IEnumerable<GitHubAction>> outdated = _gitHubService.GetOutdated(infos);
+      foreach ((WorkflowInfo wfi, IEnumerable<GitHubAction> actions) in outdated)
       {
         _printer.PrintHeader(wfi.Workflow.Name, wfi.File.Name);
         _printer.Print(actions);
@@ -66,6 +82,14 @@ namespace Ghacu.Runner.Cli
         Console.WriteLine();
         _printer.PrintRunUpgrade();
       }
+    }
+
+    public void Dispose()
+    {
+      _gitHubService.RepositoryChecked -= ProgressBarProcessed;
+      _gitHubService.RepositoryCheckedStarted -= ProgressBarPrepare;
+      _gitHubService.RepositoryCheckedFinished -= ProgressBarDispose;
+      _progressBar?.Dispose();
     }
   }
 }

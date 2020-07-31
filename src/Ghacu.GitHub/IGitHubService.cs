@@ -5,6 +5,10 @@ namespace Ghacu.GitHub
 {
   public interface IGitHubService
   {
+    event System.Action<RepositoryCheckedArgs> RepositoryChecked;
+    event System.Action RepositoryCheckedFinished;
+    event System.Action<int> RepositoryCheckedStarted;
+    
     /// <summary>
     /// Gets outdated actions.
     /// </summary>
