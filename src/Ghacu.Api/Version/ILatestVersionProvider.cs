@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Ghacu.Api
+namespace Ghacu.Api.Version
 {
   public interface ILatestVersionProvider
   {

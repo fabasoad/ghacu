@@ -1,13 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using Ghacu.Api;
+using Ghacu.Api.Version;
 using Ghacu.GitHub.Exceptions;
 using Microsoft.Extensions.Logging;
 using Octokit;
 
 namespace Ghacu.GitHub
 {
-  public sealed class GitHubVersionProvider : ILatestVersionProvider
+  public sealed class GitHubVersionProvider : IGitHubVersionProvider
   {
     private readonly ILogger<GitHubVersionProvider> _logger;
     private readonly IGitHubClient _client;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Ghacu.Api;
+using Ghacu.Api.Version;
 using Microsoft.Extensions.Logging;
 
 [assembly: InternalsVisibleTo("Telerik.JustMock")]
@@ -11,20 +12,20 @@ using Microsoft.Extensions.Logging;
 
 namespace Ghacu.Cache
 {
-  public class MemoryCacheVersionProvider : ILatestVersionProvider
+  public class MemoryCacheVersionProvider : IMemoryCacheVersionProvider
   {
     private readonly ILogger<MemoryCacheVersionProvider> _logger;
-    private readonly ILatestVersionProvider _provider;
+    private readonly IDbCacheVersionProvider _provider;
     private readonly ISemaphoreSlimProxy _semaphore;
 
     public MemoryCacheVersionProvider(
       ILoggerFactory loggerFactory,
-      Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory,
+      IDbCacheVersionProvider versionProvider,
       ISemaphoreSlimProxy semaphore)
     {
       LocalCache = new ConcurrentDictionary<string, Task<string>>();
       _logger = loggerFactory.CreateLogger<MemoryCacheVersionProvider>();
-      _provider = latestVersionProviderFactory(LatestVersionProviderType.DbCache);
+      _provider = versionProvider;
       _semaphore = semaphore;
     }
 

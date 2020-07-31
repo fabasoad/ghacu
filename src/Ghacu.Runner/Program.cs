@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using CommandLine;
 using Ghacu.Api;
+using Ghacu.Api.Version;
 using Ghacu.Cache;
 using Ghacu.GitHub;
 using Ghacu.Runner.Cli;
@@ -42,7 +43,6 @@ namespace Ghacu.Runner
           }
 
           services
-            .AddSingleton<IGlobalConfig, GlobalConfig>(_ => new GlobalConfig(o.UseCache == BooleanOption.Yes))
             .AddTransient(serviceProvider =>
             {
               if (o.OutputType == OutputType.Silent || o.LogLevel.CompareTo(LogLevel.Error) < 0)
@@ -57,16 +57,6 @@ namespace Ghacu.Runner
               };
               return dict[new Random().Next(0, dict.Length)];
             })
-            .AddTransient<GitHubVersionProvider>()
-            .AddTransient<DbCacheVersionProvider>()
-            .AddTransient<MemoryCacheVersionProvider>()
-            .AddTransient<Func<LatestVersionProviderType, ILatestVersionProvider>>(serviceProvider => type =>
-              type switch
-              {
-                LatestVersionProviderType.DbCache => serviceProvider.GetService<DbCacheVersionProvider>(),
-                LatestVersionProviderType.MemoryCache => serviceProvider.GetService<MemoryCacheVersionProvider>(),
-                _ => serviceProvider.GetService<GitHubVersionProvider>()
-              })
             .AddTransient<IGitHubClient, GitHubClient>(
               _ => new GitHubClient(APP_NAME, o.GitHubToken ?? Environment.GetEnvironmentVariable(ENV_GITHUB_TOKEN)))
             .AddTransient<Func<string, ILiteDatabase>>(_ => filePath => new LiteDatabase(filePath))
@@ -78,6 +68,15 @@ namespace Ghacu.Runner
               })
               .SetMinimumLevel(o.LogLevel));
 
+          if (o.UseCache == BooleanOption.Yes)
+          {
+            services.AddSingleton<ILatestVersionProvider, MemoryCacheVersionProvider>();
+          }
+          else
+          {
+            services.AddSingleton<ILatestVersionProvider, GitHubVersionProvider>();
+          }
+          
           if (o.UseColors == BooleanOption.Yes)
           {
             services.AddTransient<IActionPrinter, ColorActionPrinter>();
