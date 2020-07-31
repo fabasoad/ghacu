@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Ghacu.Runner.Cli.Stream
 {
-  public class ConsoleStreamer : IStreamer
+  public class ConsoleStreamer : IConsoleStreamer
   {
     private readonly LogLevel _logLevel;
     private readonly ConsoleColor _defaultColor;

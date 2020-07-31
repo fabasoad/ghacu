@@ -15,7 +15,7 @@ namespace Ghacu.Runner.Cli.Progress
     private const string ANIMATION = @"|/-\";
     
     private readonly int _totalTicks;
-    private readonly IStreamer _streamer;
+    private readonly IConsoleStreamer _streamer;
     private readonly TimeSpan _animationInterval = TimeSpan.FromSeconds(1.0 / 8);
     private readonly Timer _timer;
     
@@ -25,7 +25,7 @@ namespace Ghacu.Runner.Cli.Progress
     private bool _disposed;
     private int _animationIndex;
 
-    public PercentageProgressBar(int totalTicks, IStreamer streamer)
+    public PercentageProgressBar(int totalTicks, IConsoleStreamer streamer)
     {
       _totalTicks = totalTicks;
       _streamer = streamer;

@@ -48,9 +48,11 @@ namespace Ghacu.Runner
           }
 
           services
+            .AddTransient<IConsoleStreamer, ConsoleStreamer>(
+              _ => new ConsoleStreamer(o.LogLevel, Console.ForegroundColor))
             .AddTransient(serviceProvider =>
             {
-              if (o.OutputType == OutputType.Silent || o.LogLevel.CompareTo(LogLevel.Error) < 0)
+              if (o.OutputType == OutputType.Silent || o.LogLevel.CompareTo(LogLevel.Information) < 0)
               {
                 return _ => new SilentProgressBar();
               }
@@ -58,7 +60,7 @@ namespace Ghacu.Runner
               var dict = new Func<int, IProgressBar>[]
               {
                 totalTicks => new GhacuShellProgressBar(totalTicks),
-                totalTicks => new PercentageProgressBar(totalTicks, serviceProvider.GetService<IStreamer>())
+                totalTicks => new PercentageProgressBar(totalTicks, serviceProvider.GetService<IConsoleStreamer>())
               };
               return dict[new Random().Next(0, dict.Length)];
             })
