@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using Ghacu.Api;
-using Microsoft.Extensions.Logging;
+using Ghacu.Api.Stream;
+using Ghacu.Api.Version;
 using Telerik.JustMock;
 using Xunit;
 
@@ -15,27 +16,21 @@ namespace Ghacu.Cache.Tests
       const string owner = "test-owner";
       const string repository = "test-repository";
       const string expected = "test-version";
-      var latestVersionProviderMock = Mock.Create<ILatestVersionProvider>();
-      Mock.Arrange(() => latestVersionProviderMock
+      var versionProviderMock = Mock.Create<IDbCacheVersionProvider>();
+      Mock.Arrange(() => versionProviderMock
           .GetLatestVersionAsync(Arg.AnyString, Arg.AnyString))
         .OccursNever();
-
-      ILatestVersionProvider LatestVersionProviderFactory(LatestVersionProviderType type)
-      {
-        Assert.Equal(LatestVersionProviderType.DbCache, type);
-        return latestVersionProviderMock;
-      }
 
       var semaphoreMock = Mock.Create<ISemaphoreSlimProxy>();
       Mock.Arrange(() => semaphoreMock.WaitAsync()).OccursNever();
       Mock.Arrange(() => semaphoreMock.Release()).OccursNever();
       
-      var cache = new MemoryCacheVersionProvider(new LoggerFactory(), LatestVersionProviderFactory, semaphoreMock);
+      var cache = new MemoryCacheVersionProvider(versionProviderMock, semaphoreMock, Mock.Create<IStreamer>());
       cache.LocalCache.Add($"{owner}/{repository}", Task.FromResult(expected));
       string actual = await cache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(expected, actual);
       
-      Mock.Assert(latestVersionProviderMock);
+      Mock.Assert(versionProviderMock);
       Mock.Assert(semaphoreMock);
     }
 
@@ -45,29 +40,23 @@ namespace Ghacu.Cache.Tests
       const string owner = "test-owner";
       const string repository = "test-repository";
       const string expected = "test-version";
-      var latestVersionProviderMock = Mock.Create<ILatestVersionProvider>();
-      Mock.Arrange(() => latestVersionProviderMock.GetLatestVersionAsync(owner, repository))
+      var versionProviderMock = Mock.Create<IDbCacheVersionProvider>();
+      Mock.Arrange(() => versionProviderMock.GetLatestVersionAsync(owner, repository))
         .Returns(Task.FromResult(expected))
         .OccursOnce();
-
-      ILatestVersionProvider LatestVersionProviderFactory(LatestVersionProviderType type)
-      {
-        Assert.Equal(LatestVersionProviderType.DbCache, type);
-        return latestVersionProviderMock;
-      }
 
       var semaphoreMock = Mock.Create<ISemaphoreSlimProxy>();
       Mock.Arrange(() => semaphoreMock.WaitAsync()).Returns(Task.CompletedTask).OccursOnce();
       Mock.Arrange(() => semaphoreMock.Release()).Returns(1 /* any int */).OccursOnce();
 
-      var cache = new MemoryCacheVersionProvider(new LoggerFactory(), LatestVersionProviderFactory, semaphoreMock);
+      var cache = new MemoryCacheVersionProvider(versionProviderMock, semaphoreMock, Mock.Create<IStreamer>());
       string actual = await cache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(expected, actual);
       // Check that second call will get value from cache
       actual = await cache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(expected, actual);
       
-      Mock.Assert(latestVersionProviderMock);
+      Mock.Assert(versionProviderMock);
       Mock.Assert(semaphoreMock);
     }
 
@@ -77,28 +66,23 @@ namespace Ghacu.Cache.Tests
       const string owner = "test-owner";
       const string repository = "test-repository";
       const string expected = "test-version";
-      var latestVersionProviderMock = Mock.Create<ILatestVersionProvider>();
-      Mock.Arrange(() => latestVersionProviderMock.GetLatestVersionAsync(owner, repository))
+      var versionProviderMock = Mock.Create<IDbCacheVersionProvider>();
+      Mock.Arrange(() => versionProviderMock.GetLatestVersionAsync(owner, repository))
         .Returns(Task.Run(async () =>
         {
           await Task.Delay(TimeSpan.FromMilliseconds(300));
           return expected;
         }))
         .OccursOnce();
-
-      ILatestVersionProvider LatestVersionProviderFactory(LatestVersionProviderType type)
-      {
-        Assert.Equal(LatestVersionProviderType.DbCache, type);
-        return latestVersionProviderMock;
-      }
       
-      var cache = new MemoryCacheVersionProvider(new LoggerFactory(), LatestVersionProviderFactory, new SemaphoreSlimProxy());
+      var cache = new MemoryCacheVersionProvider(
+        versionProviderMock, new SemaphoreSlimProxy(), Mock.Create<IStreamer>());
       async void Run() => Assert.Equal(expected, await cache.GetLatestVersionAsync(owner, repository));
       
       await Task.Run(Run);
       await Task.Run(Run);
       
-      Mock.Assert(latestVersionProviderMock);
+      Mock.Assert(versionProviderMock);
     }
   }
 }

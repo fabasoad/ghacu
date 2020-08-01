@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ghacu.Api.Entities;
+using Ghacu.Api.Stream;
 using Ghacu.GitHub;
 using Ghacu.Runner.Cli.Print;
 using Ghacu.Runner.Cli.Progress;
 using Ghacu.Workflow;
 using Ghacu.Workflow.Exceptions;
+using Microsoft.Extensions.Logging;
 using GitHubAction = Ghacu.Api.Entities.Action;
 
 namespace Ghacu.Runner.Cli
@@ -20,18 +22,21 @@ namespace Ghacu.Runner.Cli
     private readonly IWorkflowService _workflowService;
     private readonly IActionPrinter _printer;
     private readonly Func<int, IProgressBar> _progressBarFactory;
+    private readonly IStreamer _streamer;
     private IProgressBar _progressBar;
 
     public CliService(
       IWorkflowService workflowService,
       IGitHubService gitHubService,
       IActionPrinter printer,
-      Func<int, IProgressBar> progressBarFactory)
+      Func<int, IProgressBar> progressBarFactory,
+      IStreamer streamer)
     {
       _workflowService = workflowService;
       _gitHubService = gitHubService;
       _printer = printer;
       _progressBarFactory = progressBarFactory;
+      _streamer = streamer;
       _gitHubService.RepositoryChecked += ProgressBarProcessed;
       _gitHubService.RepositoryCheckedStarted += ProgressBarPrepare;
       _gitHubService.RepositoryCheckedFinished += ProgressBarDispose;
@@ -57,7 +62,12 @@ namespace Ghacu.Runner.Cli
       }
       catch (WorkflowValidationException e)
       {
-        Console.Write(e.Message);
+        _streamer.Push<CliService>(new StreamOptions
+        {
+          Exception = e,
+          Level = LogLevel.Error,
+          Messages = new StreamMessageBuilder().Add(e.Message, ConsoleColor.Red).Build()
+        });
         return;
       }
 
@@ -79,7 +89,7 @@ namespace Ghacu.Runner.Cli
       }
       else if (!shouldUpgrade)
       {
-        Console.WriteLine();
+        _streamer.PushEmpty();
         _printer.PrintRunUpgrade();
       }
     }

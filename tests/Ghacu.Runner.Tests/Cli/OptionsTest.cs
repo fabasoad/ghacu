@@ -51,6 +51,20 @@ namespace Ghacu.Runner.Tests.Cli
     }
 
     [Fact]
+    public void UseColors_ConfiguredCorrectly()
+    {
+      object[] attrs = typeof(Options).GetProperty("UseColors")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      Assert.NotNull(attrs);
+      Assert.Single(attrs);
+      var option = attrs[0] as OptionAttribute;
+      Assert.NotNull(option);
+      Assert.Equal("color", option.LongName);
+      Assert.False(option.Required);
+      Assert.Equal("Enable colors.", option.HelpText);
+      Assert.Equal(BooleanOption.Yes, option.Default);
+    }
+
+    [Fact]
     public void Properties_GetSetWorkedCorrectly()
     {
       var options = new Options();
@@ -75,9 +89,13 @@ namespace Ghacu.Runner.Tests.Cli
       options.GitHubToken = expectedGitHubToken;
       Assert.Equal(expectedGitHubToken, options.GitHubToken);
 
-      const OutputType outputType = OutputType.Color;
+      const OutputType outputType = OutputType.Console;
       options.OutputType = outputType;
       Assert.Equal(outputType, options.OutputType);
+
+      const BooleanOption useColors = BooleanOption.No;
+      options.UseColors = useColors;
+      Assert.Equal(useColors, options.UseColors);
     }
 
     [Fact]
@@ -116,8 +134,8 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.NotNull(option);
       Assert.Equal("output-type", option.LongName);
       Assert.False(option.Required);
-      Assert.Equal("Console output type. Possible values: Color, NoColor.", option.HelpText);
-      Assert.Equal(OutputType.Color, option.Default);
+      Assert.Equal("Information output type. Possible values: Console, Logger, Silent.", option.HelpText);
+      Assert.Equal(OutputType.Console, option.Default);
     }
   }
 }

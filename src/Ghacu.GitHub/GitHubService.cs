@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Ghacu.Api;
 using Ghacu.Api.Entities;
+using Ghacu.Api.Stream;
+using Ghacu.Api.Version;
 using Ghacu.GitHub.Exceptions;
 using Microsoft.Extensions.Logging;
 using GitHubAction = Ghacu.Api.Entities.Action;
@@ -11,20 +13,18 @@ namespace Ghacu.GitHub
 {
   public class GitHubService : IGitHubService
   {
-    private readonly ILogger<GitHubService> _logger;
     private readonly ILatestVersionProvider _provider;
     private readonly ISemaphoreSlimProxy _semaphore;
+    private readonly IStreamer _streamer;
 
     public GitHubService(
-      ILoggerFactory loggerFactory,
-      Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory,
-      IGlobalConfig globalConfig,
-      ISemaphoreSlimProxy semaphore)
+      ILatestVersionProvider versionProvider,
+      ISemaphoreSlimProxy semaphore,
+      IStreamer streamer)
     {
-      _logger = loggerFactory.CreateLogger<GitHubService>();
-      _provider = latestVersionProviderFactory(
-        globalConfig.UseCache ? LatestVersionProviderType.MemoryCache : LatestVersionProviderType.GitHub);
+      _provider = versionProvider;
       _semaphore = semaphore;
+      _streamer = streamer;
     }
 
     public event Action<RepositoryCheckedArgs> RepositoryChecked;
@@ -56,20 +56,27 @@ namespace Ghacu.GitHub
                 await _semaphore.WaitAsync();
                 try
                 {
-                  OnRepositoryChecked(++index, totalCount);
-                  action.LatestVersion = await _provider
-                    .GetLatestVersionAsync(action.Owner, action.Repository);
+                  if (action.LatestVersion == null)
+                  {
+                    OnRepositoryChecked(++index, totalCount);
+                    action.LatestVersion = await _provider.GetLatestVersionAsync(action.Owner, action.Repository);
+                  }
                 }
                 catch (GitHubVersionNotFoundException e)
                 {
-                  _logger.LogWarning(e, e.Message);
+                  _streamer.PushLine<GitHubService>(new StreamOptions
+                  {
+                    Exception = e,
+                    Level = LogLevel.Warning,
+                    Messages = new StreamMessageBuilder().Add(e.Message, ConsoleColor.Yellow).Build()
+                  });
                 }
                 finally
                 {
                   _semaphore.Release();
                 }
               }
-
+      
               return action;
             })
             .Select(t => t.Result)

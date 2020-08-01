@@ -1,6 +1,6 @@
 namespace Ghacu.Runner.Cli.Progress
 {
-  public class NoProgressBar : IProgressBar
+  public class SilentProgressBar : IProgressBar
   {
     public void Dispose()
     {

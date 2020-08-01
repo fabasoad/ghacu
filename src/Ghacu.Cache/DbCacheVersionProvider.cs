@@ -1,28 +1,29 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Ghacu.Api;
+using Ghacu.Api.Stream;
+using Ghacu.Api.Version;
 using LiteDB;
 using Microsoft.Extensions.Logging;
 
 namespace Ghacu.Cache
 {
-  public sealed class DbCacheVersionProvider : ILatestVersionProvider
+  public sealed class DbCacheVersionProvider : IDbCacheVersionProvider
   {
-    internal const string DB_NAME = "e6DF9AfAmX1Sy7zHCX07VPHS";
+    internal const string DB_NAME = "e6DF9AfAmX1Sy7zHCX07VP_1";
     private const string ACTIONS_COLLECTION = "actions";
     private readonly Func<string, ILiteDatabase> _databaseFactory;
-    private readonly ILogger<DbCacheVersionProvider> _logger;
-    private readonly ILatestVersionProvider _provider;
+    private readonly IGitHubVersionProvider _provider;
+    private readonly IStreamer _streamer;
     private readonly TimeSpan _storageTime = TimeSpan.FromMinutes(1);
 
     public DbCacheVersionProvider(
-      ILoggerFactory loggerFactory,
-      Func<LatestVersionProviderType, ILatestVersionProvider> latestVersionProviderFactory,
+      IGitHubVersionProvider versionProvider,
+      IStreamer streamer,
       Func<string, ILiteDatabase> databaseFactory)
     {
-      _logger = loggerFactory.CreateLogger<DbCacheVersionProvider>();
-      _provider = latestVersionProviderFactory(LatestVersionProviderType.GitHub);
+      _provider = versionProvider;
+      _streamer = streamer;
       _databaseFactory = databaseFactory;
     }
 
@@ -50,7 +51,12 @@ namespace Ghacu.Cache
       }
       else
       {
-        _logger.LogInformation($"{owner}/{repository} version is retrieved from local DB");
+        _streamer.PushLine<DbCacheVersionProvider>(new StreamOptions
+        {
+          Level = LogLevel.Debug,
+          Messages = new StreamMessageBuilder()
+            .Add($"{owner}/{repository} version is retrieved from local DB").Build()
+        });
       }
 
       return actionDto.Version;

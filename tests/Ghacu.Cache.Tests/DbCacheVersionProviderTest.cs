@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
-using Ghacu.Api;
+using Ghacu.Api.Stream;
+using Ghacu.Api.Version;
 using LiteDB;
 using Microsoft.Extensions.Logging;
 using Telerik.JustMock;
@@ -21,15 +22,9 @@ namespace Ghacu.Cache.Tests
       const string version = "test-version";
       string actionName = $"{owner}/{repository}";
 
-      var latestVersionProviderMock = Mock.Create<ILatestVersionProvider>();
-      Mock.Arrange(() => latestVersionProviderMock.GetLatestVersionAsync(owner, repository))
+      var versionProviderMock = Mock.Create<IGitHubVersionProvider>();
+      Mock.Arrange(() => versionProviderMock.GetLatestVersionAsync(owner, repository))
         .Returns(Task.FromResult(version));
-
-      ILatestVersionProvider LatestVersionProviderFactory(LatestVersionProviderType type)
-      {
-        Assert.Equal(LatestVersionProviderType.GitHub, type);
-        return latestVersionProviderMock;
-      }
 
       var dtoListMock = Mock.Create<ILiteCollection<ActionDto>>();
       Mock.Arrange(() => dtoListMock.FindById(actionName)).Returns<ActionDto>(null);
@@ -49,7 +44,7 @@ namespace Ghacu.Cache.Tests
         return liteDatabaseMock;
       }
 
-      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(versionProviderMock, Mock.Create<IStreamer>(), DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
       Mock.Assert(dtoListMock);
@@ -63,15 +58,9 @@ namespace Ghacu.Cache.Tests
       const string version = "test-version";
       string actionName = $"{owner}/{repository}";
 
-      var latestVersionProviderMock = Mock.Create<ILatestVersionProvider>();
-      Mock.Arrange(() => latestVersionProviderMock.GetLatestVersionAsync(owner, repository))
+      var versionProviderMock = Mock.Create<IGitHubVersionProvider>();
+      Mock.Arrange(() => versionProviderMock.GetLatestVersionAsync(owner, repository))
         .Returns(Task.FromResult(version));
-
-      ILatestVersionProvider LatestVersionProviderFactory(LatestVersionProviderType type)
-      {
-        Assert.Equal(LatestVersionProviderType.GitHub, type);
-        return latestVersionProviderMock;
-      }
 
       var actionDto = new ActionDto { Name = actionName, Timestamp = DateTime.Now.Subtract(TimeSpan.FromMinutes(1)) };
 
@@ -93,7 +82,7 @@ namespace Ghacu.Cache.Tests
         return liteDatabaseMock;
       }
 
-      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(versionProviderMock, Mock.Create<IStreamer>(), DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
       Mock.Assert(dtoListMock);
@@ -107,15 +96,9 @@ namespace Ghacu.Cache.Tests
       const string version = "test-version";
       string actionName = $"{owner}/{repository}";
 
-      var latestVersionProviderMock = Mock.Create<ILatestVersionProvider>();
-      Mock.Arrange(() => latestVersionProviderMock.GetLatestVersionAsync(owner, repository))
+      var versionProviderMock = Mock.Create<IGitHubVersionProvider>();
+      Mock.Arrange(() => versionProviderMock.GetLatestVersionAsync(owner, repository))
         .Returns(Task.FromResult(version));
-
-      ILatestVersionProvider LatestVersionProviderFactory(LatestVersionProviderType type)
-      {
-        Assert.Equal(LatestVersionProviderType.GitHub, type);
-        return latestVersionProviderMock;
-      }
 
       var actionDto = new ActionDto
       {
@@ -139,7 +122,7 @@ namespace Ghacu.Cache.Tests
         return liteDatabaseMock;
       }
 
-      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), LatestVersionProviderFactory, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(versionProviderMock, Mock.Create<IStreamer>(), DatabaseFactory);
       string actualVersion = await dbCache.GetLatestVersionAsync(owner, repository);
       Assert.Equal(version, actualVersion);
       Mock.Assert(dtoListMock);
@@ -157,7 +140,7 @@ namespace Ghacu.Cache.Tests
         throw new DbCacheMockException();
       }
 
-      var dbCache = new DbCacheVersionProvider(new LoggerFactory(), _ => null, DatabaseFactory);
+      var dbCache = new DbCacheVersionProvider(null, null, DatabaseFactory);
       Assert.ThrowsAsync<DbCacheMockException>(async () =>
         await dbCache.GetLatestVersionAsync(string.Empty, string.Empty));
     }

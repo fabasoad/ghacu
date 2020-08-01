@@ -1,21 +1,22 @@
 using System;
 using System.Threading.Tasks;
-using Ghacu.Api;
+using Ghacu.Api.Stream;
+using Ghacu.Api.Version;
 using Ghacu.GitHub.Exceptions;
 using Microsoft.Extensions.Logging;
 using Octokit;
 
 namespace Ghacu.GitHub
 {
-  public sealed class GitHubVersionProvider : ILatestVersionProvider
+  public sealed class GitHubVersionProvider : IGitHubVersionProvider
   {
-    private readonly ILogger<GitHubVersionProvider> _logger;
     private readonly IGitHubClient _client;
+    private readonly IStreamer _streamer;
 
-    public GitHubVersionProvider(ILoggerFactory loggerFactory, IGitHubClient client)
+    public GitHubVersionProvider(IGitHubClient client, IStreamer streamer)
     {
-      _logger = loggerFactory.CreateLogger<GitHubVersionProvider>();
       _client = client;
+      _streamer = streamer;
     }
 
     public async Task<string> GetLatestVersionAsync(string owner, string repository)
@@ -24,14 +25,24 @@ namespace Ghacu.GitHub
       string tagName = null;
       try
       {
-        _logger.LogInformation($"Getting latest release for {owner}/{repository}...");
+        _streamer.PushLine<GitHubVersionProvider>(new StreamOptions
+        {
+          Level = LogLevel.Debug,
+          Messages = new StreamMessageBuilder()
+            .Add($"Getting latest release for {owner}/{repository}...").Build()
+        });
         tagName = await _client.GetLatestReleaseVersionAsync(owner, repository);
       }
       catch (NotFoundException)
       {
         try
         {
-          _logger.LogInformation($"{owner}/{repository} release is not found. Getting latest tag...");
+          _streamer.PushLine<GitHubVersionProvider>(new StreamOptions
+          {
+            Level = LogLevel.Debug,
+            Messages = new StreamMessageBuilder()
+              .Add($"{owner}/{repository} release is not found. Getting latest tag...").Build()
+          });
           tagName = await _client.GetLatestTagVersionAsync(owner, repository);
         }
         catch (Exception e)
@@ -47,7 +58,12 @@ namespace Ghacu.GitHub
       string errorMessage = $"{owner}/{repository} version is not found.";
       if (lastException != null)
       {
-        _logger.LogError(lastException, lastException.Message);
+        _streamer.PushLine<GitHubVersionProvider>(new StreamOptions
+        {
+          Exception = lastException,
+          Level = LogLevel.Error,
+          Messages = new StreamMessageBuilder().Add(lastException.Message, ConsoleColor.Red).Build()
+        });
         throw new GitHubVersionNotFoundException(errorMessage, lastException);
       }
 
@@ -56,7 +72,11 @@ namespace Ghacu.GitHub
         throw new GitHubVersionNotFoundException(errorMessage);
       }
 
-      _logger.LogInformation($"{owner}/{repository} latest release is {tagName}");
+      _streamer.PushLine<GitHubVersionProvider>(new StreamOptions
+      {
+        Level = LogLevel.Debug,
+        Messages = new StreamMessageBuilder().Add($"{owner}/{repository} latest release is {tagName}").Build()
+      });
       return tagName;
     }
   }
