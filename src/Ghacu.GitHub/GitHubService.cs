@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Ghacu.Api;
 using Ghacu.Api.Entities;
 using Ghacu.Api.Stream;
@@ -8,6 +9,8 @@ using Ghacu.Api.Version;
 using Ghacu.GitHub.Exceptions;
 using Microsoft.Extensions.Logging;
 using GitHubAction = Ghacu.Api.Entities.Action;
+
+[assembly: InternalsVisibleTo("Ghacu.GitHub.Tests")]
 
 namespace Ghacu.GitHub
 {
