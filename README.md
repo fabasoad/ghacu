@@ -21,21 +21,15 @@ CLI tool that checks versions of GitHub Actions that used in a repository. Pleas
 
 ## :shipit: Commands
 ```bash
-  --cache          (Default: Yes) Enable cache.
-
-  --log-level      (Default: Error) Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.
-
-  --output-type    (Default: Color) Console output type. Possible values: Color, NoColor.
-
-  --repository     Path to the root of a project.
-
-  --token          GitHub token to work with actions repositories.
-
-  --upgrade        Upgrade versions to the latest one.
-
-  --help           Display this help screen.
-
-  --version        Display version information.
+  --no-cache     (Default: false) Disable cache.
+  --no-colors    (Default: false) Disable colors.
+  --log-level    (Default: Information) Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.
+  --output-type  (Default: Console) Information output type. Possible values: Console, Logger, Silent.
+  --repository   Path to the root of a project.
+  --token        GitHub token to work with actions repositories.
+  --upgrade      Upgrade versions to the latest one.
+  --help         Display this help screen.
+  --version      Display version information.
 ```
 All commands are optional and can be run by purpose.
 

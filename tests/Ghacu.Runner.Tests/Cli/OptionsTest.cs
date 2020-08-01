@@ -33,35 +33,35 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.Equal(
         "Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.",
         option.HelpText);
-      Assert.Equal(LogLevel.Error, option.Default);
+      Assert.Equal(LogLevel.Information, option.Default);
     }
 
     [Fact]
-    public void UseCache_ConfiguredCorrectly()
+    public void NoCache_ConfiguredCorrectly()
     {
-      object[] attrs = typeof(Options).GetProperty("UseCache")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      object[] attrs = typeof(Options).GetProperty("NoCache")?.GetCustomAttributes(typeof(OptionAttribute), false);
       Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.NotNull(option);
-      Assert.Equal("cache", option.LongName);
+      Assert.Equal("no-cache", option.LongName);
       Assert.False(option.Required);
-      Assert.Equal("Enable cache.", option.HelpText);
-      Assert.Equal(BooleanOption.Yes, option.Default);
+      Assert.Equal("Disable cache.", option.HelpText);
+      Assert.Equal(false, option.Default);
     }
 
     [Fact]
-    public void UseColors_ConfiguredCorrectly()
+    public void NoColors_ConfiguredCorrectly()
     {
-      object[] attrs = typeof(Options).GetProperty("UseColors")?.GetCustomAttributes(typeof(OptionAttribute), false);
+      object[] attrs = typeof(Options).GetProperty("NoColors")?.GetCustomAttributes(typeof(OptionAttribute), false);
       Assert.NotNull(attrs);
       Assert.Single(attrs);
       var option = attrs[0] as OptionAttribute;
       Assert.NotNull(option);
-      Assert.Equal("color", option.LongName);
+      Assert.Equal("no-colors", option.LongName);
       Assert.False(option.Required);
-      Assert.Equal("Enable colors.", option.HelpText);
-      Assert.Equal(BooleanOption.Yes, option.Default);
+      Assert.Equal("Disable colors.", option.HelpText);
+      Assert.Equal(false, option.Default);
     }
 
     [Fact]
@@ -81,9 +81,9 @@ namespace Ghacu.Runner.Tests.Cli
       options.LogLevel = expectedLogLevel;
       Assert.Equal(expectedLogLevel, options.LogLevel);
 
-      const BooleanOption expectedUseCache = BooleanOption.Yes;
-      options.UseCache = expectedUseCache;
-      Assert.Equal(expectedUseCache, options.UseCache);
+      const bool expectedNoCache = true;
+      options.NoCache = expectedNoCache;
+      Assert.Equal(expectedNoCache, options.NoCache);
 
       const string expectedGitHubToken = "SomeToken";
       options.GitHubToken = expectedGitHubToken;
@@ -93,9 +93,9 @@ namespace Ghacu.Runner.Tests.Cli
       options.OutputType = outputType;
       Assert.Equal(outputType, options.OutputType);
 
-      const BooleanOption useColors = BooleanOption.No;
-      options.UseColors = useColors;
-      Assert.Equal(useColors, options.UseColors);
+      const bool expectedNoColors = true;
+      options.NoColors = expectedNoColors;
+      Assert.Equal(expectedNoColors, options.NoColors);
     }
 
     [Fact]

@@ -5,15 +5,15 @@ namespace Ghacu.Runner.Cli
 {
   public sealed class Options
   {
-    [Option("cache", Required = false, HelpText = "Enable cache.", Default = BooleanOption.Yes)]
-    public BooleanOption UseCache { get; set; }
+    [Option("no-cache", Required = false, HelpText = "Disable cache.", Default = false)]
+    public bool NoCache { get; set; }
 
-    [Option("color", Required = false, HelpText = "Enable colors.", Default = BooleanOption.Yes)]
-    public BooleanOption UseColors { get; set; }
+    [Option("no-colors", Required = false, HelpText = "Disable colors.", Default = false)]
+    public bool NoColors { get; set; }
 
     [Option("log-level", Required = false,
       HelpText = "Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.",
-      Default = LogLevel.Error)]
+      Default = LogLevel.Information)]
     public LogLevel LogLevel { get; set; }
 
     [Option("output-type", Required = false,

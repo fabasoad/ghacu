@@ -70,27 +70,27 @@ namespace Ghacu.Runner
             .AddLogging(b => b
               .AddConsole(options =>
               {
-                options.DisableColors = o.UseColors == BooleanOption.No;
+                options.DisableColors = o.NoColors;
                 options.Format = ConsoleLoggerFormat.Default;
               })
               .SetMinimumLevel(o.LogLevel));
 
-          if (o.UseCache == BooleanOption.Yes)
-          {
-            services.AddSingleton<ILatestVersionProvider, MemoryCacheVersionProvider>();
-          }
-          else
+          if (o.NoCache)
           {
             services.AddSingleton<ILatestVersionProvider, GitHubVersionProvider>();
           }
-          
-          if (o.UseColors == BooleanOption.Yes)
+          else
           {
-            services.AddTransient<IActionPrinter, ColorActionPrinter>();
+            services.AddSingleton<ILatestVersionProvider, MemoryCacheVersionProvider>();
+          }
+          
+          if (o.NoColors)
+          {
+            services.AddTransient<IActionPrinter, NoColorActionPrinter>();
           }
           else
           {
-            services.AddTransient<IActionPrinter, NoColorActionPrinter>();
+            services.AddTransient<IActionPrinter, ColorActionPrinter>();
           }
 
           using var container = new Container();
