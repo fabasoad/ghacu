@@ -7,12 +7,12 @@ namespace Ghacu.GitHub
 {
   public class GitHubClient : IGitHubClient
   {
-    private readonly Octokit.IGitHubClient _client;
-
     internal GitHubClient(Octokit.IGitHubClient client)
     {
-      _client = client;
+      OctokitClient = client;
     }
+    
+    internal Octokit.IGitHubClient OctokitClient { get; }
 
     public GitHubClient(string appName, string token)
     {
@@ -22,18 +22,18 @@ namespace Ghacu.GitHub
         client.Credentials = new Credentials(token);
       }
 
-      _client = client;
+      OctokitClient = client;
     }
 
     public async Task<string> GetLatestReleaseVersionAsync(string owner, string name)
     {
-      Release result = await _client.Repository.Release.GetLatest(owner, name);
+      Release result = await OctokitClient.Repository.Release.GetLatest(owner, name);
       return result.TagName;
     }
 
     public async Task<string> GetLatestTagVersionAsync(string owner, string name)
     {
-      IReadOnlyList<RepositoryTag> allTags = await _client.Repository.GetAllTags(owner, name);
+      IReadOnlyList<RepositoryTag> allTags = await OctokitClient.Repository.GetAllTags(owner, name);
       return allTags?.LastOrDefault()?.Name;
     }
   }

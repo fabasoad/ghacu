@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Octokit;
 using Telerik.JustMock;
@@ -94,7 +93,22 @@ namespace Ghacu.GitHub.Tests
         "test-version"
       },
       new object[] { new List<RepositoryTag>(), null },
-      new object[] { null, null },
+      new object[] { null, null }
     };
+
+    [Fact]
+    public void Create_Successfully()
+    {
+      const string appName = "test-app";
+      const string token = "test-token";
+      
+      var gitHubClient = new GitHubClient(appName, token);
+      Assert.IsType<Connection>(gitHubClient.OctokitClient.Connection);
+      var octokitConnection = gitHubClient.OctokitClient.Connection as Connection;
+      Assert.True(octokitConnection?.UserAgent.Contains(appName));
+      Assert.IsType<Octokit.GitHubClient>(gitHubClient.OctokitClient);
+      var octokitClient = gitHubClient.OctokitClient as Octokit.GitHubClient;
+      Assert.Equal(token, octokitClient.Credentials.GetToken());
+    }
   }
 }

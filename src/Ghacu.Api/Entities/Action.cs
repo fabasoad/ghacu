@@ -8,8 +8,8 @@ namespace Ghacu.Api.Entities
   {
     private const string DOCKER_PATTERN1 = "docker://(.+?)/(.+):(.+)";
     private const string DOCKER_PATTERN2 = "docker://(.+):(.+)";
-    private const string GITHUB_PATTERN = "(.+?)/(.+)@(.+)";
-    private const string INTERNAL_PATTERN = "(./)";
+    private const string GITHUB_PATTERN = "^(?!docker://)(.+?)/(.+)@(.+)";
+    private const string INTERNAL_PATTERN = "./";
 
     private Version _currentVersion;
     private Version _latestVersion;
@@ -55,8 +55,7 @@ namespace Ghacu.Api.Entities
           return;
         }
 
-        match = Regex.Match(actionName, INTERNAL_PATTERN);
-        Type = match.Success ? UsesType.Internal : UsesType.Unknown;
+        Type = Equals(actionName, INTERNAL_PATTERN) ? UsesType.Internal : UsesType.Unknown;
       }
 
       Initialize(null, actionName, null);

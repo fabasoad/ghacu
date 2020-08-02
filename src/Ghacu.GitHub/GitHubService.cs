@@ -74,6 +74,15 @@ namespace Ghacu.GitHub
                     Messages = new StreamMessageBuilder().Add(e.Message, ConsoleColor.Yellow).Build()
                   });
                 }
+                catch (Exception e)
+                {
+                  _streamer.PushLine<GitHubService>(new StreamOptions
+                  {
+                    Exception = e,
+                    Level = LogLevel.Error,
+                    Messages = new StreamMessageBuilder().Add(e.Message, ConsoleColor.Red).Build()
+                  });
+                }
                 finally
                 {
                   _semaphore.Release();
