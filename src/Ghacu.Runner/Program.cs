@@ -59,7 +59,7 @@ namespace Ghacu.Runner
 
               var dict = new Func<int, IProgressBar>[]
               {
-                totalTicks => new GhacuShellProgressBar(totalTicks),
+                totalTicks => new GhacuShellProgressBar(totalTicks, serviceProvider.GetService<IConsoleStreamer>()),
                 totalTicks => new PercentageProgressBar(totalTicks, serviceProvider.GetService<IConsoleStreamer>())
               };
               return dict[new Random().Next(0, dict.Length)];

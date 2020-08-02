@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Ghacu.Api.Stream;
 using Microsoft.Extensions.Logging;
@@ -25,5 +24,9 @@ namespace Ghacu.Runner.Cli.Stream
       string.Join(string.Empty, options.Messages.Select(m => m.Message)));
 
     public void PushEmpty() { }
+    
+    public void Clear(int numLines)
+    {
+    }
   }
 }
