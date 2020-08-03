@@ -1,15 +1,22 @@
 using System;
+using Ghacu.Api.Stream;
 using ShellProgressBar;
 
 namespace Ghacu.Runner.Cli.Progress
 {
   public class GhacuShellProgressBar : IProgressBar
   {
-    private readonly ProgressBar _progressBar;
+    private readonly IStreamer _streamer;
 
-    public GhacuShellProgressBar(int totalTicks)
+    public GhacuShellProgressBar(int totalTicks, IStreamer streamer)
+      : this(streamer, o => new ProgressBar(totalTicks, $"[0/{totalTicks}]", o))
     {
-      _progressBar = new ProgressBar(totalTicks, $"[0/{totalTicks}]", new ProgressBarOptions
+    }
+
+    internal GhacuShellProgressBar(IStreamer streamer, Func<ProgressBarOptions, ShellProgressBar.IProgressBar> factory)
+    {
+      _streamer = streamer;
+      ProgressBar = factory(new ProgressBarOptions
       {
         CollapseWhenFinished = true,
         DisplayTimeInRealTime = true,
@@ -20,26 +27,16 @@ namespace Ghacu.Runner.Cli.Progress
         BackgroundCharacter = '-'
       });
     }
+    
+    internal ShellProgressBar.IProgressBar ProgressBar { get; }
 
     public void Dispose()
     {
-      _progressBar.Dispose();
-      ClearCurrentConsoleLine();
-    }
-
-    private static void ClearCurrentConsoleLine()
-    {
-      for (var i = 0; i < 2; i++)
-      {
-        Console.SetCursorPosition(0, Console.CursorTop - 1);
-        int currentLineCursor = Console.CursorTop;
-        Console.SetCursorPosition(0, Console.CursorTop);
-        Console.Write(new string(' ', Console.WindowWidth));
-        Console.SetCursorPosition(0, currentLineCursor);
-      }
+      ProgressBar.Dispose();
+      _streamer.Clear(2);
     }
 
     public void Report(double value) =>
-      _progressBar.Tick($"[{_progressBar.CurrentTick + 1}/{_progressBar.MaxTicks}]");
+      ProgressBar.Tick($"[{ProgressBar.CurrentTick + 1}/{ProgressBar.MaxTicks}]");
   }
 }

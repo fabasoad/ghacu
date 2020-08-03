@@ -44,6 +44,7 @@ namespace Ghacu.Runner.Cli.Progress
     {
       // Make sure value is in [0..1] range
       value = Math.Max(0, Math.Min(1, value));
+      _currentTick++;
       Interlocked.Exchange(ref _currentProgress, value);
     }
 
@@ -61,7 +62,7 @@ namespace Ghacu.Runner.Cli.Progress
         string text = string.Format("[{0}{1}] [{2}/{3}] {4,5}% {5}",
           new string('#', progressBlockCount),
           new string('-', BLOCK_COUNT - progressBlockCount),
-          ++_currentTick,
+          _currentTick,
           _totalTicks,
           percent,
           ANIMATION[_animationIndex++ % ANIMATION.Length]);

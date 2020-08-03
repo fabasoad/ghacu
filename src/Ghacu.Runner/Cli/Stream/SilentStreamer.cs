@@ -15,5 +15,9 @@ namespace Ghacu.Runner.Cli.Stream
     public void PushEmpty()
     {
     }
+
+    public void Clear(int numLines)
+    {
+    }
   }
 }

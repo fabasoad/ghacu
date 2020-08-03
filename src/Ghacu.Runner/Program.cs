@@ -59,10 +59,10 @@ namespace Ghacu.Runner
 
               var dict = new Func<int, IProgressBar>[]
               {
-                totalTicks => new GhacuShellProgressBar(totalTicks),
+                totalTicks => new GhacuShellProgressBar(totalTicks, serviceProvider.GetService<IConsoleStreamer>()),
                 totalTicks => new PercentageProgressBar(totalTicks, serviceProvider.GetService<IConsoleStreamer>())
               };
-              return dict[new Random().Next(0, dict.Length)];
+              return dict[new Random().Next(1, dict.Length)];
             })
             .AddTransient<IGitHubClient, GitHubClient>(
               _ => new GitHubClient(APP_NAME, o.GitHubToken ?? Environment.GetEnvironmentVariable(ENV_GITHUB_TOKEN)))
@@ -70,27 +70,27 @@ namespace Ghacu.Runner
             .AddLogging(b => b
               .AddConsole(options =>
               {
-                options.DisableColors = o.UseColors == BooleanOption.No;
+                options.DisableColors = o.NoColors;
                 options.Format = ConsoleLoggerFormat.Default;
               })
               .SetMinimumLevel(o.LogLevel));
 
-          if (o.UseCache == BooleanOption.Yes)
-          {
-            services.AddSingleton<ILatestVersionProvider, MemoryCacheVersionProvider>();
-          }
-          else
+          if (o.NoCache)
           {
             services.AddSingleton<ILatestVersionProvider, GitHubVersionProvider>();
           }
-          
-          if (o.UseColors == BooleanOption.Yes)
+          else
           {
-            services.AddTransient<IActionPrinter, ColorActionPrinter>();
+            services.AddSingleton<ILatestVersionProvider, MemoryCacheVersionProvider>();
+          }
+          
+          if (o.NoColors)
+          {
+            services.AddTransient<IActionPrinter, NoColorActionPrinter>();
           }
           else
           {
-            services.AddTransient<IActionPrinter, NoColorActionPrinter>();
+            services.AddTransient<IActionPrinter, ColorActionPrinter>();
           }
 
           using var container = new Container();

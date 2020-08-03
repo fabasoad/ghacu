@@ -35,7 +35,7 @@ namespace Ghacu.Runner.Cli
       _workflowService = workflowService;
       _gitHubService = gitHubService;
       _printer = printer;
-      _progressBarFactory = progressBarFactory;
+      _progressBarFactory = progressBarFactory ?? (_ => null);
       _streamer = streamer;
       _gitHubService.RepositoryChecked += ProgressBarProcessed;
       _gitHubService.RepositoryCheckedStarted += ProgressBarPrepare;
@@ -44,9 +44,9 @@ namespace Ghacu.Runner.Cli
 
     private void ProgressBarPrepare(int totalTicks) => _progressBar = _progressBarFactory(totalTicks);
     
-    private void ProgressBarProcessed(RepositoryCheckedArgs args) => _progressBar.Report(args.ProgressValue);
+    private void ProgressBarProcessed(RepositoryCheckedArgs args) => _progressBar?.Report(args.ProgressValue);
 
-    private void ProgressBarDispose() => _progressBar.Dispose();
+    private void ProgressBarDispose() => _progressBar?.Dispose();
 
     /// <summary>
     /// Run GHACU logic on repository provided by user.
@@ -67,6 +67,16 @@ namespace Ghacu.Runner.Cli
           Exception = e,
           Level = LogLevel.Error,
           Messages = new StreamMessageBuilder().Add(e.Message, ConsoleColor.Red).Build()
+        });
+        return;
+      }
+      catch (Exception e)
+      {
+        _streamer.Push<CliService>(new StreamOptions
+        {
+          Exception = e,
+          Level = LogLevel.Critical,
+          Messages = new StreamMessageBuilder().Add(e.Message, ConsoleColor.DarkRed).Build()
         });
         return;
       }

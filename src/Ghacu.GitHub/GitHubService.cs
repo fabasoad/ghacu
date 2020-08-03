@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Ghacu.Api;
 using Ghacu.Api.Entities;
 using Ghacu.Api.Stream;
@@ -8,6 +9,8 @@ using Ghacu.Api.Version;
 using Ghacu.GitHub.Exceptions;
 using Microsoft.Extensions.Logging;
 using GitHubAction = Ghacu.Api.Entities.Action;
+
+[assembly: InternalsVisibleTo("Ghacu.GitHub.Tests")]
 
 namespace Ghacu.GitHub
 {
@@ -69,6 +72,15 @@ namespace Ghacu.GitHub
                     Exception = e,
                     Level = LogLevel.Warning,
                     Messages = new StreamMessageBuilder().Add(e.Message, ConsoleColor.Yellow).Build()
+                  });
+                }
+                catch (Exception e)
+                {
+                  _streamer.PushLine<GitHubService>(new StreamOptions
+                  {
+                    Exception = e,
+                    Level = LogLevel.Error,
+                    Messages = new StreamMessageBuilder().Add(e.Message, ConsoleColor.Red).Build()
                   });
                 }
                 finally

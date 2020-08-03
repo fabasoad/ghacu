@@ -21,6 +21,18 @@ namespace Ghacu.Runner.Cli.Stream
     public void PushLine<T>(StreamOptions options) => PushInternal(Console.WriteLine, options);
 
     public void PushEmpty() => Console.WriteLine();
+    
+    public void Clear(int numLines)
+    {
+      for (var i = 0; i < numLines; i++)
+      {
+        Console.SetCursorPosition(0, Console.CursorTop - 1);
+        int currentLineCursor = Console.CursorTop;
+        Console.SetCursorPosition(0, Console.CursorTop);
+        Console.Write(new string(' ', Console.WindowWidth));
+        Console.SetCursorPosition(0, currentLineCursor);
+      }
+    }
 
     private void PushInternal(Action<string> push, StreamOptions options)
     {

@@ -5,5 +5,6 @@ namespace Ghacu.Api.Stream
     void Push<T>(StreamOptions options);
     void PushLine<T>(StreamOptions options);
     void PushEmpty();
+    void Clear(int numLines);
   }
 }
