@@ -20,7 +20,7 @@
 CLI tool that checks versions of GitHub Actions that used in a repository. Please read [documentation](https://github.com/fabasoad/ghacu/wiki) for more details.
 
 ## :shipit: Commands
-```bash
+```pycon
 --no-cache     Disable cache.
 --no-colors    Disable colors.
 --log-level    (Default: Information) Set log level. Possible values: Trace, Debug, Information, Warning, Error, Critical, None.

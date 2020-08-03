@@ -47,7 +47,7 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.Equal("no-cache", option.LongName);
       Assert.False(option.Required);
       Assert.Equal("Disable cache.", option.HelpText);
-      Assert.Equal(false, option.Default);
+      Assert.Null(option.Default);
     }
 
     [Fact]
@@ -61,7 +61,7 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.Equal("no-colors", option.LongName);
       Assert.False(option.Required);
       Assert.Equal("Disable colors.", option.HelpText);
-      Assert.Equal(false, option.Default);
+      Assert.Null(option.Default);
     }
 
     [Fact]
