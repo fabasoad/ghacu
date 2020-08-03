@@ -5,10 +5,10 @@ namespace Ghacu.Runner.Cli
 {
   public sealed class Options
   {
-    [Option("no-cache", Required = false, HelpText = "Disable cache.", Default = false)]
+    [Option("no-cache", Required = false, HelpText = "Disable cache.")]
     public bool NoCache { get; set; }
 
-    [Option("no-colors", Required = false, HelpText = "Disable colors.", Default = false)]
+    [Option("no-colors", Required = false, HelpText = "Disable colors.")]
     public bool NoColors { get; set; }
 
     [Option("log-level", Required = false,

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Octokit;
 using Telerik.JustMock;
@@ -70,6 +71,7 @@ namespace Ghacu.GitHub.Tests
       Assert.Equal(expected, actual);
     }
 
+    [SuppressMessage("ReSharper", "SA1201")]
     public static IEnumerable<object[]> DataGetLatestTagVersionAsyncPositive => new List<object[]>
     {
       new object[]

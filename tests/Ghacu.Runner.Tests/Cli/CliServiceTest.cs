@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ghacu.Api.Entities;
 using Ghacu.Api.Stream;
@@ -128,6 +129,7 @@ namespace Ghacu.Runner.Tests.Cli
       Mock.Assert(streamerMock);
     }
     
+    [SuppressMessage("ReSharper", "SA1201")]
     public static IEnumerable<object[]> DataRunGetWorkflowsError => new List<object[]>
     {
       new object[] { new WorkflowValidationException("exception-message"), LogLevel.Error, ConsoleColor.Red },
@@ -193,6 +195,7 @@ namespace Ghacu.Runner.Tests.Cli
       Assert.Equal(expectedNumCalls, actualNumCalls[0]);
     }
     
+    [SuppressMessage("ReSharper", "SA1201")]
     public static IEnumerable<object[]> DataDisposePositiveWithoutProgressBar => new List<object[]>
     {
       new object[]
@@ -204,7 +207,7 @@ namespace Ghacu.Runner.Tests.Cli
           return null;
         }), 1
       },
-      new object[] { new Func<int, int[], Func<int, IProgressBar>>((_1, _2) => null), 0 }
+      new object[] { new Func<int, int[], Func<int, IProgressBar>>((arg1, arg2) => null), 0 }
     };
   } 
 }

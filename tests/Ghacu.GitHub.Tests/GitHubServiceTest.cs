@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -210,6 +211,7 @@ namespace Ghacu.GitHub.Tests
       Mock.Assert(streamerMock);
     }
 
+    [SuppressMessage("ReSharper", "SA1201")]
     public static IEnumerable<object[]> DataGetOutdatedGetLatestVersionAsyncThrows => new List<object[]>
     {
       new object[]

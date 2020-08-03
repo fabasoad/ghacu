@@ -62,7 +62,7 @@ namespace Ghacu.Runner
                 totalTicks => new GhacuShellProgressBar(totalTicks, serviceProvider.GetService<IConsoleStreamer>()),
                 totalTicks => new PercentageProgressBar(totalTicks, serviceProvider.GetService<IConsoleStreamer>())
               };
-              return dict[new Random().Next(0, dict.Length)];
+              return dict[new Random().Next(1, dict.Length)];
             })
             .AddTransient<IGitHubClient, GitHubClient>(
               _ => new GitHubClient(APP_NAME, o.GitHubToken ?? Environment.GetEnvironmentVariable(ENV_GITHUB_TOKEN)))

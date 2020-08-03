@@ -11,8 +11,6 @@ namespace Ghacu.GitHub
     {
       OctokitClient = client;
     }
-    
-    internal Octokit.IGitHubClient OctokitClient { get; }
 
     public GitHubClient(string appName, string token)
     {
@@ -24,6 +22,8 @@ namespace Ghacu.GitHub
 
       OctokitClient = client;
     }
+
+    internal Octokit.IGitHubClient OctokitClient { get; }
 
     public async Task<string> GetLatestReleaseVersionAsync(string owner, string name)
     {
