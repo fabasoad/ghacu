@@ -18,7 +18,7 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v1.5.0
         with:
-          dotnet-version: 5.0.100-preview.6.20318.15
+          dotnet-version: 5.0.100-preview.7.20366.6
       - run: dotnet test
   functional:
     timeout-minutes: 10
@@ -32,7 +32,7 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v1.5.0
         with:
-          dotnet-version: 5.0.100-preview.6.20318.15
+          dotnet-version: 5.0.100-preview.7.20366.6
       - name: Get latest release
         run: |
           tag_name=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s $GITHUB_API_URL/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')

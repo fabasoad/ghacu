@@ -61,4 +61,4 @@ decathlon/release-notes-generator-action   2.0.0  »  v2.0.1
 Run ghacu --upgrade to upgrade the actions.
 ```
 
-<p align="center"><a href="https://github.com/fabasoad/ghacu#">:top:</a></p>
+<p align="center"><a href="https://github.com/fabasoad/ghacu#ghacu">:top:</a></p>
