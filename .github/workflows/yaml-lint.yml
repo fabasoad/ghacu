@@ -17,4 +17,4 @@ jobs:
         with:
           config_file: .yamllint.yml
           strict: false
-          file_or_dir: .yamllint.yml .github/**.yml
+          file_or_dir: .
