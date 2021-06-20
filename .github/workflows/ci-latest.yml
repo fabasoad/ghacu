@@ -12,11 +12,11 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.1
+      - uses: actions/checkout@v2.3.4
         with:
           ref: ${{ github.ref }}
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v1.5.0
+        uses: actions/setup-dotnet@v1.8.0
         with:
           dotnet-version: 5.0.100-preview.7.20366.6
       - run: dotnet test
@@ -25,45 +25,43 @@ jobs:
     name: Functional Testing
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]    
+        os: [ubuntu-latest, macos-latest, windows-latest]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v1.5.0
+        uses: actions/setup-dotnet@v1.8.0
         with:
           dotnet-version: 5.0.100-preview.7.20366.6
       - name: Get latest release
+        id: latest_release
         run: |
           tag_name=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s $GITHUB_API_URL/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
           echo "ghacu latest version is ${tag_name:1}"
-          echo "::set-env name=GHACU_VERSION::${tag_name:1}"
+          echo "::set-output name=version::${tag_name:1}"
         shell: bash
       - name: Install application (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          Invoke-WebRequest -Uri $env:GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v$env:GHACU_VERSION/ghacu-$env:GHACU_VERSION-win-x64.tgz -OutFile ghacu-$env:GHACU_VERSION-win-x64.tgz
-          tar -xvf ghacu-$env:GHACU_VERSION-win-x64.tgz
-          $env:Path += ";${{ github.workspace }}\ghacu-$env:GHACU_VERSION-win-x64"
-          Write-Output "::set-env name=PATH::$env:Path"
+          Invoke-WebRequest -Uri $env:GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v${{ steps.latest_release.outputs.version }}/ghacu-${{ steps.latest_release.outputs.version }}-win-x64.tgz -OutFile ghacu-${{ steps.latest_release.outputs.version }}-win-x64.tgz
+          tar -xvf ghacu-${{ steps.latest_release.outputs.version }}-win-x64.tgz
+          "${{ github.workspace }}\ghacu-${{ steps.latest_release.outputs.version }}-win-x64" >> $Env:GITHUB_PATH
         shell: pwsh
       - name: Install application (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          cd ~ && wget $GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v$GHACU_VERSION/ghacu-$GHACU_VERSION-linux-x64.tgz
-          tar -xvf ghacu-$GHACU_VERSION-linux-x64.tgz
-          chmod +x ~/ghacu-$GHACU_VERSION-linux-x64/ghacu
-          PATH=$PATH:~/ghacu-$GHACU_VERSION-linux-x64
-          echo "::set-env name=PATH::$PATH"
+          cd ~ && wget $GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v${{ steps.latest_release.outputs.version }}/ghacu-${{ steps.latest_release.outputs.version }}-linux-x64.tgz
+          tar -xvf ghacu-${{ steps.latest_release.outputs.version }}-linux-x64.tgz
+          chmod +x ~/ghacu-${{ steps.latest_release.outputs.version }}-linux-x64/ghacu
+          echo "~/ghacu-${{ steps.latest_release.outputs.version }}-linux-x64" >> $GITHUB_PATH
         shell: bash
       - name: Install application (MacOS)
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          cd ~ && wget $GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v$GHACU_VERSION/ghacu-$GHACU_VERSION-osx-x64.tgz
-          tar -xvf ghacu-$GHACU_VERSION-osx-x64.tgz
-          chmod +x ~/ghacu-$GHACU_VERSION-osx-x64/ghacu
-          PATH=$PATH:~/ghacu-$GHACU_VERSION-osx-x64
-          echo "::set-env name=PATH::$PATH"
+          cd ~ && wget $GITHUB_SERVER_URL/${{ github.repository }}/releases/download/v${{ steps.latest_release.outputs.version }}/ghacu-${{ steps.latest_release.outputs.version }}-osx-x64.tgz
+          tar -xvf ghacu-${{ steps.latest_release.outputs.version }}-osx-x64.tgz
+          chmod +x ~/ghacu-${{ steps.latest_release.outputs.version }}-osx-x64/ghacu
+          echo "~/ghacu-${{ steps.latest_release.outputs.version }}-osx-x64" >> $GITHUB_PATH
         shell: bash
       - name: Run GHACU
         run: ghacu --version

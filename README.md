@@ -5,6 +5,7 @@
 <p align="center">
 	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22CI+%28main%29%22"><img src="https://github.com/fabasoad/ghacu/workflows/CI%20(main)/badge.svg" /></a>
 	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22CI+%28latest%29%22"><img src="https://github.com/fabasoad/ghacu/workflows/CI%20(latest)/badge.svg" /></a>
+	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22Security+Tests%22"><img src="https://github.com/fabasoad/ghacu/workflows/Security%20Tests/badge.svg" /></a>
 	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22YAML+Lint%22"><img src="https://github.com/fabasoad/ghacu/workflows/YAML%20Lint/badge.svg" /></a>
 	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22PowerShell+Lint%22"><img src="https://github.com/fabasoad/ghacu/workflows/PowerShell%20Lint/badge.svg" /></a>
 	<a href="https://lgtm.com/projects/g/fabasoad/ghacu/alerts/"><img src="https://img.shields.io/lgtm/alerts/g/fabasoad/ghacu.svg?logo=lgtm&logoWidth=18" /></a>

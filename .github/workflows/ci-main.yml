@@ -4,13 +4,10 @@ name: CI (main)
 on:
   push:
     branches:
-      - main
+      - 'main'
       - 'bugfix/**'
+      - 'dependabot/*'
       - 'feature/**'
-      - 'release/**'
-  pull_request:
-    branches:
-      - main
 
 jobs:
   unit:
@@ -18,16 +15,16 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.1
+      - uses: actions/checkout@v2.3.4
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v1.5.0
+        uses: actions/setup-dotnet@v1.8.0
         with:
           dotnet-version: 5.0.100-preview.7.20366.6
       - name: Run tests
         run: dotnet test ./GHACU.sln /p:CollectCoverage=true /p:MergeWith=$(pwd)/coverage/coverage.json /p:CoverletOutput=$(pwd)/coverage/ "/p:CoverletOutputFormat=\"json,opencover\""
       - name: Upload report to CodeCov
         if: github.event_name == 'push'
-        uses: codecov/codecov-action@v1.0.12
+        uses: codecov/codecov-action@v1.5.2
         with:
           file: ${{ github.workspace }}/coverage/coverage.opencover.xml
           flags: unittests
@@ -38,25 +35,26 @@ jobs:
     name: Functional Testing
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]    
+        os: [ubuntu-latest, macos-latest, windows-latest]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2.3.1
+      - uses: actions/checkout@v2.3.4
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v1.5.0
+        uses: actions/setup-dotnet@v1.8.0
         with:
           dotnet-version: 5.0.100-preview.7.20366.6
       - name: Get latest release
+        id: latest_release
         run: |
           tag_name=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s $GITHUB_API_URL/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
           echo "ghacu latest version is ${tag_name:1}"
-          echo "::set-env name=GHACU_VERSION::${tag_name:1}"
+          echo "::set-output name=version::${tag_name:1}"
         shell: bash
       - name: Build
         run: |
           dotnet clean
-          dotnet build -c Release -p:Version=$GHACU_VERSION
+          dotnet build -c Release -p:Version=${{ steps.latest_release.outputs.version }}
         shell: bash
       - name: Run ghacu
         run: dotnet ./src/Ghacu.Runner/bin/Release/netcoreapp5.0/ghacu.dll --no-cache --repository "${{ github.workspace }}" --token ${{ secrets.GITHUB_TOKEN }} --log-level Information
