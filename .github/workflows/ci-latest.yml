@@ -3,11 +3,6 @@ name: CI (latest)
 
 on:
   push:
-    branches:
-      - 'main'
-      - 'bugfix/**'
-      - 'dependabot/*'
-      - 'feature/**'
     tags:
       - 'v*.*.*'
 
