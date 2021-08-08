@@ -26,7 +26,7 @@ jobs:
         if: github.event_name == 'push'
         uses: codecov/codecov-action@v2.0.2
         with:
-          file: ${{ github.workspace }}/coverage/coverage.opencover.xml
+          files: ${{ github.workspace }}/coverage/coverage.opencover.xml
           flags: unittests
           fail_ci_if_error: true
           name: ${{ github.sha }}
