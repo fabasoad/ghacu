@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2.4.0
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v1.8.2
+        uses: actions/setup-dotnet@v1.9.0
         with:
           dotnet-version: 5.0.100-preview.7.20366.6
       - name: Run tests
@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2.4.0
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v1.8.2
+        uses: actions/setup-dotnet@v1.9.0
         with:
           dotnet-version: 5.0.100-preview.7.20366.6
       - name: Get latest release
