@@ -12,7 +12,7 @@ jobs:
     timeout-minutes: 3
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
       - name: Setup Analyzer
         run: choco install psscriptanalyzer
       - name: Analyze
