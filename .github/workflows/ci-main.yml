@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3.0.0
         with:
@@ -39,7 +39,7 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3.0.0
         with:
