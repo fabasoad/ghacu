@@ -15,9 +15,9 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@v3
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v3.0.3
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 5.0.100-preview.7.20366.6
       - name: Run tests
@@ -39,9 +39,9 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@v3
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v3.0.3
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 5.0.100-preview.7.20366.6
       - name: Get latest release
