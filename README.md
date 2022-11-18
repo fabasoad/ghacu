@@ -1,3 +1,7 @@
+> :warning: This project is deprecated and no longer maintained starting from `2022/11/18`.
+> Please use [dependabot CLI](https://github.com/dependabot/cli) instead. It is
+> an official tool made by GitHub.
+
 <p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/main/resources/ghacu-logo-png-img.png" alt="ghacu logo" height="120"/></a></p>
 <h1 align="center">ghacu</h1>
 <p align="center">Keep your GitHub Actions up-to-date.</p>
