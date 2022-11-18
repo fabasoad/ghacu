@@ -1,3 +1,7 @@
+> :warning: This project is deprecated and no longer maintained starting from
+> `2022/11/18`. Please use [dependabot CLI](https://github.com/dependabot/cli)
+> instead, an official tool made by GitHub.
+
 <p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/main/resources/ghacu-logo-png-img.png" alt="ghacu logo" height="120"/></a></p>
 <h1 align="center">ghacu</h1>
 <p align="center">Keep your GitHub Actions up-to-date.</p>
@@ -8,11 +12,7 @@
 	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22Security+Tests%22"><img src="https://github.com/fabasoad/ghacu/workflows/Security%20Tests/badge.svg" /></a>
 	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22YAML+Lint%22"><img src="https://github.com/fabasoad/ghacu/workflows/YAML%20Lint/badge.svg" /></a>
 	<a href="https://github.com/fabasoad/ghacu/actions?query=workflow%3A%22PowerShell+Lint%22"><img src="https://github.com/fabasoad/ghacu/workflows/PowerShell%20Lint/badge.svg" /></a>
-	<a href="https://lgtm.com/projects/g/fabasoad/ghacu/alerts/"><img src="https://img.shields.io/lgtm/alerts/g/fabasoad/ghacu.svg?logo=lgtm&logoWidth=18" /></a>
-	<a href="https://codeclimate.com/github/fabasoad/ghacu/maintainability"><img src="https://api.codeclimate.com/v1/badges/261a8a73037043dfde09/maintainability" /></a>
-	<a href="https://codecov.io/gh/fabasoad/ghacu"><img src="https://codecov.io/gh/fabasoad/ghacu/branch/main/graph/badge.svg" /></a>
 	<a href="https://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/github/license/fabasoad/ghacu" /></a>
-    <a href="https://twitter.com/intent/tweet?text=Keep%20your%20GitHub%20Actions%20up-to-date!%20It's%20easy%20to%20use%20locally%20as%20well%20as%20in%20your%20CI%20pipeline.%20Check%20it%20out!&url=https://github.com/fabasoad/ghacu&hashtags=githubactions,opensource,dependencies,csharp,updates"><img src="http://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
 </p><br/><br/>
 
 <p align="center"><a href="https://github.com/fabasoad/ghacu"><img src="https://raw.githubusercontent.com/fabasoad/ghacu/main/resources/ghacu-demo.gif" width="60%"/></a></p><br/>
